@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>s3와 lambda를 이용하여 이미지 리사이징 서버 만들기 | Swtpumpkin Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="aws,s3,lambda,lambda@Edge,cloudFront" />
+    
+    <meta name="description" content="aws lambda를 이용하여 이미지 리사이징 서버 만들기aws에 Lambda라는 서버리스 기능을 이용하여 이미지 리사이징 서버를 만들어보겠습니다. S3에 이미지 원본과 썸네일을 한번에 저장하게 되면 저장소 용량을 많이 사용하게 됩니다. 따라서 원본만 S3에 저장하고 나머지 썸네일 이미지는 Lambda와 CloudFront, Lambda@Edge를 이용하여">
+<meta property="og:type" content="article">
+<meta property="og:title" content="s3와 lambda를 이용하여 이미지 리사이징 서버 만들기">
+<meta property="og:url" content="https://swtpumpkin.github.io/backend/aws/lambdaResizing/index.html">
+<meta property="og:site_name" content="Swtpumpkin Blog">
+<meta property="og:description" content="aws lambda를 이용하여 이미지 리사이징 서버 만들기aws에 Lambda라는 서버리스 기능을 이용하여 이미지 리사이징 서버를 만들어보겠습니다. S3에 이미지 원본과 썸네일을 한번에 저장하게 되면 저장소 용량을 많이 사용하게 됩니다. 따라서 원본만 S3에 저장하고 나머지 썸네일 이미지는 Lambda와 CloudFront, Lambda@Edge를 이용하여">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://swtpumpkin.github.io/image/aws.png">
+<meta property="article:published_time" content="2019-06-22T09:00:00.000Z">
+<meta property="article:modified_time" content="2020-01-08T04:06:19.001Z">
+<meta property="article:author" content="Jeongwon Kim">
+<meta property="article:tag" content="aws">
+<meta property="article:tag" content="s3">
+<meta property="article:tag" content="lambda">
+<meta property="article:tag" content="lambda@Edge">
+<meta property="article:tag" content="cloudFront">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://swtpumpkin.github.io/image/aws.png">
+    
+    <link rel="canonical" href="https://swtpumpkin.github.io/backend/aws/lambdaresizing/"/>
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-119873758-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/">Algorism</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/ProjectEuler/">ProjectEuler</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level1/">level1</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level2/">level2</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level3/">level3</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/">CS</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/dataStructure/">dataStructure</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/">backend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/AWS/">AWS</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/deno/">deno</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker/">docker</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mongoDB/">mongoDB</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mySQL/">mySQL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/node/">node</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/">develop</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/google/">google</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/">frontend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/css/">css</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/html/">html</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/react/">react</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/reactNative/">reactNative</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/svg/">svg</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/">git</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/hexo/">hexo</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/javascript/">javascript</a></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+    
+        <form class="search-form">
+            <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+            <button type="submit" class="search-form-submit"></button>
+        </form>
+        <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</div>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/backend/AWS/">AWS</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-backend/aws/lambdaResizing" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        s3와 lambda를 이용하여 이미지 리사이징 서버 만들기
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/backend/aws/lambdaResizing/" class="article-date">
+            <time datetime="2019-06-22T09:00:00.000Z" itemprop="datePublished">2019-06-22</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/aws/" rel="tag">aws</a>, <a class="tag-link-link" href="/tags/cloudFront/" rel="tag">cloudFront</a>, <a class="tag-link-link" href="/tags/lambda/" rel="tag">lambda</a>, <a class="tag-link-link" href="/tags/lambda-Edge/" rel="tag">lambda@Edge</a>, <a class="tag-link-link" href="/tags/s3/" rel="tag">s3</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="aws-lambda를-이용하여-이미지-리사이징-서버-만들기"><a href="#aws-lambda를-이용하여-이미지-리사이징-서버-만들기" class="headerlink" title="aws lambda를 이용하여 이미지 리사이징 서버 만들기"></a>aws lambda를 이용하여 이미지 리사이징 서버 만들기</h1><p><code>aws</code>에 <code>Lambda</code>라는 서버리스 기능을 이용하여 이미지 리사이징 서버를 만들어보겠습니다. <code>S3</code>에 이미지 원본과 썸네일을 한번에 저장하게 되면 저장소 용량을 많이 사용하게 됩니다. 따라서 원본만 <code>S3</code>에 저장하고 나머지 썸네일 이미지는 <code>Lambda</code>와 <code>CloudFront</code>, <code>Lambda@Edge</code>를 이용하여 이미지 리사이징 서버를 만들어 보곘습니다.</p>
+<h2 id="설정-방법"><a href="#설정-방법" class="headerlink" title="설정 방법"></a>설정 방법</h2><h3 id="IAM"><a href="#IAM" class="headerlink" title="IAM"></a>IAM</h3><p><code>IAM</code> 설정입니다.<br><code>IAM</code>에서 역할을 추가하겠습니다.<br><img src="/image/lambda-resizing-1.png" alt=""><br><code>IAM</code>에서 역할을 선택 후 역할 만들기를 선택합니다.<br><img src="/image/lambda-resizing-2.png" alt=""><br><code>AWS 서비스</code>에서 <code>Lambda</code>를 선택합니다.<br><img src="/image/lambda-resizing-3.png" alt=""><br>다음으로 이동하여 정책 필터에서 <code>AWSLambdaExecute</code>를 검색 후 체크하여 <code>AWSLambdaExecute</code>선택합니다.<br><img src="/image/lambda-resizing-4.png" alt=""><br>3번은 건너 뛴 후 역할이름을 사용자가 알아 볼 수 있도록 지정합니다. 정책 부분에 <code>AWSLambdaExecute</code>가 잘 추가 되었는지 확인합니다.<br><img src="/image/lambda-resizing-5.png" alt=""><br>역할을 생성 후 역할 리스트에 생성한 역할이 있는지 확인 후 생성한 역할을 선택합니다.<br><img src="/image/lambda-resizing-6.png" alt=""><br>신뢰관계를 추가해야해서 <code>신뢰관계편집</code>을 선택합니다.<br><img src="/image/lambda-resizing-7.png" alt=""><br>신뢰관계를 아래와 같이 동일하게 편집합니다.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   <span class="attr">"Version"</span>: <span class="string">"2012-10-17"</span>,</span><br><span class="line">   <span class="attr">"Statement"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">         <span class="attr">"Effect"</span>: <span class="string">"Allow"</span>,</span><br><span class="line">         <span class="attr">"Principal"</span>: &#123;</span><br><span class="line">            <span class="attr">"Service"</span>: [</span><br><span class="line">               <span class="string">"lambda.amazonaws.com"</span>,</span><br><span class="line">               <span class="string">"edgelambda.amazonaws.com"</span></span><br><span class="line">            ]</span><br><span class="line">         &#125;,</span><br><span class="line">         <span class="attr">"Action"</span>: <span class="string">"sts:AssumeRole"</span></span><br><span class="line">      &#125;</span><br><span class="line">   ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>편집 후 <code>신뢰 정책 업데이트</code>를 선택하여 신뢰관계를 업데이트합니다.<br><img src="/image/lambda-resizing-8.png" alt=""><br>신뢰할 수 있는 개체에 위와 같이 두개의 리스트가 나타나있어야합니다.</p>
+<h3 id="S3"><a href="#S3" class="headerlink" title="S3"></a>S3</h3><p><code>S3</code> 버킷을 만들어줍니다.<br><img src="/image/lambda-resizing-9.png" alt=""><br>위와 같이 <code>S3</code> 리전은 서울로 지정하겠습니다.</p>
+<h3 id="CloudFront"><a href="#CloudFront" class="headerlink" title="CloudFront"></a>CloudFront</h3><p><code>CloudFront</code> 설정입니다.<br><code>CloudFront</code>로 이동하겠습니다.<br><img src="/image/lambda-resizing-10.png" alt=""><br><code>Create Distribution</code>을 선택합니다.<br><img src="/image/lambda-resizing-11.png" alt=""><br>콘텐츠 전송 방법은 <code>Web</code>을 선택합니다.<br><img src="/image/lambda-resizing-12.png" alt=""><br><code>Origin Domain Name</code>에서 생성한 <code>S3</code>의 버킷을 선택합니다.<br><img src="/image/lambda-resizing-13.png" alt=""><br><code>Origin Domain Name</code>에서 버킷 선택 후 <code>Restrict Bucket Access</code> 설정은 <code>Yes</code>로 설정합니다.<br><code>Origin Access Identity</code> 설정은 <code>Create a New Identity</code>로 설정합니다.<br><code>Grant Read Permissions on Bucket</code> 설정은 <code>Yes, Update Bucket Policy</code>로 설정합니다.<br><code>Origin Access Identity</code> 설정과 <code>Grant Read Permissions on Bucket</code> 설정은 <code>S3</code>에 <code>CloudFront</code>만 접근 가능하도록 하는 설정입니다.<br><img src="/image/lambda-resizing-14.png" alt=""><br><code>Query String Whitelist</code> 설정에 <code>d</code>를 추가합니다.<br><code>Compress Objects Automatically</code> 설정은 <code>Yes</code>로 설정합니다.<br>쿼리 스트링에 <code>d</code>를 키값으로 이미지 리사이징을 진행 할 예정이라 추가하였습니다. <code>Compress Objects Automatically</code> 설정을 <code>Yes</code>로 설정하면 컨텐츠를 압축하여 전송함으로 다운로드 속도가 빨라지게 됩니다. 따라서 설정을 활성화 하였습니다.    </p>
+<h3 id="Lambda"><a href="#Lambda" class="headerlink" title="Lambda"></a>Lambda</h3><p><code>Lambda</code> 설정을 시작해보겠습니다.<br><img src="/image/lambda-resizing-15.png" alt=""><br><code>Lambda</code>의 리전은 꼭 <code>미국 동부(버지니아 북부)</code>로 선택합니다. <code>Lambda</code>의 <code>Lambda@Edge</code>와 <code>CloudFront</code>는 버지니아 북부 리전에서만 설정 할 수 있습니다. 하지만 리전을 걱정 안하셔도 되는게 람다함수는 모든 리전에 복사되어 가까운 리전에서 응답을 받을 수 있습니다. 따라서 버지니아 북부로 꼭 선택하고 <code>함수만들기</code>를 선택합니다.<br><img src="/image/lambda-resizing-16.png" alt=""><br>함수생성에서 <code>함수 이름</code>은 사용자가 알아서 입력을 합니다. <code>Lambda</code> 함수 리스트에서 알아 볼 수 있도록 이름을 설정합니다. <code>런타임</code>은 <code>Node.js 8.10</code>으로 설정하겠습니다. 현제 <code>Node.js 10</code>버전을 사용 할 수 있긴 하지만 현재 쓰는 노드버전이 8버전이므로 8버전을 선택하였습니다. <code>권한</code>설정에서 <code>실행 역할</code>을 <code>기존 역할 사용</code>으로 설정합니다. 여기서 권한은 위에서 <code>IAM</code>의 역할을 추가했던 그 역할을 사용 할 것입니다. <code>기존 역할</code>에서 <code>IAM</code>에서 생성한 역할을 선택합니다. 설정 완료 후 <code>함수 생성</code>을 선택하여 함수를 생성합니다.   </p>
+<p>람다 설정에서 람다 함수 코드를 작성해보도록 하겠습니다.<br><img src="/image/lambda-resizing-17.png" alt=""><br>바탕화면에 <code>swt-lambda</code>라는 폴더를 생성해주었습니다.<br>폴더로 이동하여 <code>npm init -y</code>를 실행하여 <code>package.json</code>파일을 생성합니다. 실행 후 <code>npm install querystring sharp aws-sdk</code>를 실행하여 3개의 패키지를 설치합니다.<br><img src="/image/lambda-resizing-18.png" alt=""><br><code>index.js</code>파일을 생성합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> querystring = <span class="built_in">require</span>(<span class="string">'querystring'</span>);</span><br><span class="line"><span class="keyword">const</span> Sharp = <span class="built_in">require</span>(<span class="string">'sharp'</span>);</span><br><span class="line"><span class="keyword">const</span> AWS = <span class="built_in">require</span>(<span class="string">'aws-sdk'</span>);</span><br><span class="line"><span class="keyword">const</span> S3 = <span class="keyword">new</span> AWS.S3(&#123; <span class="attr">region</span>: <span class="string">'ap-northeast-2'</span> &#125;);</span><br><span class="line"><span class="keyword">const</span> BUCKET = <span class="string">'swt-lambda'</span>;</span><br><span class="line"></span><br><span class="line">exports.handler = <span class="keyword">async</span> (event, context, callback) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> response = event.Records[<span class="number">0</span>].cf.response;</span><br><span class="line">  <span class="keyword">const</span> request = event.Records[<span class="number">0</span>].cf.request;</span><br><span class="line">  <span class="keyword">const</span> params = querystring.parse(request.querystring);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// https://cloudfront.com/image.jpg?d=100x100와 일치하지 않은 주소 일 경우 원본 이미지를 반환합니다.</span></span><br><span class="line">  <span class="keyword">if</span> (!params.d) &#123;</span><br><span class="line">    callback(<span class="literal">null</span>, response);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> uri = request.uri;</span><br><span class="line">  <span class="comment">// d=100x100의 쿼리를 .split('x')를 이용하여 배열로 설정합니다.</span></span><br><span class="line">  <span class="keyword">const</span> imageSize = params.d.split(<span class="string">'x'</span>);</span><br><span class="line">  <span class="comment">// 배열의 0번째를 가로로 설정합니다.</span></span><br><span class="line">  <span class="keyword">const</span> width = <span class="built_in">parseInt</span>(imageSize[<span class="number">0</span>]);</span><br><span class="line">  <span class="comment">// 배열의 1번쨰를 세로로 설정합니다.</span></span><br><span class="line">  <span class="keyword">const</span> height = <span class="built_in">parseInt</span>(imageSize[<span class="number">1</span>]);</span><br><span class="line">  <span class="keyword">const</span> [, imageName, extension] = uri.match(<span class="regexp">/\/(.*)\.(.*)/</span>);</span><br><span class="line">  <span class="keyword">const</span> requiredFormat = extension == <span class="string">'jpg'</span> ? <span class="string">'jpeg'</span> : extension;</span><br><span class="line">  <span class="keyword">const</span> originalKey = imageName + <span class="string">'.'</span> + extension;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// aws-sdk를 이용하여 s3에서 이미지를 받아옵니다.</span></span><br><span class="line">    <span class="keyword">const</span> s3Object = <span class="keyword">await</span> S3.getObject(&#123;</span><br><span class="line">      Bucket: BUCKET,</span><br><span class="line">      Key: originalKey,</span><br><span class="line">    &#125;).promise();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// sharp를 이용하여 이미지를 리사이징 합니다.</span></span><br><span class="line">    <span class="keyword">const</span> resizedImage = <span class="keyword">await</span> Sharp(s3Object.Body)</span><br><span class="line">      .resize(width, height)</span><br><span class="line">      .toFormat(requiredFormat)</span><br><span class="line">      .toBuffer();</span><br><span class="line"></span><br><span class="line">    response.status = <span class="number">200</span>;</span><br><span class="line">    response.body = resizedImage.toString(<span class="string">'base64'</span>);</span><br><span class="line">    response.bodyEncoding = <span class="string">'base64'</span>;</span><br><span class="line">    response.headers[<span class="string">'content-type'</span>] = [</span><br><span class="line">      &#123; <span class="attr">key</span>: <span class="string">'Content-Type'</span>, <span class="attr">value</span>: <span class="string">'image/'</span> + requiredFormat &#125;,</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> callback(<span class="literal">null</span>, response);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="keyword">return</span> callback(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><img src="/image/lambda-resizing-19.png" alt=""><br><code>index.js</code> 파일과 <code>node_modules</code>폴더를 한번에 선택 후 압축합니다.<br><img src="/image/lambda-resizing-20.png" alt=""><br><code>Lambda</code>로 이동하여 함수코드 부분에서 코드 입력 유형을 <code>.zip 파일 업로드</code>로 선택합니다.<br><img src="/image/lambda-resizing-21.png" alt=""><br><code>업로드</code>를 선택하여 <code>index.js</code> 파일과 <code>node_modules</code>폴더를 압축 한 압축파일을 업로드합니다.<br><img src="/image/lambda-resizing-22.png" alt=""><br>파일이 업로드가 완료 된 후 <code>저장</code>합니다.<br><img src="/image/lambda-resizing-23.png" alt=""><br>기본설정을 위와 같이 설정합니다.<br><img src="/image/lambda-resizing-24.png" alt=""><br>트리거 추가 목록에서 <code>CloudFront</code>를 선택합니다.<br><img src="/image/lambda-resizing-25.png" alt=""><br>트리거 구성에서 <code>Lambda@Edge로 배포</code>를 선택합니다.<br><img src="/image/lambda-resizing-26.png" alt=""><br><code>CloudFront 이벤트</code>를 <code>오리진 응답</code>으로 선택합니다. <code>Lambda@Edge로 배포 확인</code>에서 체크 후 배포를 선택하여 배포합니다.</p>
+
+        </div>
+        <footer class="article-footer">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+
+
+    <a data-url="https://swtpumpkin.github.io/backend/aws/lambdaResizing/" data-id="ckcu0t9l100f70bz9hyar7quj" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+        
+            <script src="https://utteranc.es/client.js"
+        repo="swtpumpkin/blog-comments"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://www.linkedin.com/in/jeongwon-kim-0a75b1157" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/kim.jeongwon.9" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/swtpumpkin" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="share-alt" href="https://stackshare.io/swtpumpkin/my-stack" target="_blank">
+                        <i class="icon fa fa-share-alt"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/git/hexo/hexoCommentUtterances/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            hexo utterances 댓글 추가
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/develop/SSL-certificate/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">SSL Local Certificate</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/javascript/whileStatement/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/javascript.png)" alt="While Statement" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/javascript/">javascript</a></p>
+                            <p class="item-title"><a href="/javascript/whileStatement/" class="title">While Statement</a></p>
+                            <p class="item-date"><time datetime="2020-07-20T23:00:00.000Z" itemprop="datePublished">2020-07-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/javascript/switchStatement/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/javascript.png)" alt="Switch Statement" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/javascript/">javascript</a></p>
+                            <p class="item-title"><a href="/javascript/switchStatement/" class="title">Switch Statement</a></p>
+                            <p class="item-date"><time datetime="2020-07-19T23:00:00.000Z" itemprop="datePublished">2020-07-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/styledComponentsCss/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/styled-components.png)" alt="styled-components에서 css 변수 사용" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/styledComponentsCss/" class="title">styled-components에서 css 변수 사용</a></p>
+                            <p class="item-date"><time datetime="2020-07-07T23:00:00.000Z" itemprop="datePublished">2020-07-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/reactRouterLink/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="React Router (Link)" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/reactRouterLink/" class="title">React Router (Link)</a></p>
+                            <p class="item-date"><time datetime="2020-06-29T23:00:00.000Z" itemprop="datePublished">2020-06-30</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/javascript/templateLiteral/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/javascript.png)" alt="Template Literal" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/javascript/">javascript</a></p>
+                            <p class="item-title"><a href="/javascript/templateLiteral/" class="title">Template Literal</a></p>
+                            <p class="item-date"><time datetime="2020-06-23T23:00:00.000Z" itemprop="datePublished">2020-06-24</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+        
+    </div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2020 Jeongwon Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>    
+</body>
+</html>

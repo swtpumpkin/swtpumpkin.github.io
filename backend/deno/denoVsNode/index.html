@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>deno와 node.js 비교 | Swtpumpkin Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="node,deno,디노,experience,디노 사용법,hello world" />
+    
+    <meta name="description" content="deno로 만드는 서버deno가 2020년 5월 14일 v1.0.0이 릴리즈 되었습니다. deno와 node를 비교하며 웹페이지에 Hello World를 띄워보도록 하겠습니다.   node!우선 node를 이용하여 Hello World를 띄우도록 하겠습니다. 1mkdir node &amp;&amp; cd node &amp;&amp; npm init -y n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="deno와 node.js 비교">
+<meta property="og:url" content="https://swtpumpkin.github.io/backend/deno/denoVsNode/index.html">
+<meta property="og:site_name" content="Swtpumpkin Blog">
+<meta property="og:description" content="deno로 만드는 서버deno가 2020년 5월 14일 v1.0.0이 릴리즈 되었습니다. deno와 node를 비교하며 웹페이지에 Hello World를 띄워보도록 하겠습니다.   node!우선 node를 이용하여 Hello World를 띄우도록 하겠습니다. 1mkdir node &amp;&amp; cd node &amp;&amp; npm init -y n">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://swtpumpkin.github.io/image/deno.png">
+<meta property="article:published_time" content="2020-05-15T23:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-18T01:16:54.981Z">
+<meta property="article:author" content="Jeongwon Kim">
+<meta property="article:tag" content="node">
+<meta property="article:tag" content="deno">
+<meta property="article:tag" content="디노">
+<meta property="article:tag" content="experience">
+<meta property="article:tag" content="디노 사용법">
+<meta property="article:tag" content="hello world">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://swtpumpkin.github.io/image/deno.png">
+    
+    <link rel="canonical" href="https://swtpumpkin.github.io/backend/deno/denovsnode/"/>
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-119873758-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/">Algorism</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/ProjectEuler/">ProjectEuler</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level1/">level1</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level2/">level2</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level3/">level3</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/">CS</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/dataStructure/">dataStructure</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/">backend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/AWS/">AWS</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/deno/">deno</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker/">docker</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mongoDB/">mongoDB</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mySQL/">mySQL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/node/">node</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/">develop</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/google/">google</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/">frontend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/css/">css</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/html/">html</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/react/">react</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/reactNative/">reactNative</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/svg/">svg</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/">git</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/hexo/">hexo</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/javascript/">javascript</a></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+    
+        <form class="search-form">
+            <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+            <button type="submit" class="search-form-submit"></button>
+        </form>
+        <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</div>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/backend/deno/">deno</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-backend/deno/denoVsNode" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        deno와 node.js 비교
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/backend/deno/denoVsNode/" class="article-date">
+            <time datetime="2020-05-15T23:00:00.000Z" itemprop="datePublished">2020-05-16</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/deno/" rel="tag">deno</a>, <a class="tag-link-link" href="/tags/experience/" rel="tag">experience</a>, <a class="tag-link-link" href="/tags/hello-world/" rel="tag">hello world</a>, <a class="tag-link-link" href="/tags/node/" rel="tag">node</a>, <a class="tag-link-link" href="/tags/%EB%94%94%EB%85%B8/" rel="tag">디노</a>, <a class="tag-link-link" href="/tags/%EB%94%94%EB%85%B8-%EC%82%AC%EC%9A%A9%EB%B2%95/" rel="tag">디노 사용법</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="deno로-만드는-서버"><a href="#deno로-만드는-서버" class="headerlink" title="deno로 만드는 서버"></a>deno로 만드는 서버</h1><p><code>deno</code>가 <code>2020년 5월 14일</code> <code>v1.0.0</code>이 릴리즈 되었습니다. <code>deno</code>와 <code>node</code>를 비교하며 웹페이지에 <code>Hello World</code>를 띄워보도록 하겠습니다.  </p>
+<h2 id="node"><a href="#node" class="headerlink" title="node!"></a>node!</h2><p>우선 <code>node</code>를 이용하여 <code>Hello World</code>를 띄우도록 하겠습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir node &amp;&amp; cd node &amp;&amp; npm init -y</span><br></pre></td></tr></table></figure>
+<p><code>node</code>폴더를 만들고 <code>node</code>플더로 이동하여 <code>npm init</code>으로 <code>package.json</code>파일을 생성합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install express</span><br></pre></td></tr></table></figure>
+<p><code>npm</code>으로 <code>express</code>를 설치합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch index.js</span><br></pre></td></tr></table></figure>
+<p><code>index.js</code> 파일을 생성합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">8000</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">'*'</span>, (req, res) =&gt; res.send(<span class="string">'Hello World'</span>))</span><br><span class="line"></span><br><span class="line">app.listen(port, () =&gt; <span class="built_in">console</span>.log(<span class="string">`http://localhost:<span class="subst">$&#123;port&#125;</span>`</span>))</span><br></pre></td></tr></table></figure>
+<p>위 코드를 <code>index.js</code>에 작성합니다. <code>npm</code>으로 설치된 <code>express</code>를 <code>app</code>으로 실행하고 <code>8000</code>번 <code>port</code>를 이용하여 앱을 실행합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node index.js</span><br></pre></td></tr></table></figure>
+<p>터미널에서 <code>node</code>를 이용하여 <code>index.js</code>를 실행합니다.<br><img src="/image/denoVsNode-1.png" alt=""><br><code>http://localhost:8000</code>로 접속하면 <code>Hello World</code>를 확인 할 수 있습니다.  </p>
+<h2 id="deno"><a href="#deno" class="headerlink" title="deno!"></a>deno!</h2><p><code>deno</code>를 이용하여 <code>Hello World</code>를 띄우도록 하겠습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir deno &amp;&amp; cd deno &amp;&amp; touch index.ts</span><br></pre></td></tr></table></figure>
+<p><code>deno</code> 폴더를 생성하고 <code>deno</code> 폴더로 이동하여 <code>index.ts</code> 파일을 생성합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; serve &#125; <span class="keyword">from</span> <span class="string">'https://deno.land/std/http/server.ts'</span>;</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">8000</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> s = serve(&#123; port &#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">`http://localhost:<span class="subst">$&#123;port&#125;</span>`</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">const</span> req of s) &#123;</span><br><span class="line">	req.respond(&#123; body: <span class="string">'Hello World'</span> &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>위 코드를 <code>index.ts</code>에 작성합니다. <code>https://deno.land/std/http/server.ts</code> <code>url</code>을 이용하여 코드를 불러와 <code>serve</code> 함수를 받고 <code>8000</code> 포트를 사용하고, 응답을 <code>body</code>에 <code>Hello World</code>로 보냅니다.  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deno index.ts</span><br></pre></td></tr></table></figure>
+<p><code>deno</code>로 <code>index.ts</code>를 실행하면 <code>error: Found argument &#39;index.ts&#39; which wasn&#39;t expected, or isn&#39;t valid in this context</code> 에러가 발생합니다. <code>deno</code>는 <code>node</code>와는 다르게 옵션을 추가하여 실행해야 합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deno run --allow-net --allow-read index.ts</span><br></pre></td></tr></table></figure>
+<p><code>deno</code>는 <code>docker</code>와 비슷하게 실행해야하는데 <code>--allow-net</code> 옵션으로 네트워크 통신을 허용해야하고 <code>--allow-read</code> 옵션으로 <code>index.ts</code> 파일을 읽을 수 있도록 허용해야합니다.<br>처음 <code>deno</code>로 파일을 실행하게되면 <code>Compile file:///Users/username/Desktop/deno/index.ts</code>와 같이 컴파일을 한 후 파일이 실행됩니다.<br><img src="/image/denoVsNode-1.png" alt=""></p>
+<h2 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h2><p><code>deno</code>는 <code>node</code>와는 다르게 <code>package.json</code> 파일, <code>node_modules</code> 폴더 등이 필요없고 <code>url</code>을 통해 직접 코드를 불러 올 수 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">deno -h</span><br><span class="line">deno 1.0.0</span><br><span class="line">A secure JavaScript and TypeScript runtime</span><br><span class="line"></span><br><span class="line">Docs: https:&#x2F;&#x2F;deno.land&#x2F;std&#x2F;manual.md</span><br><span class="line">Modules: https:&#x2F;&#x2F;deno.land&#x2F;std&#x2F; https:&#x2F;&#x2F;deno.land&#x2F;x&#x2F;</span><br><span class="line">Bugs: https:&#x2F;&#x2F;github.com&#x2F;denoland&#x2F;deno&#x2F;issues</span><br><span class="line"></span><br><span class="line">To start the REPL:</span><br><span class="line">  deno</span><br><span class="line"></span><br><span class="line">To execute a script:</span><br><span class="line">  deno run https:&#x2F;&#x2F;deno.land&#x2F;std&#x2F;examples&#x2F;welcome.ts</span><br><span class="line"></span><br><span class="line">To evaluate code in the shell:</span><br><span class="line">  deno eval &quot;console.log(30933 + 404)&quot;</span><br><span class="line"></span><br><span class="line">USAGE:</span><br><span class="line">    deno [OPTIONS] [SUBCOMMAND]</span><br><span class="line"></span><br><span class="line">OPTIONS:</span><br><span class="line">    -h, --help                     Prints help information</span><br><span class="line">    -L, --log-level &lt;log-level&gt;    Set log level [possible values: debug, info]</span><br><span class="line">    -q, --quiet                    Suppress diagnostic output</span><br><span class="line">    -V, --version                  Prints version information</span><br><span class="line"></span><br><span class="line">SUBCOMMANDS:</span><br><span class="line">    bundle         Bundle module and dependencies into single file</span><br><span class="line">    cache          Cache the dependencies</span><br><span class="line">    completions    Generate shell completions</span><br><span class="line">    doc            Show documentation for a module</span><br><span class="line">    eval           Eval script</span><br><span class="line">    fmt            Format source files</span><br><span class="line">    help           Prints this message or the help of the given subcommand(s)</span><br><span class="line">    info           Show info about cache or info related to source file</span><br><span class="line">    install        Install script as an executable</span><br><span class="line">    repl           Read Eval Print Loop</span><br><span class="line">    run            Run a program given a filename or url to the module</span><br><span class="line">    test           Run tests</span><br><span class="line">    types          Print runtime TypeScript declarations</span><br><span class="line">    upgrade        Upgrade deno executable to given version</span><br><span class="line"></span><br><span class="line">ENVIRONMENT VARIABLES:</span><br><span class="line">    DENO_DIR             Set deno&#39;s base directory (defaults to $HOME&#x2F;.deno)</span><br><span class="line">    DENO_INSTALL_ROOT    Set deno install&#39;s output directory</span><br><span class="line">                         (defaults to $HOME&#x2F;.deno&#x2F;bin)</span><br><span class="line">    NO_COLOR             Set to disable color</span><br><span class="line">    HTTP_PROXY           Proxy address for HTTP requests</span><br><span class="line">                         (module downloads, fetch)</span><br><span class="line">    HTTPS_PROXY          Same but for HTTPS</span><br></pre></td></tr></table></figure>
+<p><code>2020년5월16일</code> 현재 <code>deno</code>의 문서는 아직까지 부족 한 것 같습니다. <code>Docs: https://deno.land/std/manual.md</code> 의 문서 역시 아래와 같이 링크가 깨져있어 볼 수 없습니다.<br><img src="/image/denoVsNode-2.png" alt=""><br>아직 <code>v1.0.0</code>이기 때문에 마이너 업데이트가 필요해 보입니다. 그래도 <code>npm</code>을 벗어난 개발이 매우 흥미롭습니다.  </p>
+
+        </div>
+        <footer class="article-footer">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+
+
+    <a data-url="https://swtpumpkin.github.io/backend/deno/denoVsNode/" data-id="ckcu0t9kd00df0bz91ee026e2" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+        
+            <script src="https://utteranc.es/client.js"
+        repo="swtpumpkin/blog-comments"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://www.linkedin.com/in/jeongwon-kim-0a75b1157" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/kim.jeongwon.9" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/swtpumpkin" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="share-alt" href="https://stackshare.io/swtpumpkin/my-stack" target="_blank">
+                        <i class="icon fa fa-share-alt"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/javascript/dataStructuresPrimitive/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            Javascript Data Structures (Primitive Values)
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/backend/deno/denoInstall/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">deno macOS install</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/javascript/whileStatement/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/javascript.png)" alt="While Statement" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/javascript/">javascript</a></p>
+                            <p class="item-title"><a href="/javascript/whileStatement/" class="title">While Statement</a></p>
+                            <p class="item-date"><time datetime="2020-07-20T23:00:00.000Z" itemprop="datePublished">2020-07-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/javascript/switchStatement/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/javascript.png)" alt="Switch Statement" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/javascript/">javascript</a></p>
+                            <p class="item-title"><a href="/javascript/switchStatement/" class="title">Switch Statement</a></p>
+                            <p class="item-date"><time datetime="2020-07-19T23:00:00.000Z" itemprop="datePublished">2020-07-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/styledComponentsCss/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/styled-components.png)" alt="styled-components에서 css 변수 사용" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/styledComponentsCss/" class="title">styled-components에서 css 변수 사용</a></p>
+                            <p class="item-date"><time datetime="2020-07-07T23:00:00.000Z" itemprop="datePublished">2020-07-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/reactRouterLink/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="React Router (Link)" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/reactRouterLink/" class="title">React Router (Link)</a></p>
+                            <p class="item-date"><time datetime="2020-06-29T23:00:00.000Z" itemprop="datePublished">2020-06-30</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/javascript/templateLiteral/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/javascript.png)" alt="Template Literal" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/javascript/">javascript</a></p>
+                            <p class="item-title"><a href="/javascript/templateLiteral/" class="title">Template Literal</a></p>
+                            <p class="item-date"><time datetime="2020-06-23T23:00:00.000Z" itemprop="datePublished">2020-06-24</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+        
+    </div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2020 Jeongwon Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>    
+</body>
+</html>

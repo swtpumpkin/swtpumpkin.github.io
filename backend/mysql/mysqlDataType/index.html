@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>MySQL data type | Swtpumpkin Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="mysql,DB,Database,data type,데이터베이스,데이터 타입" />
+    
+    <meta name="description" content="MySQL 데이터 타입MySQL에는 여러가지 데이터 타입을 갖고있습니다. 하지만 boolean타입은 갖고있지 않습니다. STRING문자열에는 두가지 타입이 존재합니다.CHAR는 고정형이고, VARCHAR는 가변형입니다.    TYPE 사용되는 바이트 예제    CHAR(n) 정확히 n (&lt;&#x3D;255) CHAR(5) ‘Hello’는 5바이트 사용CHAR(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL data type">
+<meta property="og:url" content="https://swtpumpkin.github.io/backend/mysql/mysqlDataType/index.html">
+<meta property="og:site_name" content="Swtpumpkin Blog">
+<meta property="og:description" content="MySQL 데이터 타입MySQL에는 여러가지 데이터 타입을 갖고있습니다. 하지만 boolean타입은 갖고있지 않습니다. STRING문자열에는 두가지 타입이 존재합니다.CHAR는 고정형이고, VARCHAR는 가변형입니다.    TYPE 사용되는 바이트 예제    CHAR(n) 정확히 n (&lt;&#x3D;255) CHAR(5) ‘Hello’는 5바이트 사용CHAR(">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://swtpumpkin.github.io/image/mysql.png">
+<meta property="article:published_time" content="2017-09-11T01:00:00.000Z">
+<meta property="article:modified_time" content="2020-01-08T04:06:19.002Z">
+<meta property="article:author" content="Jeongwon Kim">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="DB">
+<meta property="article:tag" content="Database">
+<meta property="article:tag" content="data type">
+<meta property="article:tag" content="데이터베이스">
+<meta property="article:tag" content="데이터 타입">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://swtpumpkin.github.io/image/mysql.png">
+    
+    <link rel="canonical" href="https://swtpumpkin.github.io/backend/mysql/mysqldatatype/"/>
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-119873758-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/">Algorism</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/ProjectEuler/">ProjectEuler</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level1/">level1</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level2/">level2</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level3/">level3</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/">CS</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/dataStructure/">dataStructure</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/">backend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/AWS/">AWS</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/deno/">deno</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker/">docker</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mongoDB/">mongoDB</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mySQL/">mySQL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/node/">node</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/">develop</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/google/">google</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/">frontend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/css/">css</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/html/">html</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/react/">react</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/reactNative/">reactNative</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/svg/">svg</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/">git</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/hexo/">hexo</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/javascript/">javascript</a></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+    
+        <form class="search-form">
+            <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+            <button type="submit" class="search-form-submit"></button>
+        </form>
+        <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</div>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/backend/mySQL/">mySQL</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-backend/mysql/mysqlDataType" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        MySQL data type
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/backend/mysql/mysqlDataType/" class="article-date">
+            <time datetime="2017-09-11T01:00:00.000Z" itemprop="datePublished">2017-09-11</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/DB/" rel="tag">DB</a>, <a class="tag-link-link" href="/tags/Database/" rel="tag">Database</a>, <a class="tag-link-link" href="/tags/data-type/" rel="tag">data type</a>, <a class="tag-link-link" href="/tags/mysql/" rel="tag">mysql</a>, <a class="tag-link-link" href="/tags/%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%83%80%EC%9E%85/" rel="tag">데이터 타입</a>, <a class="tag-link-link" href="/tags/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4/" rel="tag">데이터베이스</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="MySQL-데이터-타입"><a href="#MySQL-데이터-타입" class="headerlink" title="MySQL 데이터 타입"></a>MySQL 데이터 타입</h1><p><code>MySQL</code>에는 여러가지 데이터 타입을 갖고있습니다. 하지만 <code>boolean</code>타입은 갖고있지 않습니다.</p>
+<h2 id="STRING"><a href="#STRING" class="headerlink" title="STRING"></a>STRING</h2><p>문자열에는 두가지 타입이 존재합니다.<br>CHAR는 고정형이고, VARCHAR는 가변형입니다.</p>
+<table>
+<thead>
+<tr>
+<th align="center">TYPE</th>
+<th align="center">사용되는 바이트</th>
+<th align="center">예제</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">CHAR(n)</td>
+<td align="center">정확히 n (&lt;=255)</td>
+<td align="center">CHAR(5) ‘Hello’는 5바이트 사용<br>CHAR(50) ‘Hello’는 50바이트 사용</td>
+</tr>
+<tr>
+<td align="center">VARCHAR(n)</td>
+<td align="center">최대 n 까지(&lt;=65535)</td>
+<td align="center">VARCHAR(100) ‘Hello’는 5바이트 사용<br>VARCHAR(5) ‘Hello’는 5바이트 사용</td>
+</tr>
+</tbody></table>
+<p>데이터가 많아지면 <code>CHAR</code>타입과 <code>VARCHAR</code>타입의 속도 차이가 있습니다.<br>100만건이 넘는 데이터를 검색했을 때 <code>CHAR</code>를 사용했을 경우에는 0.54 sec가 걸렸으며 <code>VARCHAR</code>를 사용했을 경우에는 0.64 sec 가 걸렸습니다.<br>따라서 상황에 따라 <code>CHAR</code>와 <code>VARCHAR</code>를 번갈아가며 선택하는 것도 좋을 것 같습니다.  </p>
+<ul>
+<li><p>CHAR<br><code>CHAR(10)</code>을 설정하게 되면 ‘test’를 입력하더라도 삽입된 데이터의 크기는 10byte입니다.<br><code>CHAR</code> 타입은 길이를 지정해주면 남은 공간은 빈칸으로 체우게 됩니다.</p>
+</li>
+<li><p>VARCHAR(variable length character string)<br>짧은 문자열을 저장하기 위해 가장 널리 사용되는 타입입니다. 컬럼 타입으로 지정할 때는 아래와 같이 문자열의 길이(바이트)를 명시해야 합니다.<br><code>VARCHAR(255)</code> – 255는 가장 널리 사용되는 길이입니다. (utf8 인코딩 방식으로 한글은 1글자당 3바이트이다.)<br>저장을 하기 위한 가장 효과적인 길이는 255입니다.  </p>
+</li>
+</ul>
+<h2 id="TEXT"><a href="#TEXT" class="headerlink" title="TEXT"></a>TEXT</h2><p>긴 문자열을 저장하기 위해 사용되는 타입입니다. <code>TEXT</code> 타입의 컬럼에는 64MB까지 저장할 수 있습니다. 요구사항에 따라 크기가 다른 다양한 종류의 <code>TEXT</code> 타입(<code>TINYTEXT</code>, <code>TEXT</code>, <code>MEDIUMTEXT</code>, <code>LONGTEXT</code>)을 사용할 수 있습니다.</p>
+<table>
+<thead>
+<tr>
+<th align="center">TYPE</th>
+<th align="center">사용되는 바이트</th>
+<th align="center">속성</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">TINYTEXT(n)</td>
+<td align="center">최대 n (&lt;=255)</td>
+<td align="center">문자열로 취급</td>
+</tr>
+<tr>
+<td align="center">TEXT(n)</td>
+<td align="center">최대 n (&lt;=65535)</td>
+<td align="center">문자열로 취급</td>
+</tr>
+<tr>
+<td align="center">MEDIUMTEXT(n)</td>
+<td align="center">최대 n (&lt;=16777215)</td>
+<td align="center">문자열로 취급</td>
+</tr>
+<tr>
+<td align="center">LONGTEXT(n)</td>
+<td align="center">최대 n (&lt;=4294967295)</td>
+<td align="center">문자열로 취급</td>
+</tr>
+</tbody></table>
+<h2 id="NUMBER"><a href="#NUMBER" class="headerlink" title="NUMBER"></a>NUMBER</h2><p>정수, 고정 소수점, 부동 소수점을 위한 타입이 있습니다. 모든 수 타입은 양수만을 저장하기 위해 타입 뒤에 <code>UNSIGNED</code> 지시자를 사용할 수 있습니다.</p>
+<ul>
+<li><p>부동 소수점은 정확성보다 성능을 우선시한다.</p>
+</li>
+<li><p>고정 소수점은 성능은 느려도 정확성을 우선시한다.(10진수의 정확성)</p>
+</li>
+<li><p>INTEGER (INT 타입)<br>정수를 위한 타입입니다. INT로 줄여 쓸 수도 있습니다. 요구사항에 따라 크기가 다른 다양한 종류의 INT 타입(<code>TINYINT</code>, <code>SMALLINT</code>, <code>MEDIUMINT</code>, <code>INT</code>, <code>BIGINT</code>)을 사용할 수 있습니다.</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">TYPE</th>
+<th align="center">Storage</th>
+<th align="center">Minimum Value</th>
+<th align="center">Maximum Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"></td>
+<td align="center">(Bytes)</td>
+<td align="center">(Signed/Unsigned)</td>
+<td align="center">(Signed/Unsigned)</td>
+</tr>
+<tr>
+<td align="center">TINYINT</td>
+<td align="center">1</td>
+<td align="center">-128</td>
+<td align="center">127</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0</td>
+<td align="center">255</td>
+</tr>
+<tr>
+<td align="center">SMALLINT</td>
+<td align="center">2</td>
+<td align="center">-32768</td>
+<td align="center">32767</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0</td>
+<td align="center">65535</td>
+</tr>
+<tr>
+<td align="center">MEDIUMINT</td>
+<td align="center">3</td>
+<td align="center">-8388608</td>
+<td align="center">8388607</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0</td>
+<td align="center">16777215</td>
+</tr>
+<tr>
+<td align="center">INT</td>
+<td align="center">4</td>
+<td align="center">-2147483648</td>
+<td align="center">2147483647</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0</td>
+<td align="center">4294967295</td>
+</tr>
+<tr>
+<td align="center">BIGINT</td>
+<td align="center">8</td>
+<td align="center">-922337203685775808</td>
+<td align="center">922337203685775807</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0</td>
+<td align="center">18446744073709551615</td>
+</tr>
+</tbody></table>
+<p><code>Unsigned</code>를 사용하게 되면 표현 할 수 있는 수가 커진다.<br><code>MySQL</code>에는 참, 거짓을 나타내는 <code>boolean</code> 관련 타입이 없습니다. 대신 <code>TINYINT</code>를 사용합니다. (<code>boolean</code>은 1비트/ <code>TINYINT</code>는 1바이트)</p>
+<ul>
+<li><p>DECIMAL<br>고정 소수점 수를 위한 타입입니다.<br>십진수의 정확한 계산이 필요할 때 사용합니다.<br>정수부(최대 65), 소수부(최대 30, 정수부보다 짧거나 같아야 함)의 최대 길이를 각각 지정할 수 있습니다.  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DECIMAL(5, 2) -- 12345.67과 같은 수를 저장할 수 있습니다.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>DOUBLE (FLOAT)<br>부동 소수점 수를 위한 타입입니다. 소수의 빠른 계산과 효율적 저장이 필요할 때 사용합니다.<br><code>DOUBLE</code>이 <code>FLOAT</code>보다 긴 수를 저장 할 수 있습니다.  </p>
+</li>
+</ul>
+<h2 id="TIME"><a href="#TIME" class="headerlink" title="TIME"></a>TIME</h2><p>MySQL에는 시각의 저장을 위한 타입들이 준비되어 있습니다. 주로 사용되는 아래의 두 타입은 시간대 정보를 저장하지 않기 때문에, 사용에 주의를 요합니다.</p>
+<ul>
+<li><p>DATE<br><code>DATE</code> 타입은 날짜를 위한 타입입니다.<br><code>‘1000-01-01’</code>부터 <code>‘9999-12-31’</code>까지를 나타낼 수 있습니다.<br>크기는 3 바이트입니다.  </p>
+</li>
+<li><p>DATETIME<br><code>DATETIME</code> 타입은 날짜와 시각을 같이 저장해야 할 때 사용합니다.<br><code>‘1000-01-01 00:00:00’</code>부터 <code>‘9999-12-31 23:59:59’</code>까지 나타낼 수 있습니다.<br>크기는 8 바이트입니다.  </p>
+</li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+
+
+    <a data-url="https://swtpumpkin.github.io/backend/mysql/mysqlDataType/" data-id="ckcu0t9l900fu0bz91uurhs39" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+        
+            <script src="https://utteranc.es/client.js"
+        repo="swtpumpkin/blog-comments"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://www.linkedin.com/in/jeongwon-kim-0a75b1157" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/kim.jeongwon.9" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/swtpumpkin" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="share-alt" href="https://stackshare.io/swtpumpkin/my-stack" target="_blank">
+                        <i class="icon fa fa-share-alt"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/backend/mysql/mysqlSelect/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            MySQL Select
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/backend/mysql/mysqlDbAndTable/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">데이터베이스와 테이블</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/javascript/whileStatement/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/javascript.png)" alt="While Statement" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/javascript/">javascript</a></p>
+                            <p class="item-title"><a href="/javascript/whileStatement/" class="title">While Statement</a></p>
+                            <p class="item-date"><time datetime="2020-07-20T23:00:00.000Z" itemprop="datePublished">2020-07-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/javascript/switchStatement/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/javascript.png)" alt="Switch Statement" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/javascript/">javascript</a></p>
+                            <p class="item-title"><a href="/javascript/switchStatement/" class="title">Switch Statement</a></p>
+                            <p class="item-date"><time datetime="2020-07-19T23:00:00.000Z" itemprop="datePublished">2020-07-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/styledComponentsCss/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/styled-components.png)" alt="styled-components에서 css 변수 사용" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/styledComponentsCss/" class="title">styled-components에서 css 변수 사용</a></p>
+                            <p class="item-date"><time datetime="2020-07-07T23:00:00.000Z" itemprop="datePublished">2020-07-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/reactRouterLink/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="React Router (Link)" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/reactRouterLink/" class="title">React Router (Link)</a></p>
+                            <p class="item-date"><time datetime="2020-06-29T23:00:00.000Z" itemprop="datePublished">2020-06-30</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/javascript/templateLiteral/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/javascript.png)" alt="Template Literal" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/javascript/">javascript</a></p>
+                            <p class="item-title"><a href="/javascript/templateLiteral/" class="title">Template Literal</a></p>
+                            <p class="item-date"><time datetime="2020-06-23T23:00:00.000Z" itemprop="datePublished">2020-06-24</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+        
+    </div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2020 Jeongwon Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>    
+</body>
+</html>
