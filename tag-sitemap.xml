@@ -3,6 +3,20 @@
 
 
     <url>
+        <loc>https://swtpumpkin.github.io/tags/compinit/</loc>
+        <lastmod>2020-11-19T03:58:38.864Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/zsh/</loc>
+        <lastmod>2020-11-19T03:58:38.864Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/tags/%25EB%25B0%2598%25EB%25B3%25B5%25EB%25AC%25B8/</loc>
         <lastmod>2020-07-21T04:38:06.402Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -1643,13 +1657,6 @@
     <url>
         <loc>https://swtpumpkin.github.io/tags/syntax/</loc>
         <lastmod>2020-01-08T04:06:19.007Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/zsh/</loc>
-        <lastmod>2020-01-08T04:06:19.006Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://swtpumpkin.github.io/develop/zshCompinit/</loc>
+        <lastmod>2020-11-19T03:58:38.864Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/javascript/whileStatement/</loc>
         <lastmod>2020-07-21T04:38:06.402Z</lastmod>
         <changefreq>weekly</changefreq>
