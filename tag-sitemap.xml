@@ -3,6 +3,62 @@
 
 
     <url>
+        <loc>https://swtpumpkin.github.io/tags/os/</loc>
+        <lastmod>2021-01-04T05:11:58.903Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/imager/</loc>
+        <lastmod>2021-01-04T05:11:58.903Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/microsd/</loc>
+        <lastmod>2021-01-04T05:11:58.903Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/raspberrypi4/</loc>
+        <lastmod>2021-01-04T05:11:58.903Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/raspberrypi/</loc>
+        <lastmod>2021-01-04T05:11:58.903Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EB%259D%25BC%25EC%25A6%2588%25EB%25B2%25A0%25EB%25A6%25AC%25ED%258C%258C%25EC%259D%25B4/</loc>
+        <lastmod>2021-01-04T05:11:58.903Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EB%259D%25BC%25EC%25A6%2588%25EB%25B2%25A0%25EB%25A6%25AC%25ED%258C%258C%25EC%259D%25B44/</loc>
+        <lastmod>2021-01-04T05:11:58.903Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/pi/</loc>
+        <lastmod>2021-01-04T05:11:58.903Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/tags/build/</loc>
         <lastmod>2020-11-27T01:34:51.913Z</lastmod>
         <changefreq>weekly</changefreq>
