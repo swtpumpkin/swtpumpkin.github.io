@@ -3,6 +3,69 @@
 
 
     <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EB%258F%2584%25EC%25BB%25A4/</loc>
+        <lastmod>2021-01-22T05:45:52.866Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/raspberrypi4/</loc>
+        <lastmod>2021-01-22T05:45:52.866Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/raspberrypi/</loc>
+        <lastmod>2021-01-22T05:45:52.866Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EB%259D%25BC%25EC%25A6%2588%25EB%25B2%25A0%25EB%25A6%25AC%25ED%258C%258C%25EC%259D%25B4/</loc>
+        <lastmod>2021-01-22T05:45:52.866Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EB%259D%25BC%25EC%25A6%2588%25EB%25B2%25A0%25EB%25A6%25AC%25ED%258C%258C%25EC%259D%25B44/</loc>
+        <lastmod>2021-01-22T05:45:52.866Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/pi/</loc>
+        <lastmod>2021-01-22T05:45:52.866Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/docker/</loc>
+        <lastmod>2021-01-22T05:45:52.866Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EC%2584%25A4%25EC%25B9%2598/</loc>
+        <lastmod>2021-01-22T05:45:52.866Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/install/</loc>
+        <lastmod>2021-01-22T05:45:52.866Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/tags/booting/</loc>
         <lastmod>2021-01-19T04:22:29.212Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -24,41 +87,6 @@
     </url>
 
     <url>
-        <loc>https://swtpumpkin.github.io/tags/raspberrypi4/</loc>
-        <lastmod>2021-01-19T04:22:29.212Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/raspberrypi/</loc>
-        <lastmod>2021-01-19T04:22:29.212Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/%25EB%259D%25BC%25EC%25A6%2588%25EB%25B2%25A0%25EB%25A6%25AC%25ED%258C%258C%25EC%259D%25B4/</loc>
-        <lastmod>2021-01-19T04:22:29.212Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/%25EB%259D%25BC%25EC%25A6%2588%25EB%25B2%25A0%25EB%25A6%25AC%25ED%258C%258C%25EC%259D%25B44/</loc>
-        <lastmod>2021-01-19T04:22:29.212Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/pi/</loc>
-        <lastmod>2021-01-19T04:22:29.212Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://swtpumpkin.github.io/tags/vim/</loc>
         <lastmod>2021-01-18T06:56:37.836Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -67,13 +95,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/tags/vi/</loc>
-        <lastmod>2021-01-18T06:56:37.836Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/install/</loc>
         <lastmod>2021-01-18T06:56:37.836Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -535,13 +556,6 @@
     </url>
 
     <url>
-        <loc>https://swtpumpkin.github.io/tags/%25EC%2584%25A4%25EC%25B9%2598/</loc>
-        <lastmod>2020-05-15T04:47:38.543Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://swtpumpkin.github.io/tags/installation/</loc>
         <lastmod>2020-05-15T04:47:38.543Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -572,13 +586,6 @@
     <url>
         <loc>https://swtpumpkin.github.io/tags/aws/</loc>
         <lastmod>2020-05-08T00:53:49.651Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/docker/</loc>
-        <lastmod>2020-05-08T00:26:46.736Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
