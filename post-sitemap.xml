@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://swtpumpkin.github.io/pi/piDockerCompose/</loc>
+        <lastmod>2021-02-01T03:24:08.124Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/backend/docker/dockerConnectError/</loc>
         <lastmod>2021-01-22T06:39:17.990Z</lastmod>
         <changefreq>weekly</changefreq>
