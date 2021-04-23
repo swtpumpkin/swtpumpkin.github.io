@@ -3,6 +3,41 @@
 
 
     <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EC%259A%25B0%25EB%25B6%2584%25ED%2588%25AC/</loc>
+        <lastmod>2021-04-23T04:55:13.051Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EB%258F%2584%25EC%25BB%25A4/</loc>
+        <lastmod>2021-04-23T04:55:13.051Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/docker/</loc>
+        <lastmod>2021-04-23T04:55:13.051Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/ubuntu/</loc>
+        <lastmod>2021-04-23T04:55:13.051Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/install/</loc>
+        <lastmod>2021-04-23T04:55:13.051Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/tags/%25EB%258D%25B0%25EB%25AA%25AC/</loc>
         <lastmod>2021-03-02T00:55:15.467Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -18,20 +53,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/tags/docker-compose/</loc>
-        <lastmod>2021-03-02T00:55:15.467Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/%25EB%258F%2584%25EC%25BB%25A4/</loc>
-        <lastmod>2021-03-02T00:55:15.467Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/docker/</loc>
         <lastmod>2021-03-02T00:55:15.467Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -144,13 +165,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/tags/%25EC%2584%25A4%25EC%25B9%2598/</loc>
-        <lastmod>2021-01-22T05:47:13.555Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/install/</loc>
         <lastmod>2021-01-22T05:47:13.555Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -662,13 +676,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/tags/Docker-compose/</loc>
-        <lastmod>2020-05-08T00:53:49.651Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/ubuntu/</loc>
         <lastmod>2020-05-08T00:53:49.651Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
