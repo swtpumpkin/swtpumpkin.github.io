@@ -3,6 +3,41 @@
 
 
     <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EC%2598%25A4%25EB%25A5%2598/</loc>
+        <lastmod>2022-01-28T03:38:27.843Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EB%25AF%25B8%25EB%25A6%25AC%25EB%25B3%25B4%25EA%25B8%25B0/</loc>
+        <lastmod>2022-01-28T03:38:27.843Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/preview/</loc>
+        <lastmod>2022-01-28T03:38:27.843Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/mac/</loc>
+        <lastmod>2022-01-28T03:38:27.843Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/develop/</loc>
+        <lastmod>2022-01-28T03:38:27.843Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/tags/%25EB%25A1%259C%25EC%25A0%259C%25ED%2583%2580/</loc>
         <lastmod>2022-01-28T02:39:38.246Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -11,20 +46,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/tags/rosetta/</loc>
-        <lastmod>2022-01-28T02:39:38.246Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/mac/</loc>
-        <lastmod>2022-01-28T02:39:38.246Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/develop/</loc>
         <lastmod>2022-01-28T02:39:38.246Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
