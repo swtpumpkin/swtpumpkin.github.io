@@ -3,6 +3,62 @@
 
 
     <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EC%2583%2581%25EB%258C%2580%25EA%25B2%25BD%25EB%25A1%259C/</loc>
+        <lastmod>2022-05-13T12:41:32.678Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/relative-path/</loc>
+        <lastmod>2022-05-13T12:41:32.678Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EC%25A0%2588%25EB%258C%2580%25EA%25B2%25BD%25EB%25A1%259C/</loc>
+        <lastmod>2022-05-13T12:41:32.678Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/cra/</loc>
+        <lastmod>2022-05-13T12:41:32.678Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/absolute-path/</loc>
+        <lastmod>2022-05-13T12:41:32.678Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/react/</loc>
+        <lastmod>2022-05-13T12:41:32.678Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/create-react-app/</loc>
+        <lastmod>2022-05-13T12:41:32.678Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/javascript/</loc>
+        <lastmod>2022-05-13T12:41:32.678Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/tags/%25EC%2598%25A4%25EB%25A5%2598/</loc>
         <lastmod>2022-01-28T03:38:27.843Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -458,13 +514,6 @@
     </url>
 
     <url>
-        <loc>https://swtpumpkin.github.io/tags/javascript/</loc>
-        <lastmod>2020-07-21T04:38:06.402Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://swtpumpkin.github.io/tags/%25EC%258A%25A4%25EC%259C%2584%25EC%25B9%2598%25EB%25AC%25B8/</loc>
         <lastmod>2020-07-21T01:18:42.343Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -480,13 +529,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/tags/styled-components/</loc>
-        <lastmod>2020-07-09T09:29:29.882Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/react/</loc>
         <lastmod>2020-07-09T09:29:29.882Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -522,13 +564,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/tags/package/</loc>
-        <lastmod>2020-06-30T00:08:55.115Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/create-react-app/</loc>
         <lastmod>2020-06-30T00:08:55.115Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
