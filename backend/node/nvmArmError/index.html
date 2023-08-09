@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Macbook Arm(M1, M2)에서 NVM 특정 버전 설치 시 발생하는 오류 해결 | Swtpumpkin Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="nvm,rosetta,arm,m1,m2" />
+    
+    <meta name="description" content="최신 Mac은 ARM(M1, M2)칩을 사용하는데 몇몇 특정 Node.js 버전을 설치하려고 할 때 문제가 발생할 수 있습니다. 이 문제는 터미널에서 Rosetta모드로 실행하여 해결 할 수 있습니다. 문제현상1$ nvm install v12  NVM을 사용하여 특정 Node.js 버전을 설치하려고 시도하면 다음과 같은 오류가 발생합니다. 123456789">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Macbook Arm(M1, M2)에서 NVM 특정 버전 설치 시 발생하는 오류 해결">
+<meta property="og:url" content="https://swtpumpkin.github.io/backend/node/nvmArmError/index.html">
+<meta property="og:site_name" content="Swtpumpkin Blog">
+<meta property="og:description" content="최신 Mac은 ARM(M1, M2)칩을 사용하는데 몇몇 특정 Node.js 버전을 설치하려고 할 때 문제가 발생할 수 있습니다. 이 문제는 터미널에서 Rosetta모드로 실행하여 해결 할 수 있습니다. 문제현상1$ nvm install v12  NVM을 사용하여 특정 Node.js 버전을 설치하려고 시도하면 다음과 같은 오류가 발생합니다. 123456789">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://swtpumpkin.github.io/image/node.png">
+<meta property="article:published_time" content="2023-08-08T23:00:00.000Z">
+<meta property="article:modified_time" content="2023-08-09T06:07:22.725Z">
+<meta property="article:author" content="Jeongwon Kim">
+<meta property="article:tag" content="nvm">
+<meta property="article:tag" content="rosetta">
+<meta property="article:tag" content="arm">
+<meta property="article:tag" content="m1">
+<meta property="article:tag" content="m2">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://swtpumpkin.github.io/image/node.png">
+    
+    <link rel="canonical" href="https://swtpumpkin.github.io/backend/node/nvmarmerror/"/>
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-119873758-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/">Algorism</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/ProjectEuler/">ProjectEuler</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level1/">level1</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level2/">level2</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level3/">level3</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/">CS</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/dataStructure/">dataStructure</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/">backend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/AWS/">AWS</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/deno/">deno</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker/">docker</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker-compose/">docker-compose</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mongoDB/">mongoDB</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mySQL/">mySQL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/node/">node</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/">develop</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/google/">google</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/">frontend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/css/">css</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/html/">html</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/react/">react</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/reactNative/">reactNative</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/svg/">svg</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/">git</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/hexo/">hexo</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/javascript/">javascript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/pi/">pi</a></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+    
+        <form class="search-form">
+            <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+            <button type="submit" class="search-form-submit"></button>
+        </form>
+        <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</div>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/backend/node/">node</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-backend/node/nvmArmError" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Macbook Arm(M1, M2)에서 NVM 특정 버전 설치 시 발생하는 오류 해결
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/backend/node/nvmArmError/" class="article-date">
+            <time datetime="2023-08-08T23:00:00.000Z" itemprop="datePublished">2023-08-09</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/arm/" rel="tag">arm</a>, <a class="tag-link-link" href="/tags/m1/" rel="tag">m1</a>, <a class="tag-link-link" href="/tags/m2/" rel="tag">m2</a>, <a class="tag-link-link" href="/tags/nvm/" rel="tag">nvm</a>, <a class="tag-link-link" href="/tags/rosetta/" rel="tag">rosetta</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>최신 <code>Mac</code>은 <code>ARM(M1, M2)칩</code>을 사용하는데 몇몇 특정 <code>Node.js</code> 버전을 설치하려고 할 때 문제가 발생할 수 있습니다. 이 문제는 터미널에서 <code>Rosetta</code>모드로 실행하여 해결 할 수 있습니다.</p>
+<h2 id="문제현상"><a href="#문제현상" class="headerlink" title="문제현상"></a>문제현상</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nvm install v12</span><br></pre></td></tr></table></figure>
+
+<p><code>NVM</code>을 사용하여 특정 <code>Node.js</code> 버전을 설치하려고 시도하면 다음과 같은 오류가 발생합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Downloading https:&#x2F;&#x2F;nodejs.org&#x2F;dist&#x2F;v12.22.12&#x2F;node-v12.22.12-darwin-arm64.tar.gz...</span><br><span class="line">##O&#x3D;-#   #</span><br><span class="line">Checksums empty</span><br><span class="line">tar: Error opening archive: Unrecognized archive format</span><br><span class="line">Binary download failed, trying source.</span><br><span class="line">##O&#x3D;-#   #</span><br><span class="line">Checksums empty</span><br><span class="line">tar: Error opening archive: Unrecognized archive format</span><br><span class="line">Binary download failed, trying source.</span><br><span class="line">Detected that you have 12 CPU thread(s)</span><br><span class="line">Set the number of jobs to 12 - 1 &#x3D; 11 jobs to speed up the build</span><br><span class="line">Installing node v1.0 and greater from source is not currently supported</span><br></pre></td></tr></table></figure>
+
+<h2 id="해결방법-Rosetta-모드로-터미널-실행"><a href="#해결방법-Rosetta-모드로-터미널-실행" class="headerlink" title="해결방법: Rosetta 모드로 터미널 실행"></a>해결방법: Rosetta 모드로 터미널 실행</h2><p><code>Rosetta</code> 모드는 <code>Intel</code>기반 애플리캐이션을 <code>ARM</code>에서 실행하기 위한 에뮬레이션 모드입니다. 이 모드로 터미널을 실행하면 위의 문제를 해결할 수 있습니다.<br><img src="/image/nvmArmError-1.png" alt=""></p>
+<ol>
+<li>터미널이 <code>Rosetta</code> 모드로 실행되게 설정합니다. 이렇게 설정해도 기존에 사용하던 명령들은 그대로 사용할 수 있습니다.</li>
+<li><code>NVM</code>을 사용하여 특정 <code>Node.js</code>버전을 설치하려면 다음과 같이 실행합니다.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install v12</span><br></pre></td></tr></table></figure>
+
+<p>이제 <code>Node.js</code> 설치가 정상적으로 진행됩니다.</p>
+<h2 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h2><p><code>macOS</code> <code>ARM(M1, M2)</code>에서 <code>NVM</code>을 사용하여 특정 <code>Node.js</code> 버전을 설치하려 할 때 발생하는 오류는 <code>Rosetta</code> 모드에서 터미널을 실행하여 해결할 수 있습니다. 이 방법을 사용하면 원활한 <code>Node.js</code> 버전 관리가 가능해집니다.</p>
+<p>위의 해결방법을 따라하면서도 문제가 지속되는 경우, <code>NVM</code> 및 <code>Node.js</code> 커뮤니티에서 해당 문제에 대한 추가적인 업데이트나 해결책이 제공되었는지 확인하는 것이 좋습니다.</p>
+
+        </div>
+        <footer class="article-footer">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+
+
+    <a data-url="https://swtpumpkin.github.io/backend/node/nvmArmError/" data-id="cll3b6fcd0009zdb8e6vp6o22" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+        
+            <script src="https://utteranc.es/client.js"
+        repo="swtpumpkin/blog-comments"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://www.linkedin.com/in/jeongwon-kim-0a75b1157" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/kim.jeongwon.9" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/swtpumpkin" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="share-alt" href="https://stackshare.io/swtpumpkin/my-stack" target="_blank">
+                        <i class="icon fa fa-share-alt"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/backend/docker/dockerNodeBuildPythonError/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">docker node alpine image build python error (feat: bcrypt)</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/node/nvmArmError/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/node.png)" alt="Macbook Arm(M1, M2)에서 NVM 특정 버전 설치 시 발생하는 오류 해결" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/node/">node</a></p>
+                            <p class="item-title"><a href="/backend/node/nvmArmError/" class="title">Macbook Arm(M1, M2)에서 NVM 특정 버전 설치 시 발생하는 오류 해결</a></p>
+                            <p class="item-date"><time datetime="2023-08-08T23:00:00.000Z" itemprop="datePublished">2023-08-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/docker/dockerNodeBuildPythonError/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/docker.png)" alt="docker node alpine image build python error (feat: bcrypt)" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/docker/">docker</a></p>
+                            <p class="item-title"><a href="/backend/docker/dockerNodeBuildPythonError/" class="title">docker node alpine image build python error (feat: bcrypt)</a></p>
+                            <p class="item-date"><time datetime="2023-01-26T02:00:00.000Z" itemprop="datePublished">2023-01-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/aws/awsSshIdentificationError/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/aws.png)" alt="AWS SSH IDENTIFICATION 에러 (WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!)" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/AWS/">AWS</a></p>
+                            <p class="item-title"><a href="/backend/aws/awsSshIdentificationError/" class="title">AWS SSH IDENTIFICATION 에러 (WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!)</a></p>
+                            <p class="item-date"><time datetime="2023-01-26T01:00:00.000Z" itemprop="datePublished">2023-01-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/aws/awsUbuntuAwsCli/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/aws.png)" alt="AWS Ubuntu AWS CLI 설치" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/AWS/">AWS</a></p>
+                            <p class="item-title"><a href="/backend/aws/awsUbuntuAwsCli/" class="title">AWS Ubuntu AWS CLI 설치</a></p>
+                            <p class="item-date"><time datetime="2023-01-26T00:00:00.000Z" itemprop="datePublished">2023-01-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/escCloseTab/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="React.js에서 Esc 키로 Tab 닫기" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/escCloseTab/" class="title">React.js에서 Esc 키로 Tab 닫기</a></p>
+                            <p class="item-date"><time datetime="2022-10-26T23:00:00.000Z" itemprop="datePublished">2022-10-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+        
+    </div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2023 Jeongwon Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>    
+</body>
+</html>

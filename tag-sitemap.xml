@@ -3,6 +3,41 @@
 
 
     <url>
+        <loc>https://swtpumpkin.github.io/tags/m2/</loc>
+        <lastmod>2023-08-09T06:07:22.725Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/m1/</loc>
+        <lastmod>2023-08-09T06:07:22.725Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/arm/</loc>
+        <lastmod>2023-08-09T06:07:22.725Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/rosetta/</loc>
+        <lastmod>2023-08-09T06:07:22.725Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/nvm/</loc>
+        <lastmod>2023-08-09T06:07:22.725Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/tags/alpine/</loc>
         <lastmod>2023-01-26T05:39:41.973Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -75,13 +110,6 @@
     <url>
         <loc>https://swtpumpkin.github.io/tags/aws/</loc>
         <lastmod>2023-01-26T04:02:45.563Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/arm/</loc>
-        <lastmod>2023-01-26T01:55:42.868Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -263,13 +291,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/tags/%25EB%25A1%259C%25EC%25A0%259C%25ED%2583%2580/</loc>
-        <lastmod>2022-01-28T02:39:38.246Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/rosetta/</loc>
         <lastmod>2022-01-28T02:39:38.246Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -2216,13 +2237,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/tags/ngrok/</loc>
-        <lastmod>2020-01-08T04:06:19.006Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/nvm/</loc>
         <lastmod>2020-01-08T04:06:19.006Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>

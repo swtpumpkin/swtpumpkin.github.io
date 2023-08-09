@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://swtpumpkin.github.io/backend/node/nvmArmError/</loc>
+        <lastmod>2023-08-09T06:07:22.725Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/backend/docker/dockerNodeBuildPythonError/</loc>
         <lastmod>2023-01-26T05:39:41.973Z</lastmod>
         <changefreq>weekly</changefreq>
