@@ -3,6 +3,27 @@
 
 
     <url>
+        <loc>https://swtpumpkin.github.io/tags/ssh-key/</loc>
+        <lastmod>2024-02-27T03:02:16.171Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/ec2/</loc>
+        <lastmod>2024-02-27T03:02:16.171Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/aws/</loc>
+        <lastmod>2024-02-27T03:02:16.171Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/tags/m2/</loc>
         <lastmod>2023-08-09T06:07:22.725Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -108,13 +129,6 @@
     </url>
 
     <url>
-        <loc>https://swtpumpkin.github.io/tags/aws/</loc>
-        <lastmod>2023-01-26T04:02:45.563Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://swtpumpkin.github.io/tags/t4g/</loc>
         <lastmod>2023-01-26T01:55:42.868Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -123,13 +137,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/tags/awscli/</loc>
-        <lastmod>2023-01-26T01:55:42.868Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/ec2/</loc>
         <lastmod>2023-01-26T01:55:42.868Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -2790,13 +2797,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/tags/ubuntu-16-04/</loc>
-        <lastmod>2020-01-08T04:06:19.001Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/ssh-key/</loc>
         <lastmod>2020-01-08T04:06:19.001Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>

@@ -400,9 +400,11 @@ robomongo 설정 방법robomongo를 실행 후 두 개의 컴퓨터 모양 버�
 
         <p class="article-excerpt">
             ec2에서 ssh키 생성하기!생성방법1ssh-keygen -t rsa
+
 터미널을 이용하여 ec2에 접속후 위 코드를 터미널에서 실행합니다. 비밀번호 설정을 하지 않고 ssh를 생성하려면 enter를 계속누르면 됩니다.위와 같이 image생성과 함께 ssh key가 생성됩니다.
-1cat ~&#x2F;.ssh&#x2F;id_rsa.pub
-위와 같이 빨간박스 안에
+1cat ~&#x2F;.ssh&#x2F;id_rsa.pub | pbcopy
+
+위와
         </p>
     </div>
 </article>
@@ -746,7 +748,7 @@ pemkey 파일 이름 부분에 해당하는 파일의 이름을 넣고 터미널
                 <h1 class="logo-wrap">
                     <a href="/" class="logo"></a>
                 </h1>
-                <p>&copy; 2023 Jeongwon Kim</p>
+                <p>&copy; 2024 Jeongwon Kim</p>
                 <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
             </div>
         </div>
