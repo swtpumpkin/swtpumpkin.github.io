@@ -16,16 +16,16 @@
 <meta property="og:site_name" content="Swtpumpkin Blog">
 <meta property="og:description" content="github actions?GitHub Actions을 사용하면 workflow를 통해 build, test, deploy를 자동화 할 수 있습니다. 자세한 정보는 githubAction에서 확인 할 수 있습니다. github actions을 통한 node.js CI 사용방법exampleRepo를 통하여 코드를 볼 수 있습니다. 1234567|____nod">
 <meta property="og:locale" content="ko_KR">
-<meta property="og:image" content="https://swtpumpkin.github.io/image/git.png">
+<meta property="og:image" content="https://swtpumpkin.github.io/image/github.png">
 <meta property="article:published_time" content="2020-03-23T23:00:00.000Z">
-<meta property="article:modified_time" content="2020-05-06T07:34:44.382Z">
+<meta property="article:modified_time" content="2024-03-28T06:11:48.015Z">
 <meta property="article:author" content="Jeongwon Kim">
 <meta property="article:tag" content="git">
 <meta property="article:tag" content="github">
 <meta property="article:tag" content="actions">
 <meta property="article:tag" content="CI">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://swtpumpkin.github.io/image/git.png">
+<meta name="twitter:image" content="https://swtpumpkin.github.io/image/github.png">
     
     <link rel="canonical" href="https://swtpumpkin.github.io/git/githubactiontest/"/>
     
@@ -194,16 +194,20 @@ ga('send', 'pageview');
         
         
         <div class="article-entry" itemprop="articleBody">
-            <h1 id="github-actions"><a href="#github-actions" class="headerlink" title="github actions?"></a>github actions?</h1><p><code>GitHub Actions</code>을 사용하면 <code>workflow</code>를 통해 <code>build</code>, <code>test</code>, <code>deploy</code>를 자동화 할 수 있습니다. 자세한 정보는 <a href="https://github.com/features/actions" target="_blank" rel="noopener">githubAction</a>에서 확인 할 수 있습니다.</p>
-<h2 id="github-actions을-통한-node-js-CI-사용방법"><a href="#github-actions을-통한-node-js-CI-사용방법" class="headerlink" title="github actions을 통한 node.js CI 사용방법"></a>github actions을 통한 node.js CI 사용방법</h2><p><a href="https://github.com/swtpumpkin/node-githubActions-CI" target="_blank" rel="noopener">exampleRepo</a>를 통하여 코드를 볼 수 있습니다.</p>
+            <h1 id="github-actions"><a href="#github-actions" class="headerlink" title="github actions?"></a>github actions?</h1><p><code>GitHub Actions</code>을 사용하면 <code>workflow</code>를 통해 <code>build</code>, <code>test</code>, <code>deploy</code>를 자동화 할 수 있습니다. 자세한 정보는 <a target="_blank" rel="noopener" href="https://github.com/features/actions">githubAction</a>에서 확인 할 수 있습니다.</p>
+<h2 id="github-actions을-통한-node-js-CI-사용방법"><a href="#github-actions을-통한-node-js-CI-사용방법" class="headerlink" title="github actions을 통한 node.js CI 사용방법"></a>github actions을 통한 node.js CI 사용방법</h2><p><a target="_blank" rel="noopener" href="https://github.com/swtpumpkin/node-githubActions-CI">exampleRepo</a>를 통하여 코드를 볼 수 있습니다.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">|____node-docker-example</span><br><span class="line">| |____test.js</span><br><span class="line">| |____README.md</span><br><span class="line">| |____.gitignore</span><br><span class="line">| |____package-lock.json</span><br><span class="line">| |____package.json</span><br><span class="line">| |____app.js</span><br></pre></td></tr></table></figure>
-<p>레포의 구조는 위와 같이 생성되어있습니다.  </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">8080</span>;</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">'/'</span>, (req, res) =&gt; res.send(<span class="string">'Hello World!'</span>));</span><br><span class="line"></span><br><span class="line">app.listen(port, () =&gt; <span class="built_in">console</span>.log(<span class="string">`Example app listening on port <span class="subst">$&#123;port&#125;</span>!`</span>));</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = app;</span><br></pre></td></tr></table></figure>
-<p><code>app.js</code>에는 <code>&#39;/&#39;</code>에서 <code>get</code>요청에 <code>Hello World!</code>텍스트를 리턴하도록 작성하였습니다.  </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> supertest = <span class="built_in">require</span>(<span class="string">'supertest'</span>);</span><br><span class="line"><span class="keyword">const</span> expect = <span class="built_in">require</span>(<span class="string">'chai'</span>).expect;</span><br><span class="line"><span class="keyword">const</span> app = <span class="built_in">require</span>(<span class="string">'./app'</span>);</span><br><span class="line"><span class="keyword">const</span> agent = supertest.agent(app);</span><br><span class="line"></span><br><span class="line">describe(<span class="string">'node docker test'</span>, () =&gt; &#123;</span><br><span class="line">  it(<span class="string">'get test'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> agent.get(<span class="string">'/'</span>).expect(<span class="number">200</span>).then(<span class="function"><span class="params">res</span> =&gt;</span> expect(res.text).to.be.equal(<span class="string">'Hello World!'</span>));</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>레포의 구조는 위와 같이 생성되어있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&quot;express&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">8080</span>;</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> res.send(<span class="string">&quot;Hello World!&quot;</span>));</span><br><span class="line"></span><br><span class="line">app.listen(port, <span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">`Example app listening on port <span class="subst">$&#123;port&#125;</span>!`</span>));</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = app;</span><br></pre></td></tr></table></figure>
+
+<p><code>app.js</code>에는 <code>&#39;/&#39;</code>에서 <code>get</code>요청에 <code>Hello World!</code>텍스트를 리턴하도록 작성하였습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> supertest = <span class="built_in">require</span>(<span class="string">&quot;supertest&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> expect = <span class="built_in">require</span>(<span class="string">&quot;chai&quot;</span>).expect;</span><br><span class="line"><span class="keyword">const</span> app = <span class="built_in">require</span>(<span class="string">&quot;./app&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> agent = supertest.agent(app);</span><br><span class="line"></span><br><span class="line">describe(<span class="string">&quot;node docker test&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  it(<span class="string">&quot;get test&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> agent</span><br><span class="line">      .get(<span class="string">&quot;/&quot;</span>)</span><br><span class="line">      .expect(<span class="number">200</span>)</span><br><span class="line">      .then(<span class="function">(<span class="params">res</span>) =&gt;</span> expect(res.text).to.be.equal(<span class="string">&quot;Hello World!&quot;</span>));</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
 <p><code>test.js</code>에선 루트로 요청했을 때 <code>Hello World!</code>텍스트가 잘 리턴하는지 체크하는 테스트코드를 작성하였습니다.<br><img src="/image/github-action-test-1.png" alt=""><br><code>github</code>에서 테스트 할 레포로 이동하여 <code>actions</code>으로 이동합니다.<br><img src="/image/github-action-test-2.png" alt=""><br><code>New workflow</code>를 선택하여 이동 후 <code>node.js</code>의 <code>Set up this workflow</code>를 선택합니다.<br><img src="/image/github-action-test-3.png" alt=""><br>위와 같이 <code>node.js</code>의 기본 <code>workflow</code>를 볼 수 있습니다.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">name: Nodejs example CI</span><br><span class="line"></span><br><span class="line">on:</span><br><span class="line">  push:</span><br><span class="line">    branches: [ master ]</span><br><span class="line"></span><br><span class="line">jobs:</span><br><span class="line">  build:</span><br><span class="line">    runs-on: ubuntu-latest</span><br><span class="line"></span><br><span class="line">    strategy:</span><br><span class="line">      matrix:</span><br><span class="line">        node-version: [10.x, 12.x]</span><br><span class="line"></span><br><span class="line">    steps:</span><br><span class="line">    - uses: actions&#x2F;checkout@v2</span><br><span class="line">    - name: Use Node.js $&#123;&#123; matrix.node-version &#125;&#125;</span><br><span class="line">      uses: actions&#x2F;setup-node@v1</span><br><span class="line">      with:</span><br><span class="line">        node-version: $&#123;&#123; matrix.node-version &#125;&#125;</span><br><span class="line">    - run: npm ci</span><br><span class="line">    - run: npm test</span><br><span class="line">      env:</span><br><span class="line">        CI: true</span><br></pre></td></tr></table></figure>
-<p><img src="/image/github-action-test-4.png" alt=""><br><code>name</code>은 위 사진과 같이 <code>workflow</code>의 이름을 설정하는 부분입니다.<br><code>on</code>은 이벤트의 변경사항을 캐치하는 부분입니다. 위와 같이 <code>master</code>브렌치의 <code>push</code>이벤트가 발생하면 다음 절차가 실행됩니다.<br><code>jobs</code>는 하나의 인스턴스에서 여러 <code>step</code>을 그룹시켜 실행합니다.<br><code>runs-on</code>은 어느 환경에서 실행 할지 지정합니다.<br><code>steps</code>는 순차적으로 명령을 실행합니다. 위 코드에선 <code>node mode</code>를 <code>10.x</code>버전과 <code>12.x</code>버전을 각각 실행합니다. 각 버전에서 <code>npm package</code>를 설치 후 테스트를 진행합니다.  </p>
+
+<p><img src="/image/github-action-test-4.png" alt=""><br><code>name</code>은 위 사진과 같이 <code>workflow</code>의 이름을 설정하는 부분입니다.<br><code>on</code>은 이벤트의 변경사항을 캐치하는 부분입니다. 위와 같이 <code>master</code>브렌치의 <code>push</code>이벤트가 발생하면 다음 절차가 실행됩니다.<br><code>jobs</code>는 하나의 인스턴스에서 여러 <code>step</code>을 그룹시켜 실행합니다.<br><code>runs-on</code>은 어느 환경에서 실행 할지 지정합니다.<br><code>steps</code>는 순차적으로 명령을 실행합니다. 위 코드에선 <code>node mode</code>를 <code>10.x</code>버전과 <code>12.x</code>버전을 각각 실행합니다. 각 버전에서 <code>npm package</code>를 설치 후 테스트를 진행합니다.</p>
 
         </div>
         <footer class="article-footer">
@@ -379,6 +383,26 @@ ga('send', 'pageview');
                     <li>
                         
                         <div class="item-thumbnail">
+                            <a href="/git/githubRepoNames/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/github.png)" alt="github all repository names" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/git/githubRepoNames/" class="title">github all repository names</a></p>
+                            <p class="item-date"><time datetime="2024-03-27T23:00:00.000Z" itemprop="datePublished">2024-03-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
                             <a href="/backend/node/nvmArmError/" class="thumbnail">
     
     
@@ -453,26 +477,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/AWS/">AWS</a></p>
                             <p class="item-title"><a href="/backend/aws/awsUbuntuAwsCli/" class="title">AWS Ubuntu AWS CLI 설치</a></p>
                             <p class="item-date"><time datetime="2023-01-26T00:00:00.000Z" itemprop="datePublished">2023-01-26</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/frontend/react/escCloseTab/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/image/react.png)" alt="React.js에서 Esc 키로 Tab 닫기" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
-                            <p class="item-title"><a href="/frontend/react/escCloseTab/" class="title">React.js에서 Esc 키로 Tab 닫기</a></p>
-                            <p class="item-date"><time datetime="2022-10-26T23:00:00.000Z" itemprop="datePublished">2022-10-27</time></p>
                         </div>
                     </li>
                 

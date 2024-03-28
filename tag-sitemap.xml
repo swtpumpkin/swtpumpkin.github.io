@@ -3,6 +3,76 @@
 
 
     <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EB%25A0%2588%25ED%258F%25AC/</loc>
+        <lastmod>2024-03-28T06:44:39.282Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/repo/</loc>
+        <lastmod>2024-03-28T06:44:39.282Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EC%259D%25B4%25EB%25A6%2584/</loc>
+        <lastmod>2024-03-28T06:44:39.282Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EB%25A0%2588%25ED%258F%25AC%25EC%25A7%2580%25ED%2586%25A0%25EB%25A6%25AC/</loc>
+        <lastmod>2024-03-28T06:44:39.282Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/name/</loc>
+        <lastmod>2024-03-28T06:44:39.282Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/repository/</loc>
+        <lastmod>2024-03-28T06:44:39.282Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/github/</loc>
+        <lastmod>2024-03-28T06:44:39.282Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/git/</loc>
+        <lastmod>2024-03-28T06:44:39.282Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/CI/</loc>
+        <lastmod>2024-03-28T06:11:48.015Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/actions/</loc>
+        <lastmod>2024-03-28T06:11:48.015Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/tags/ssh-key/</loc>
         <lastmod>2024-02-27T03:02:16.171Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -382,13 +452,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/tags/upper-case/</loc>
-        <lastmod>2021-04-27T01:08:24.203Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/git/</loc>
         <lastmod>2021-04-27T01:08:24.203Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -1033,27 +1096,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/tags/integer/</loc>
-        <lastmod>2020-05-06T07:34:44.382Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/CI/</loc>
-        <lastmod>2020-05-06T07:34:44.382Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/actions/</loc>
-        <lastmod>2020-05-06T07:34:44.382Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/github/</loc>
         <lastmod>2020-05-06T07:34:44.382Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>

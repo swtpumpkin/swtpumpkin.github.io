@@ -8,6 +8,22 @@
     </url>
 
     <url>
+        <loc>https://swtpumpkin.github.io/git/githubRepoNames/</loc>
+        <lastmod>2024-03-28T06:44:39.282Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/git/githubActionTest/</loc>
+        <lastmod>2024-03-28T06:11:48.015Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/backend/aws/ec2SshKey/</loc>
         <lastmod>2024-02-27T03:02:16.171Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -377,14 +393,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/git/ghPages/</loc>
-        <lastmod>2020-05-06T07:34:44.382Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/git/githubActionTest/</loc>
         <lastmod>2020-05-06T07:34:44.382Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
