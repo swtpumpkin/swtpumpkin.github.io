@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://swtpumpkin.github.io/develop/macStartScript/</loc>
+        <lastmod>2024-04-02T06:24:45.464Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/git/githubRepoNames/</loc>
         <lastmod>2024-03-28T06:44:39.282Z</lastmod>
         <changefreq>weekly</changefreq>
