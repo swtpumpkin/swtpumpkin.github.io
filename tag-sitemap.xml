@@ -3,6 +3,76 @@
 
 
     <url>
+        <loc>https://swtpumpkin.github.io/tags/ECR-%25EB%25B9%2584%25EC%259A%25A9-%25EC%25A4%2584%25EC%259D%25B4%25EA%25B8%25B0/</loc>
+        <lastmod>2024-04-15T15:00:11.884Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/ECR-%25EB%25B9%2584%25EC%259A%25A9/</loc>
+        <lastmod>2024-04-15T15:00:11.884Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/%25EB%25B9%2584%25EC%259A%25A9-%25EC%25A0%2588%25EA%25B0%2590/</loc>
+        <lastmod>2024-04-15T15:00:11.884Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/save/</loc>
+        <lastmod>2024-04-15T15:00:11.884Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/cost/</loc>
+        <lastmod>2024-04-15T15:00:11.884Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/decrease/</loc>
+        <lastmod>2024-04-15T15:00:11.884Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/price/</loc>
+        <lastmod>2024-04-15T15:00:11.884Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/Ecr/</loc>
+        <lastmod>2024-04-15T15:00:11.884Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/ACM/</loc>
+        <lastmod>2024-04-15T15:00:11.884Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/tags/aws/</loc>
+        <lastmod>2024-04-15T15:00:11.884Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/tags/%25EC%258B%259C%25EC%259E%2591/</loc>
         <lastmod>2024-04-02T06:30:54.339Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -123,13 +193,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/tags/ec2/</loc>
-        <lastmod>2024-02-27T03:02:16.171Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/aws/</loc>
         <lastmod>2024-02-27T03:02:16.171Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -2951,13 +3014,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/tags/AWS-Certificate-Manager/</loc>
-        <lastmod>2020-01-08T04:06:19.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/tags/ACM/</loc>
         <lastmod>2020-01-08T04:06:19.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>

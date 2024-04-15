@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://swtpumpkin.github.io/backend/aws/awsEcrDescreseCost/</loc>
+        <lastmod>2024-04-15T15:00:11.884Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/develop/macStartScript/</loc>
         <lastmod>2024-04-02T06:30:54.339Z</lastmod>
         <changefreq>weekly</changefreq>
