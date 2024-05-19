@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Github와 AWS CodeBuild, ECR을 이용한 docker 이미지 빌드 자동화 | Swtpumpkin Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="github,aws,docker,이미지,build,arm,buildx,CodeBuild,ECR,CodePipeline,webhook,multi-platform,빌드,push,자동화,automation" />
+    
+    <meta name="description" content="배포 자동화란 무엇인가?배포 자동화(Deployment Automation)는 소프트웨어를 개발 환경에서 프로덕션 환경으로 배포하는 과정을 자동화하는 것을 의미합니다. 이는 코드 변경 사항이 저장소에 반영될 때마다 자동으로 빌드, 테스트, 배포하는 일련의 프로세스를 설정하여 수동 개입 없이 신속하고 일관된 배포를 가능하게 합니다. 사전 준비Github 저">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Github와 AWS CodeBuild, ECR을 이용한 docker 이미지 빌드 자동화">
+<meta property="og:url" content="https://swtpumpkin.github.io/backend/aws/awsCodebuildEcr/index.html">
+<meta property="og:site_name" content="Swtpumpkin Blog">
+<meta property="og:description" content="배포 자동화란 무엇인가?배포 자동화(Deployment Automation)는 소프트웨어를 개발 환경에서 프로덕션 환경으로 배포하는 과정을 자동화하는 것을 의미합니다. 이는 코드 변경 사항이 저장소에 반영될 때마다 자동으로 빌드, 테스트, 배포하는 일련의 프로세스를 설정하여 수동 개입 없이 신속하고 일관된 배포를 가능하게 합니다. 사전 준비Github 저">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://swtpumpkin.github.io/image/aws.png">
+<meta property="article:published_time" content="2024-05-19T23:00:00.000Z">
+<meta property="article:modified_time" content="2024-05-19T16:54:29.479Z">
+<meta property="article:author" content="Jeongwon Kim">
+<meta property="article:tag" content="github">
+<meta property="article:tag" content="aws">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="이미지">
+<meta property="article:tag" content="build">
+<meta property="article:tag" content="arm">
+<meta property="article:tag" content="buildx">
+<meta property="article:tag" content="CodeBuild">
+<meta property="article:tag" content="ECR">
+<meta property="article:tag" content="CodePipeline">
+<meta property="article:tag" content="webhook">
+<meta property="article:tag" content="multi-platform">
+<meta property="article:tag" content="빌드">
+<meta property="article:tag" content="push">
+<meta property="article:tag" content="자동화">
+<meta property="article:tag" content="automation">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://swtpumpkin.github.io/image/aws.png">
+    
+    <link rel="canonical" href="https://swtpumpkin.github.io/backend/aws/awscodebuildecr/"/>
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-119873758-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/">Algorism</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/ProjectEuler/">ProjectEuler</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level1/">level1</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level2/">level2</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level3/">level3</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/">CS</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/dataStructure/">dataStructure</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/">backend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/AWS/">AWS</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/deno/">deno</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker/">docker</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker-compose/">docker-compose</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mongoDB/">mongoDB</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mySQL/">mySQL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/node/">node</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/">develop</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/google/">google</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/">frontend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/css/">css</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/html/">html</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/react/">react</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/reactNative/">reactNative</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/svg/">svg</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/">git</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/hexo/">hexo</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/javascript/">javascript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/pi/">pi</a></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+    
+        <form class="search-form">
+            <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+            <button type="submit" class="search-form-submit"></button>
+        </form>
+        <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</div>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/backend/AWS/">AWS</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-backend/aws/awsCodebuildEcr" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Github와 AWS CodeBuild, ECR을 이용한 docker 이미지 빌드 자동화
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/backend/aws/awsCodebuildEcr/" class="article-date">
+            <time datetime="2024-05-19T23:00:00.000Z" itemprop="datePublished">2024-05-20</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/CodeBuild/" rel="tag">CodeBuild</a>, <a class="tag-link-link" href="/tags/CodePipeline/" rel="tag">CodePipeline</a>, <a class="tag-link-link" href="/tags/ECR/" rel="tag">ECR</a>, <a class="tag-link-link" href="/tags/arm/" rel="tag">arm</a>, <a class="tag-link-link" href="/tags/automation/" rel="tag">automation</a>, <a class="tag-link-link" href="/tags/aws/" rel="tag">aws</a>, <a class="tag-link-link" href="/tags/build/" rel="tag">build</a>, <a class="tag-link-link" href="/tags/buildx/" rel="tag">buildx</a>, <a class="tag-link-link" href="/tags/docker/" rel="tag">docker</a>, <a class="tag-link-link" href="/tags/github/" rel="tag">github</a>, <a class="tag-link-link" href="/tags/multi-platform/" rel="tag">multi-platform</a>, <a class="tag-link-link" href="/tags/push/" rel="tag">push</a>, <a class="tag-link-link" href="/tags/webhook/" rel="tag">webhook</a>, <a class="tag-link-link" href="/tags/%EB%B9%8C%EB%93%9C/" rel="tag">빌드</a>, <a class="tag-link-link" href="/tags/%EC%9D%B4%EB%AF%B8%EC%A7%80/" rel="tag">이미지</a>, <a class="tag-link-link" href="/tags/%EC%9E%90%EB%8F%99%ED%99%94/" rel="tag">자동화</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p><img src="/image/awsCodebuildEcr-1.png" alt=""></p>
+<h1 id="배포-자동화란-무엇인가"><a href="#배포-자동화란-무엇인가" class="headerlink" title="배포 자동화란 무엇인가?"></a>배포 자동화란 무엇인가?</h1><p>배포 자동화(Deployment Automation)는 소프트웨어를 개발 환경에서 프로덕션 환경으로 배포하는 과정을 자동화하는 것을 의미합니다. 이는 코드 변경 사항이 저장소에 반영될 때마다 자동으로 빌드, 테스트, 배포하는 일련의 프로세스를 설정하여 수동 개입 없이 신속하고 일관된 배포를 가능하게 합니다.</p>
+<h1 id="사전-준비"><a href="#사전-준비" class="headerlink" title="사전 준비"></a>사전 준비</h1><h2 id="Github-저장소-생성-및-코드-작성"><a href="#Github-저장소-생성-및-코드-작성" class="headerlink" title="Github 저장소 생성 및 코드 작성"></a>Github 저장소 생성 및 코드 작성</h2><p><img src="/image/awsCodebuildEcr-2.png" alt=""></p>
+<ol>
+<li>github에 저장소를 생성합니다. 저장소 이름은 <code>hello-world</code>로 생성합니다.</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">8080</span>;</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.send(<span class="string">&quot;Hello World!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(port, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Example app listening on port <span class="subst">$&#123;port&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><code>javascript</code> 코드는 <code>http://localhost:8080/</code>로 요청 시 <code>Hello World!</code>를 반환하는 간단한 <code>express</code> 서버 코드입니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-3.png" alt=""></p>
+<ol start="3">
+<li>저장소에 코드를 커밋 &amp; 푸시합니다.</li>
+</ol>
+<h2 id="AWS-Elastic-Container-Registry-ECR-생성"><a href="#AWS-Elastic-Container-Registry-ECR-생성" class="headerlink" title="AWS Elastic Container Registry(ECR) 생성"></a>AWS Elastic Container Registry(ECR) 생성</h2><p><img src="/image/awsCodebuildEcr-4.png" alt=""></p>
+<ol>
+<li>AWS Management Console에 로그인한 후, <code>서비스</code> 메뉴에서 <code>ECR</code>을 검색하여 ECR 서비스로 이동합니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-5.png" alt=""></p>
+<ol start="2">
+<li><code>리포지토리 생성</code> 버튼을 클릭합니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-6.png" alt=""></p>
+<ol start="3">
+<li>리포지토리 이름을 <code>hello-world</code>로 입력하고 <code>리포지토리 생성</code> 버튼을 클릭합니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-7.png" alt=""></p>
+<ol start="4">
+<li>생성된 리포지토리의 <code>URI</code>를 확인합니다.</li>
+</ol>
+<h2 id="AWS-CodeBuild-생성"><a href="#AWS-CodeBuild-생성" class="headerlink" title="AWS CodeBuild 생성"></a>AWS CodeBuild 생성</h2><p><img src="/image/awsCodebuildEcr-8.png" alt=""></p>
+<ol>
+<li>AWS Management Console에서 <code>CodeBuild</code> 서비스로 이동합니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-9.png" alt=""></p>
+<ol start="2">
+<li><code>빌드 프로젝트</code>에서 <code>프로젝트 생성</code> 버튼을 클릭합니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-10.png" alt=""></p>
+<ol start="3">
+<li>프로젝트 구성에서 프로젝트 이름을 <code>hello-world</code>로 입력하고 <code>소스</code>에서 <code>소스 공급자</code>를 <code>GitHub</code>로 선택합니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-11.png" alt=""></p>
+<ol start="4">
+<li><code>OAuth를 사용하여 연결</code>을 선택하고 <code>GitHub에 연결</code> 버튼을 클릭합니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-12.png" alt=""></p>
+<ol start="5">
+<li>연결을 완료하면 <code>GitHub 리포지토리</code>에서 위에서 생성한 <code>hello-world</code> 리포지토리를 선택 할 수 있습니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-13.png" alt=""></p>
+<ol start="6">
+<li><code>hello-world</code> 리포지토리를 검색 후 선택합니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-14.png" alt=""></p>
+<ol start="7">
+<li><code>기본 소스 Webhook 이벤트</code>에서 <code>코드 변경이 이 리포지토리에 푸시될 때마다 다시 빌드</code>를 체크하면 <code>Webhook 이벤트 필터 그룹</code>에서 <code>PUSH</code> 이벤트를 선택할 수 있습니다. 웹훅을 통해 코드를 개발환경에서 푸시 상태가 될 때마다 자동으로 빌드를 수행할 수 있습니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-15.png" alt=""></p>
+<ol start="8">
+<li><code>환경</code>에서 <code>운영체제</code>를 <code>Ubuntu</code>로 선택하고 <code>런타임</code>을 <code>Standard</code>로 선택합니다. 서비스 역할에서 역할 이름을 잘 기억해두세요. 이 역할은 CodeBuild가 다른 AWS 서비스와 상호 작용할 수 있도록 하는 역할입니다. ECR에 이미지를 푸시하려면 이 역할에 ECR에 대한 권한을 추가해야 합니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-16.png" alt=""></p>
+<ol start="9">
+<li><code>Buildspec</code>에서 <code>buildspec 파일 사용</code>을 선택하고 <code>buildspec.yml</code> 파일을 생성합니다.</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="number">0.2</span></span><br><span class="line"></span><br><span class="line"><span class="attr">env:</span></span><br><span class="line">  <span class="attr">variables:</span></span><br><span class="line">    <span class="attr">ECR_REGISTRY:</span> <span class="string">&quot;***************.dkr.ecr.ap-northeast-2.amazonaws.com&quot;</span></span><br><span class="line">    <span class="attr">IMAGE_NAME:</span> <span class="string">&quot;hello-world&quot;</span></span><br><span class="line">    <span class="attr">TAG:</span> <span class="string">&quot;latest&quot;</span></span><br><span class="line">    <span class="attr">PLATFORMS:</span> <span class="string">&quot;linux/arm64&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">phases:</span></span><br><span class="line">  <span class="attr">pre_build:</span></span><br><span class="line">    <span class="attr">commands:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Logging in to Amazon ECR...&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">aws</span> <span class="string">--version</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">aws</span> <span class="string">ecr</span> <span class="string">get-login-password</span> <span class="string">--region</span> <span class="string">ap-northeast-2</span> <span class="string">|</span> <span class="string">docker</span> <span class="string">login</span> <span class="string">--username</span> <span class="string">AWS</span> <span class="string">--password-stdin</span> <span class="string">$ECR_REGISTRY</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">commands:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;Building and pushing the Docker image...&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">docker</span> <span class="string">buildx</span> <span class="string">create</span> <span class="string">--use</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">docker</span> <span class="string">buildx</span> <span class="string">inspect</span> <span class="string">--bootstrap</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">docker</span> <span class="string">buildx</span> <span class="string">build</span> <span class="string">--platform</span> <span class="string">$PLATFORMS</span> <span class="string">-t</span> <span class="string">$ECR_REGISTRY/$IMAGE_NAME:$TAG</span> <span class="string">--push</span> <span class="string">.</span></span><br></pre></td></tr></table></figure>
+
+<ol start="10">
+<li>yml파일을 생성하는데 ECR_REGISTRY, IMAGE_NAME, TAG, PLATFORMS를 설정해줍니다. ECR_REGISTRY는 위에서 생성한 ECR 리포지토리의 URI를 입력합니다. IMAGE_NAME은 ECR의 리포지토리 이름인 <code>hello-world</code>를 입력합니다. TAG는 이미지의 태그를 의미하며 <code>latest</code>로 설정합니다. PLATFORMS는 빌드할 이미지의 플랫폼을 의미하며 <code>linux/arm64</code>로 설정합니다. 가격적인 측면에서 ARM 기반의 인스턴스를 사용하여 <code>linux/arm64</code>로 설정하였습니다. buildx는 다중 플랫폼 이미지를 빌드하고 푸시하는 데 사용되는 도구입니다. 여러가지의 이미지를 빌드하고 싶다면 <code>PLATFORMS</code>를 <code>linux/amd64,linux/arm64,linux/arm/v7</code>로 설정하면 됩니다.</li>
+</ol>
+<ul>
+<li>linux/amd64: x86_64 아키텍처 (64비트 Intel/AMD)</li>
+<li>linux/arm64: ARM 아키텍처 (64비트 ARM)</li>
+<li>linux/arm/v7: ARM 아키텍처 (32비트 ARM)<br>각 플랫폼의 아키텍처는 위를 참고하시면 됩니다.</li>
+</ul>
+<p><code>pre_build</code> 단계에서는 ECR에 로그인을 하고, <code>build</code> 단계에서는 이미지를 빌드하고 ECR에 푸시하는 과정을 수행합니다.</p>
+<p><img src="/image/awsCodebuildEcr-17.png" alt=""></p>
+<ol start="11">
+<li><code>로그</code>는 <code>CloudWatch</code>를 선택하고 매번 빌드가 실행될 때마다 로그를 확인할 수 있습니다.</li>
+</ol>
+<h2 id="AWS-IAM-역할-변경"><a href="#AWS-IAM-역할-변경" class="headerlink" title="AWS IAM 역할 변경"></a>AWS IAM 역할 변경</h2><p><img src="/image/awsCodebuildEcr-18.png" alt=""></p>
+<ol>
+<li>AWS Management Console에서 <code>IAM</code> 서비스로 이동합니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-19.png" alt=""></p>
+<ol start="2">
+<li><code>IAM 리소스</code>에서 <code>역할</code>을 선택합니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-20.png" alt=""></p>
+<ol start="3">
+<li>위에서 생성한 CodeBuild 서비스 역할을 선택합니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-21.png" alt=""></p>
+<ol start="4">
+<li><code>권한 정책</code>에서 <code>정책 이름</code>을 선택합니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-22.png" alt=""></p>
+<ol start="5">
+<li><code>권한</code>에서 편집 버튼을 클릭합니다.</li>
+</ol>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; <span class="attr">&quot;Effect&quot;:</span> <span class="string">&quot;Allow&quot;</span>, <span class="attr">&quot;Action&quot;:</span> [<span class="string">&quot;ecr:*&quot;</span>], <span class="attr">&quot;Resource&quot;:</span> [<span class="string">&quot;*&quot;</span>] &#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>위 코드를 <code>Statement</code> 배열에 추가합니다. 이 코드는 CodeBuild 서비스 역할에 ECR에 대한 모든 권한을 부여합니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-23.png" alt=""></p>
+<ol start="7">
+<li><code>변경 사항 저장</code> 버튼을 클릭합니다.</li>
+</ol>
+<h2 id="AWS-CodeBuild-빌드-시작"><a href="#AWS-CodeBuild-빌드-시작" class="headerlink" title="AWS CodeBuild 빌드 시작"></a>AWS CodeBuild 빌드 시작</h2><p><img src="/image/awsCodebuildEcr-24.png" alt=""></p>
+<ol>
+<li><code>CodeBuild</code>에서 <code>hello-world</code> 프로젝트를 선택한 후 <code>빌드 시작</code> 버튼을 클릭합니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-25.png" alt=""></p>
+<ol start="2">
+<li>빌드 상태의 상태가 <code>성공함</code>으로 변경되면 빌드가 성공적으로 완료된 것입니다.</li>
+</ol>
+<p><img src="/image/awsCodebuildEcr-26.png" alt=""></p>
+<ol start="3">
+<li>ECR로 이동하여 이미지가 성공적으로 푸시되었는지 확인합니다.</li>
+</ol>
+
+        </div>
+        <footer class="article-footer">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+
+
+    <a data-url="https://swtpumpkin.github.io/backend/aws/awsCodebuildEcr/" data-id="clwdods020000rob80csfa1qt" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+        
+            <script src="https://utteranc.es/client.js"
+        repo="swtpumpkin/blog-comments"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://www.linkedin.com/in/jeongwon-kim-0a75b1157" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/kim.jeongwon.9" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/swtpumpkin" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="share-alt" href="https://stackshare.io/swtpumpkin/my-stack" target="_blank">
+                        <i class="icon fa fa-share-alt"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/develop/iterm2FixWordArrowError/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">iterm 에서 option + 방향키 오류 해결</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/aws/awsCodebuildEcr/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/aws.png)" alt="Github와 AWS CodeBuild, ECR을 이용한 docker 이미지 빌드 자동화" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/AWS/">AWS</a></p>
+                            <p class="item-title"><a href="/backend/aws/awsCodebuildEcr/" class="title">Github와 AWS CodeBuild, ECR을 이용한 docker 이미지 빌드 자동화</a></p>
+                            <p class="item-date"><time datetime="2024-05-19T23:00:00.000Z" itemprop="datePublished">2024-05-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/develop/iterm2FixWordArrowError/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/iTerm2.png)" alt="iterm 에서 option + 방향키 오류 해결" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/develop/">develop</a></p>
+                            <p class="item-title"><a href="/develop/iterm2FixWordArrowError/" class="title">iterm 에서 option + 방향키 오류 해결</a></p>
+                            <p class="item-date"><time datetime="2024-05-16T01:00:00.000Z" itemprop="datePublished">2024-05-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/aws/awsEcrDescreseCost/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/aws.png)" alt="AWS ECR 비용 절감" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/AWS/">AWS</a></p>
+                            <p class="item-title"><a href="/backend/aws/awsEcrDescreseCost/" class="title">AWS ECR 비용 절감</a></p>
+                            <p class="item-date"><time datetime="2024-04-14T23:00:00.000Z" itemprop="datePublished">2024-04-15</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/develop/macStartScript/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/apple.png)" alt="mac 시작 시 스크립트 실행" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/develop/">develop</a></p>
+                            <p class="item-title"><a href="/develop/macStartScript/" class="title">mac 시작 시 스크립트 실행</a></p>
+                            <p class="item-date"><time datetime="2024-04-01T23:00:00.000Z" itemprop="datePublished">2024-04-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/git/githubRepoNames/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/github.png)" alt="github all repository names" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/git/githubRepoNames/" class="title">github all repository names</a></p>
+                            <p class="item-date"><time datetime="2024-03-27T23:00:00.000Z" itemprop="datePublished">2024-03-28</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+        
+    </div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2024 Jeongwon Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>    
+</body>
+</html>

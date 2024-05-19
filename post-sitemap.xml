@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://swtpumpkin.github.io/backend/aws/awsCodebuildEcr/</loc>
+        <lastmod>2024-05-19T16:54:29.479Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/develop/iterm2FixWordArrowError/</loc>
         <lastmod>2024-05-16T13:39:49.862Z</lastmod>
         <changefreq>weekly</changefreq>
