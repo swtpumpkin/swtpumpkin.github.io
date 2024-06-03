@@ -8,6 +8,20 @@
     </url>
 
     <url>
+        <loc>https://swtpumpkin.github.io/categories/frontend/react/</loc>
+        <lastmod>2024-06-03T12:39:36.331Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/categories/frontend/</loc>
+        <lastmod>2024-06-03T12:39:36.331Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/categories/backend/AWS/</loc>
         <lastmod>2024-05-19T16:54:29.479Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -45,20 +59,6 @@
     <url>
         <loc>https://swtpumpkin.github.io/categories/backend/docker/</loc>
         <lastmod>2023-01-26T05:39:41.973Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/categories/frontend/react/</loc>
-        <lastmod>2022-10-27T07:53:06.209Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/categories/frontend/</loc>
-        <lastmod>2022-10-27T07:53:06.209Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

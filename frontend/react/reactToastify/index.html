@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>React-Toastify (React 앱에 세련된 알림 기능 추가하기) | Swtpumpkin Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="css,react,typescript,styled-components,react-toastify,app,toast,알림,notification,noti,notify,ToastContainer,커스터마이징,customizing,style" />
+    
+    <meta name="description" content="React-Toastify란?react-toastify는 React 앱에 알림 기능을 추가할 수 있는 라이브러리입니다. 사용자에게 알림을 보여주는데 사용되며, 사용자 경험을 향상시키는데 도움이 됩니다. 또한 전역에서 일관된 디자인으로 알림을 보여 줄 수 있습니다. React-Toastify 설치react-toastify를 사용하려면 먼저 라이브러리를 설치해">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React-Toastify (React 앱에 세련된 알림 기능 추가하기)">
+<meta property="og:url" content="https://swtpumpkin.github.io/frontend/react/reactToastify/index.html">
+<meta property="og:site_name" content="Swtpumpkin Blog">
+<meta property="og:description" content="React-Toastify란?react-toastify는 React 앱에 알림 기능을 추가할 수 있는 라이브러리입니다. 사용자에게 알림을 보여주는데 사용되며, 사용자 경험을 향상시키는데 도움이 됩니다. 또한 전역에서 일관된 디자인으로 알림을 보여 줄 수 있습니다. React-Toastify 설치react-toastify를 사용하려면 먼저 라이브러리를 설치해">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://swtpumpkin.github.io/image/react.png">
+<meta property="article:published_time" content="2024-06-01T23:00:00.000Z">
+<meta property="article:modified_time" content="2024-06-03T12:39:36.331Z">
+<meta property="article:author" content="Jeongwon Kim">
+<meta property="article:tag" content="css">
+<meta property="article:tag" content="react">
+<meta property="article:tag" content="typescript">
+<meta property="article:tag" content="styled-components">
+<meta property="article:tag" content="react-toastify">
+<meta property="article:tag" content="app">
+<meta property="article:tag" content="toast">
+<meta property="article:tag" content="알림">
+<meta property="article:tag" content="notification">
+<meta property="article:tag" content="noti">
+<meta property="article:tag" content="notify">
+<meta property="article:tag" content="ToastContainer">
+<meta property="article:tag" content="커스터마이징">
+<meta property="article:tag" content="customizing">
+<meta property="article:tag" content="style">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://swtpumpkin.github.io/image/react.png">
+    
+    <link rel="canonical" href="https://swtpumpkin.github.io/frontend/react/reacttoastify/"/>
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-119873758-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/">Algorism</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/ProjectEuler/">ProjectEuler</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level1/">level1</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level2/">level2</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level3/">level3</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/">CS</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/dataStructure/">dataStructure</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/">backend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/AWS/">AWS</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/deno/">deno</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker/">docker</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker-compose/">docker-compose</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mongoDB/">mongoDB</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mySQL/">mySQL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/node/">node</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/">develop</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/google/">google</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/">frontend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/css/">css</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/html/">html</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/react/">react</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/reactNative/">reactNative</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/svg/">svg</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/">git</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/hexo/">hexo</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/javascript/">javascript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/pi/">pi</a></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+    
+        <form class="search-form">
+            <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+            <button type="submit" class="search-form-submit"></button>
+        </form>
+        <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</div>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/frontend/react/">react</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-frontend/react/reactToastify" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        React-Toastify (React 앱에 세련된 알림 기능 추가하기)
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/frontend/react/reactToastify/" class="article-date">
+            <time datetime="2024-06-01T23:00:00.000Z" itemprop="datePublished">2024-06-02</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/ToastContainer/" rel="tag">ToastContainer</a>, <a class="tag-link-link" href="/tags/app/" rel="tag">app</a>, <a class="tag-link-link" href="/tags/css/" rel="tag">css</a>, <a class="tag-link-link" href="/tags/customizing/" rel="tag">customizing</a>, <a class="tag-link-link" href="/tags/noti/" rel="tag">noti</a>, <a class="tag-link-link" href="/tags/notification/" rel="tag">notification</a>, <a class="tag-link-link" href="/tags/notify/" rel="tag">notify</a>, <a class="tag-link-link" href="/tags/react/" rel="tag">react</a>, <a class="tag-link-link" href="/tags/react-toastify/" rel="tag">react-toastify</a>, <a class="tag-link-link" href="/tags/style/" rel="tag">style</a>, <a class="tag-link-link" href="/tags/styled-components/" rel="tag">styled-components</a>, <a class="tag-link-link" href="/tags/toast/" rel="tag">toast</a>, <a class="tag-link-link" href="/tags/typescript/" rel="tag">typescript</a>, <a class="tag-link-link" href="/tags/%EC%95%8C%EB%A6%BC/" rel="tag">알림</a>, <a class="tag-link-link" href="/tags/%EC%BB%A4%EC%8A%A4%ED%84%B0%EB%A7%88%EC%9D%B4%EC%A7%95/" rel="tag">커스터마이징</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="React-Toastify란"><a href="#React-Toastify란" class="headerlink" title="React-Toastify란?"></a>React-Toastify란?</h1><p><code>react-toastify</code>는 <code>React</code> 앱에 알림 기능을 추가할 수 있는 라이브러리입니다. 사용자에게 알림을 보여주는데 사용되며, 사용자 경험을 향상시키는데 도움이 됩니다. 또한 전역에서 일관된 디자인으로 알림을 보여 줄 수 있습니다.</p>
+<h2 id="React-Toastify-설치"><a href="#React-Toastify-설치" class="headerlink" title="React-Toastify 설치"></a>React-Toastify 설치</h2><p><code>react-toastify</code>를 사용하려면 먼저 라이브러리를 설치해야 합니다. 다음 명령어를 사용하여 설치할 수 있습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react-toastify</span><br></pre></td></tr></table></figure>
+
+<h2 id="React-Toastify-사용하기"><a href="#React-Toastify-사용하기" class="headerlink" title="React-Toastify 사용하기"></a>React-Toastify 사용하기</h2><p>설치가 완료되면, 다음과 같이 <code>react-toastify</code>를 사용할 수 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import React from &quot;react&quot;;</span><br><span class="line">import ReactDOM from &quot;react-dom&quot;;</span><br><span class="line">import &#123; ToastContainer &#125; from &quot;react-toastify&quot;;</span><br><span class="line">import &quot;react-toastify&#x2F;dist&#x2F;ReactToastify.css&quot;;</span><br><span class="line">import HOME from &quot;components&#x2F;home&#x2F;HOME&quot;;</span><br><span class="line"></span><br><span class="line">const App: React.FC &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;ToastContainer &#x2F;&gt;</span><br><span class="line">      &lt;HOME &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export default App;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>ToastContainer</code> 컴포넌트를 <code>react</code> 최상위 컴포넌트에 추가합니다. <code>css</code> 파일도 같은 최상위 컴포넌트에 추가하여 스타일을 적용합니다.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import &#123; toast &#125; from &quot;react-toastify&quot;;</span><br><span class="line"></span><br><span class="line">export enum ToastType &#123;</span><br><span class="line">  SUCCESS &#x3D; &quot;success&quot;,</span><br><span class="line">  ERROR &#x3D; &quot;error&quot;,</span><br><span class="line">  WARNING &#x3D; &quot;warning&quot;,</span><br><span class="line">  INFO &#x3D; &quot;info&quot;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface ToastProps &#123;</span><br><span class="line">  message: string;</span><br><span class="line">  type: ToastType;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const Toast &#x3D; (&#123; message, type &#125;: ToastProps) &#x3D;&gt; &#123;</span><br><span class="line">  switch (type) &#123;</span><br><span class="line">    case ToastType.SUCCESS:</span><br><span class="line">      return toast.success(message, &#123; position: &quot;top-right&quot;, autoClose: 1000 &#125;);</span><br><span class="line">    case ToastType.ERROR:</span><br><span class="line">      return toast.error(message, &#123; position: &quot;top-right&quot;, autoClose: 1000 &#125;);</span><br><span class="line">    case ToastType.WARNING:</span><br><span class="line">      return toast.warning(message, &#123; position: &quot;top-right&quot;, autoClose: 1000 &#125;);</span><br><span class="line">    case ToastType.INFO:</span><br><span class="line">      return toast.info(message, &#123; position: &quot;top-right&quot;, autoClose: 1000 &#125;);</span><br><span class="line">    default:</span><br><span class="line">      return null;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export default Toast;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><code>Toast</code> 컴포넌트를 만들어서 사용자에게 보여줄 알림을 설정합니다. <code>message</code>와 <code>type</code>을 받아서 <code>react-toastify</code>의 <code>toast</code> 메소드를 사용하여 알림을 보여줍니다. <code>autoClose</code> 옵션을 사용하여 알림이 자동으로 사라지는 시간을 설정할 수 있습니다. 저는 전역에서 동일한 위치, 시간으로 알림을 보여주기 위해 <code>position</code>과 <code>autoClose</code> 옵션을 설정했습니다.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import React from &quot;react&quot;;</span><br><span class="line">import Toast, &#123; ToastType &#125; from &quot;components&#x2F;toast&#x2F;Toast&quot;;</span><br><span class="line"></span><br><span class="line">const notify &#x3D; () &#x3D;&gt; Toast(&#123; message: &quot;Notify!&quot;, type: ToastType.INFO &#125;);</span><br><span class="line"></span><br><span class="line">const HOME: React.FC &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;button type&#x3D;&quot;button&quot; onClick&#x3D;&#123;notify&#125;&gt;</span><br><span class="line">      Notify!</span><br><span class="line">    &lt;&#x2F;button&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export default HOME;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><code>notify</code> 함수를 만들어서 <code>Toast</code> 컴포넌트를 호출합니다. <code>Toast</code> 컴포넌트에 <code>message</code>와 <code>type</code>을 전달하여 알림을 보여줍니다.</li>
+</ol>
+<h2 id="React-Toastify-커스터마이징"><a href="#React-Toastify-커스터마이징" class="headerlink" title="React-Toastify 커스터마이징"></a>React-Toastify 커스터마이징</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install styled-components</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>styled-components</code>를 설치합니다.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import React from &quot;react&quot;;</span><br><span class="line">import ReactDOM from &quot;react-dom&quot;;</span><br><span class="line">import &#123; ToastContainer &#125; from &quot;react-toastify&quot;;</span><br><span class="line">import &quot;react-toastify&#x2F;dist&#x2F;ReactToastify.css&quot;;</span><br><span class="line">import styled from &quot;styled-components&quot;;</span><br><span class="line">import HOME from &quot;components&#x2F;home&#x2F;HOME&quot;;</span><br><span class="line"></span><br><span class="line">const CustomToastContainer &#x3D; styled(ToastContainer)&#96;</span><br><span class="line">  .Toastify__toast &#123;</span><br><span class="line">    background-color: purple;</span><br><span class="line">    color: yellow;</span><br><span class="line">  &#125;</span><br><span class="line">&#96;;</span><br><span class="line"></span><br><span class="line">const App: React.FC &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;CustomToastContainer position&#x3D;&quot;top-right&quot; autoClose&#x3D;&#123;500&#125; limit&#x3D;&#123;1&#125; &#x2F;&gt;</span><br><span class="line">      &lt;HOME &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export default App;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><code>styled-components</code>를 사용하여 <code>ToastContainer</code> 컴포넌트를 커스터마이징합니다. <code>Toastify__toast</code> 클래스를 사용하여 알림의 배경색과 글자색을 변경할 수 있습니다. 컴포넌트 속성을 사용하여 <code>position</code>, <code>autoClose</code>, <code>limit</code> 등을 설정할 수 있습니다. 최상단에 속성을 설정하면 전역으로 적용됩니다.</li>
+</ol>
+<h2 id="마치며"><a href="#마치며" class="headerlink" title="마치며"></a>마치며</h2><p><code>react-toastify</code>를 사용하면 사용자에게 알림을 보여주는데 도움이 됩니다. 전역에서 일관된 디자인으로 알림을 보여줄 수 있어 사용자 경험을 향상시킬 수 있습니다. 또한 커스터마이징을 통해 디자인을 변경할 수 있어 프로젝트에 맞게 알림을 보여줄 수 있습니다. 알림을 보여주는데 사용되는 라이브러리로 <code>react-toastify</code>를 사용해보세요.</p>
+
+        </div>
+        <footer class="article-footer">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+
+
+    <a data-url="https://swtpumpkin.github.io/frontend/react/reactToastify/" data-id="clwyydnxi0000fxb8a89f0it1" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+        
+            <script src="https://utteranc.es/client.js"
+        repo="swtpumpkin/blog-comments"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://www.linkedin.com/in/jeongwon-kim-0a75b1157" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/kim.jeongwon.9" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/swtpumpkin" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="share-alt" href="https://stackshare.io/swtpumpkin/my-stack" target="_blank">
+                        <i class="icon fa fa-share-alt"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/backend/aws/awsCodebuildEcr/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">Github와 AWS CodeBuild, ECR을 이용한 docker 이미지 빌드 자동화</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/reactToastify/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="React-Toastify (React 앱에 세련된 알림 기능 추가하기)" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/reactToastify/" class="title">React-Toastify (React 앱에 세련된 알림 기능 추가하기)</a></p>
+                            <p class="item-date"><time datetime="2024-06-01T23:00:00.000Z" itemprop="datePublished">2024-06-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/aws/awsCodebuildEcr/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/aws.png)" alt="Github와 AWS CodeBuild, ECR을 이용한 docker 이미지 빌드 자동화" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/AWS/">AWS</a></p>
+                            <p class="item-title"><a href="/backend/aws/awsCodebuildEcr/" class="title">Github와 AWS CodeBuild, ECR을 이용한 docker 이미지 빌드 자동화</a></p>
+                            <p class="item-date"><time datetime="2024-05-19T23:00:00.000Z" itemprop="datePublished">2024-05-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/develop/iterm2FixWordArrowError/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/iTerm2.png)" alt="iterm 에서 option + 방향키 오류 해결" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/develop/">develop</a></p>
+                            <p class="item-title"><a href="/develop/iterm2FixWordArrowError/" class="title">iterm 에서 option + 방향키 오류 해결</a></p>
+                            <p class="item-date"><time datetime="2024-05-16T01:00:00.000Z" itemprop="datePublished">2024-05-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/aws/awsEcrDescreseCost/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/aws.png)" alt="AWS ECR 비용 절감" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/AWS/">AWS</a></p>
+                            <p class="item-title"><a href="/backend/aws/awsEcrDescreseCost/" class="title">AWS ECR 비용 절감</a></p>
+                            <p class="item-date"><time datetime="2024-04-14T23:00:00.000Z" itemprop="datePublished">2024-04-15</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/develop/macStartScript/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/apple.png)" alt="mac 시작 시 스크립트 실행" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/develop/">develop</a></p>
+                            <p class="item-title"><a href="/develop/macStartScript/" class="title">mac 시작 시 스크립트 실행</a></p>
+                            <p class="item-date"><time datetime="2024-04-01T23:00:00.000Z" itemprop="datePublished">2024-04-02</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+        
+    </div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2024 Jeongwon Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>    
+</body>
+</html>
