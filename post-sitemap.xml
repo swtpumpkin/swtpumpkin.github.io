@@ -8,8 +8,16 @@
     </url>
 
     <url>
+        <loc>https://swtpumpkin.github.io/frontend/react/reactAxiosCookie/</loc>
+        <lastmod>2024-06-03T13:08:12.484Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/frontend/react/reactToastify/</loc>
-        <lastmod>2024-06-03T12:39:36.331Z</lastmod>
+        <lastmod>2024-06-03T12:56:44.001Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
