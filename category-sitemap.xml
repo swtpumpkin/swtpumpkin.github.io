@@ -8,6 +8,20 @@
     </url>
 
     <url>
+        <loc>https://swtpumpkin.github.io/categories/backend/nestjs/</loc>
+        <lastmod>2024-06-11T03:36:05.267Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://swtpumpkin.github.io/categories/backend/</loc>
+        <lastmod>2024-06-11T03:36:05.267Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/categories/frontend/react/</loc>
         <lastmod>2024-06-03T13:08:12.484Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -23,13 +37,6 @@
 
     <url>
         <loc>https://swtpumpkin.github.io/categories/backend/AWS/</loc>
-        <lastmod>2024-05-19T16:54:29.479Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://swtpumpkin.github.io/categories/backend/</loc>
         <lastmod>2024-05-19T16:54:29.479Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>

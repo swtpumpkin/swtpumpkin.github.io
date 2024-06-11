@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator) | Swtpumpkin Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="mongodb,typescript,nestjs,class-validator,mongoose,decorator,validation,transform,pipe,object to mongoId,string to mongoId,mongoId,isMongoId" />
+    
+    <meta name="description" content="소개MongoDB는 기본적으로 ObjectID를 사용하는데, _id 필드로, 각 문서의 고유 식별자 역할을 합니다. Ref를 사용하거나, populate를 사용할 때, _id를 사용하게 되는데, 이 때, ObjectId를 사용하게 됩니다. 프론트엔드에서 string 타입이나, object 타입으로 받아서 사용할 때, ObjectId로 변환해주는 작업이 필요">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator)">
+<meta property="og:url" content="https://swtpumpkin.github.io/backend/nestjs/bcrypt/index.html">
+<meta property="og:site_name" content="Swtpumpkin Blog">
+<meta property="og:description" content="소개MongoDB는 기본적으로 ObjectID를 사용하는데, _id 필드로, 각 문서의 고유 식별자 역할을 합니다. Ref를 사용하거나, populate를 사용할 때, _id를 사용하게 되는데, 이 때, ObjectId를 사용하게 됩니다. 프론트엔드에서 string 타입이나, object 타입으로 받아서 사용할 때, ObjectId로 변환해주는 작업이 필요">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://swtpumpkin.github.io/image/nestjs.png">
+<meta property="article:published_time" content="2024-06-10T23:00:00.000Z">
+<meta property="article:modified_time" content="2024-06-11T03:36:05.267Z">
+<meta property="article:author" content="Jeongwon Kim">
+<meta property="article:tag" content="mongodb">
+<meta property="article:tag" content="typescript">
+<meta property="article:tag" content="nestjs">
+<meta property="article:tag" content="class-validator">
+<meta property="article:tag" content="mongoose">
+<meta property="article:tag" content="decorator">
+<meta property="article:tag" content="validation">
+<meta property="article:tag" content="transform">
+<meta property="article:tag" content="pipe">
+<meta property="article:tag" content="object to mongoId">
+<meta property="article:tag" content="string to mongoId">
+<meta property="article:tag" content="mongoId">
+<meta property="article:tag" content="isMongoId">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://swtpumpkin.github.io/image/nestjs.png">
+    
+    <link rel="canonical" href="https://swtpumpkin.github.io/backend/nestjs/bcrypt/"/>
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-119873758-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/">Algorism</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/ProjectEuler/">ProjectEuler</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level1/">level1</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level2/">level2</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level3/">level3</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/">CS</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/dataStructure/">dataStructure</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/">backend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/AWS/">AWS</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/deno/">deno</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker/">docker</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker-compose/">docker-compose</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mongoDB/">mongoDB</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mySQL/">mySQL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/nestjs/">nestjs</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/node/">node</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/">develop</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/google/">google</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/">frontend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/css/">css</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/html/">html</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/react/">react</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/reactNative/">reactNative</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/svg/">svg</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/">git</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/hexo/">hexo</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/javascript/">javascript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/pi/">pi</a></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+    
+        <form class="search-form">
+            <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+            <button type="submit" class="search-form-submit"></button>
+        </form>
+        <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</div>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/backend/nestjs/">nestjs</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-backend/nestjs/bcrypt" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator)
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/backend/nestjs/bcrypt/" class="article-date">
+            <time datetime="2024-06-10T23:00:00.000Z" itemprop="datePublished">2024-06-11</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/class-validator/" rel="tag">class-validator</a>, <a class="tag-link-link" href="/tags/decorator/" rel="tag">decorator</a>, <a class="tag-link-link" href="/tags/isMongoId/" rel="tag">isMongoId</a>, <a class="tag-link-link" href="/tags/mongoId/" rel="tag">mongoId</a>, <a class="tag-link-link" href="/tags/mongodb/" rel="tag">mongodb</a>, <a class="tag-link-link" href="/tags/mongoose/" rel="tag">mongoose</a>, <a class="tag-link-link" href="/tags/nestjs/" rel="tag">nestjs</a>, <a class="tag-link-link" href="/tags/object-to-mongoId/" rel="tag">object to mongoId</a>, <a class="tag-link-link" href="/tags/pipe/" rel="tag">pipe</a>, <a class="tag-link-link" href="/tags/string-to-mongoId/" rel="tag">string to mongoId</a>, <a class="tag-link-link" href="/tags/transform/" rel="tag">transform</a>, <a class="tag-link-link" href="/tags/typescript/" rel="tag">typescript</a>, <a class="tag-link-link" href="/tags/validation/" rel="tag">validation</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="소개"><a href="#소개" class="headerlink" title="소개"></a>소개</h1><p>MongoDB는 기본적으로 ObjectID를 사용하는데, <code>_id</code> 필드로, 각 문서의 고유 식별자 역할을 합니다. <code>Ref</code>를 사용하거나, <code>populate</code>를 사용할 때, <code>_id</code>를 사용하게 되는데, 이 때, <code>ObjectId</code>를 사용하게 됩니다. 프론트엔드에서 <code>string</code> 타입이나, <code>object</code> 타입으로 받아서 사용할 때, <code>ObjectId</code>로 변환해주는 작업이 필요합니다. 이 때, <code>class-validator</code>의 <code>transform</code>을 사용하여, <code>ObjectId</code>로 변환해주는 커스텀 데코레이터를 작성하는 방법을 알아보겠습니다.</p>
+<h2 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i class-validator class-transformer</span><br></pre></td></tr></table></figure>
+
+<h2 id="프로젝트-구조"><a href="#프로젝트-구조" class="headerlink" title="프로젝트 구조"></a>프로젝트 구조</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">src/</span><br><span class="line">  |<span class="comment">-- decorators/</span></span><br><span class="line">      |<span class="comment">-- TransformToMongoId.ts</span></span><br><span class="line">  |<span class="comment">-- index.ts</span></span><br><span class="line">  |<span class="comment">-- tsconfig.json</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="TransformToMongoId-ts"><a href="#TransformToMongoId-ts" class="headerlink" title="TransformToMongoId.ts"></a>TransformToMongoId.ts</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  registerDecorator,</span><br><span class="line">  ValidationOptions,</span><br><span class="line">  isMongoId,</span><br><span class="line">  ValidationArguments,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;class-validator&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Transform &#125; <span class="keyword">from</span> <span class="string">&quot;class-transformer&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">TransformToMongoId</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  validationOptions?: ValidationOptions</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"><span class="built_in">object</span>: <span class="built_in">object</span>, propertyName: <span class="built_in">string</span></span>) </span>&#123;</span><br><span class="line">    registerDecorator(&#123;</span><br><span class="line">      name: <span class="string">&quot;transformToMongoId&quot;</span>,</span><br><span class="line">      target: <span class="built_in">object</span>.constructor,</span><br><span class="line">      propertyName: propertyName,</span><br><span class="line">      options: validationOptions,</span><br><span class="line">      validator: &#123;</span><br><span class="line">        <span class="function"><span class="title">validate</span>(<span class="params">value: <span class="built_in">any</span></span>)</span> &#123;</span><br><span class="line">          <span class="keyword">const</span> isValidObjectWithId =</span><br><span class="line">            <span class="keyword">typeof</span> value === <span class="string">&quot;object&quot;</span> &amp;&amp; isMongoId(value._id) &amp;&amp; value._id;</span><br><span class="line">          <span class="keyword">const</span> isValidMongoIdString =</span><br><span class="line">            <span class="keyword">typeof</span> value === <span class="string">&quot;string&quot;</span> &amp;&amp; isMongoId(value);</span><br><span class="line">          <span class="keyword">return</span> isValidObjectWithId || isValidMongoIdString;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="function"><span class="title">defaultMessage</span>(<span class="params">args: ValidationArguments</span>)</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;args.property&#125;</span> must be a valid MongoId`</span>;</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">    Transform(<span class="function">(<span class="params">&#123; value &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> isValidObjectWithId =</span><br><span class="line">        <span class="keyword">typeof</span> value === <span class="string">&quot;object&quot;</span> &amp;&amp; isMongoId(value._id) &amp;&amp; value._id;</span><br><span class="line">      <span class="keyword">const</span> isValidMongoIdString =</span><br><span class="line">        <span class="keyword">typeof</span> value === <span class="string">&quot;string&quot;</span> &amp;&amp; isMongoId(value);</span><br><span class="line">      <span class="keyword">if</span> (isValidObjectWithId) &#123;</span><br><span class="line">        <span class="keyword">return</span> value._id;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isValidMongoIdString) &#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;)(<span class="built_in">object</span>, propertyName);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>변수 설명: <code>isValidObjectWithId</code>는 객체가 <code>_id</code> 필드를 가지고 있으며, 이 필드가 유효한 <code>MongoDB ID</code>인지 확인합니다. <code>isValidMongoIdString</code>는 값이 <code>문자열</code>로 유효한 <code>MongoDB ID인</code>지 확인합니다.</li>
+<li>validate 메서드: 이 메서드는 입력된 값이 유효한 <code>MongoDB ID</code>인지 확인합니다.</li>
+<li>defaultMessage 메서드: 검증 실패 시 표시될 기본 오류 메시지를 반환합니다.</li>
+<li>Transform: 입력된 값이 <code>객체</code>이고, <code>_id</code> 필드가 유효한 <code>MongoDB ID</code>인 경우, <code>_id</code> 필드를 반환합니다. 입력된 값이 문자열이고, 유효한 <code>MongoDB ID</code>인 경우, 그대로 반환합니다.</li>
+</ul>
+<h2 id="사용"><a href="#사용" class="headerlink" title="사용"></a>사용</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; IsArray, IsOptional, IsString &#125; <span class="keyword">from</span> <span class="string">&quot;class-validator&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Center &#125; <span class="keyword">from</span> <span class="string">&quot;@src/centers/centers.schema&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; User &#125; <span class="keyword">from</span> <span class="string">&quot;@src/users/users.schema&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> IsValidMongoIdArray <span class="keyword">from</span> <span class="string">&quot;@src/decorators/isValidMongoIdArray&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">CreateGymDto</span> </span>&#123;</span><br><span class="line">  <span class="meta">@IsString</span>()</span><br><span class="line">  <span class="keyword">readonly</span> name: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@IsArray</span>()</span><br><span class="line">  <span class="meta">@IsOptional</span>()</span><br><span class="line">  <span class="meta">@IsValidMongoIdArray</span>()</span><br><span class="line">  <span class="keyword">readonly</span> managers: (User | <span class="built_in">string</span>)[];</span><br><span class="line"></span><br><span class="line">  <span class="meta">@IsArray</span>()</span><br><span class="line">  <span class="meta">@IsOptional</span>()</span><br><span class="line">  <span class="meta">@IsValidMongoIdArray</span>()</span><br><span class="line">  <span class="keyword">readonly</span> centers: (Center | <span class="built_in">string</span>)[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>CreateGymDto</code> 클래스에서 <code>managers</code>와 <code>centers</code> 필드에 <code>IsValidMongoIdArray</code> 데코레이터를 사용하여, <code>MongoDB ID</code>를 검증합니다. <code>@IsValidMongoIdArray()</code>를 사용하면, <code>managers</code>와 <code>centers</code> 필드에 있는 값이 <code>MongoDB ID</code>인지 확인하고 객체나 배열로 되어있는 값들을 <code>MongoDB ID</code>로 변환합니다.</p>
+<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p><code>TransformToMongoId</code> 데코레이터는 <code>MongoDB ID</code>를 변환하고 검증하는데 유용한 도구입니다. 이 데코레이터는 데이터 일관성을 보장하고, 코드의 가독성을 높여줍니다. 추가적인 개선 사항으로는 복잡한 객체 구조에서도 작동하도록 확장할 수 있습니다.</p>
+
+        </div>
+        <footer class="article-footer">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+
+
+    <a data-url="https://swtpumpkin.github.io/backend/nestjs/bcrypt/" data-id="clx9txz5w0000g8b88t3x9c1s" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+        
+            <script src="https://utteranc.es/client.js"
+        repo="swtpumpkin/blog-comments"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://www.linkedin.com/in/jeongwon-kim-0a75b1157" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/kim.jeongwon.9" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/swtpumpkin" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="share-alt" href="https://stackshare.io/swtpumpkin/my-stack" target="_blank">
+                        <i class="icon fa fa-share-alt"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/frontend/react/reactAxiosCookie/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">React Axios에서 withCredentials를 사용하여 쿠키를 설정하는 방법</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/nestjs/bcrypt/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/nestjs.png)" alt="MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator)" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/nestjs/">nestjs</a></p>
+                            <p class="item-title"><a href="/backend/nestjs/bcrypt/" class="title">MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator)</a></p>
+                            <p class="item-date"><time datetime="2024-06-10T23:00:00.000Z" itemprop="datePublished">2024-06-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/reactAxiosCookie/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="React Axios에서 withCredentials를 사용하여 쿠키를 설정하는 방법" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/reactAxiosCookie/" class="title">React Axios에서 withCredentials를 사용하여 쿠키를 설정하는 방법</a></p>
+                            <p class="item-date"><time datetime="2024-06-02T23:00:00.000Z" itemprop="datePublished">2024-06-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/reactToastify/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="React-Toastify (React 앱에 세련된 알림 기능 추가하기)" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/reactToastify/" class="title">React-Toastify (React 앱에 세련된 알림 기능 추가하기)</a></p>
+                            <p class="item-date"><time datetime="2024-06-01T23:00:00.000Z" itemprop="datePublished">2024-06-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/aws/awsCodebuildEcr/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/aws.png)" alt="Github와 AWS CodeBuild, ECR을 이용한 docker 이미지 빌드 자동화" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/AWS/">AWS</a></p>
+                            <p class="item-title"><a href="/backend/aws/awsCodebuildEcr/" class="title">Github와 AWS CodeBuild, ECR을 이용한 docker 이미지 빌드 자동화</a></p>
+                            <p class="item-date"><time datetime="2024-05-19T23:00:00.000Z" itemprop="datePublished">2024-05-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/develop/iterm2FixWordArrowError/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/iTerm2.png)" alt="iterm 에서 option + 방향키 오류 해결" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/develop/">develop</a></p>
+                            <p class="item-title"><a href="/develop/iterm2FixWordArrowError/" class="title">iterm 에서 option + 방향키 오류 해결</a></p>
+                            <p class="item-date"><time datetime="2024-05-16T01:00:00.000Z" itemprop="datePublished">2024-05-16</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+        
+    </div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2024 Jeongwon Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>    
+</body>
+</html>
