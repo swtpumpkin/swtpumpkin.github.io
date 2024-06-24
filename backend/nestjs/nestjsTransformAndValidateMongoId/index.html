@@ -18,7 +18,7 @@
 <meta property="og:locale" content="ko_KR">
 <meta property="og:image" content="https://swtpumpkin.github.io/image/nestjs.png">
 <meta property="article:published_time" content="2024-06-10T23:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-11T03:36:05.267Z">
+<meta property="article:modified_time" content="2024-06-24T05:53:47.205Z">
 <meta property="article:author" content="Jeongwon Kim">
 <meta property="article:tag" content="mongodb">
 <meta property="article:tag" content="typescript">
@@ -203,7 +203,7 @@ ga('send', 'pageview');
         
         
         <div class="article-entry" itemprop="articleBody">
-            <h1 id="소개"><a href="#소개" class="headerlink" title="소개"></a>소개</h1><p>MongoDB는 기본적으로 ObjectID를 사용하는데, <code>_id</code> 필드로, 각 문서의 고유 식별자 역할을 합니다. <code>Ref</code>를 사용하거나, <code>populate</code>를 사용할 때, <code>_id</code>를 사용하게 되는데, 이 때, <code>ObjectId</code>를 사용하게 됩니다. 프론트엔드에서 <code>string</code> 타입이나, <code>object</code> 타입으로 받아서 사용할 때, <code>ObjectId</code>로 변환해주는 작업이 필요합니다. 이 때, <code>class-validator</code>의 <code>transform</code>을 사용하여, <code>ObjectId</code>로 변환해주는 커스텀 데코레이터를 작성하는 방법을 알아보겠습니다.</p>
+            <h1 id="소개"><a href="#소개" class="headerlink" title="소개"></a>소개</h1><p><code>MongoDB</code>는 기본적으로 <code>ObjectID</code>를 사용하는데, <code>_id</code> 필드로, 각 문서의 고유 식별자 역할을 합니다. <code>Ref</code>를 사용하거나, <code>populate</code>를 사용할 때, <code>_id</code>를 사용하게 되는데, 이 때, <code>ObjectId</code>를 사용하게 됩니다. 프론트엔드에서 <code>string</code> 타입이나, <code>object</code> 타입으로 받아서 사용할 때, <code>ObjectId</code>로 변환해주는 작업이 필요합니다. 이 때, <code>class-validator</code>의 <code>transform</code>을 사용하여, <code>ObjectId</code>로 변환해주는 커스텀 데코레이터를 작성하는 방법을 알아보겠습니다.</p>
 <h2 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i class-validator class-transformer</span><br></pre></td></tr></table></figure>
 
 <h2 id="프로젝트-구조"><a href="#프로젝트-구조" class="headerlink" title="프로젝트 구조"></a>프로젝트 구조</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">src/</span><br><span class="line">  |<span class="comment">-- decorators/</span></span><br><span class="line">      |<span class="comment">-- TransformToMongoId.ts</span></span><br><span class="line">  |<span class="comment">-- index.ts</span></span><br><span class="line">  |<span class="comment">-- tsconfig.json</span></span><br></pre></td></tr></table></figure>
@@ -363,6 +363,16 @@ ga('send', 'pageview');
         
 <nav id="article-nav">
     
+        <a href="/frontend/react/infiniteScroll/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            Custom Hook을 이용한 무한 스크롤 구현하기
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
     
         <a href="/frontend/react/reactAxiosCookie/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">오래된</strong>
@@ -381,6 +391,26 @@ ga('send', 'pageview');
         <h3 class="widget-title">최근 글</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/infiniteScroll/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="Custom Hook을 이용한 무한 스크롤 구현하기" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/infiniteScroll/" class="title">Custom Hook을 이용한 무한 스크롤 구현하기</a></p>
+                            <p class="item-date"><time datetime="2024-06-23T23:00:00.000Z" itemprop="datePublished">2024-06-24</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -459,26 +489,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/AWS/">AWS</a></p>
                             <p class="item-title"><a href="/backend/aws/awsCodebuildEcr/" class="title">Github와 AWS CodeBuild, ECR을 이용한 docker 이미지 빌드 자동화</a></p>
                             <p class="item-date"><time datetime="2024-05-19T23:00:00.000Z" itemprop="datePublished">2024-05-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/develop/iterm2FixWordArrowError/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/image/iTerm2.png)" alt="iterm 에서 option + 방향키 오류 해결" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/develop/">develop</a></p>
-                            <p class="item-title"><a href="/develop/iterm2FixWordArrowError/" class="title">iterm 에서 option + 방향키 오류 해결</a></p>
-                            <p class="item-date"><time datetime="2024-05-16T01:00:00.000Z" itemprop="datePublished">2024-05-16</time></p>
                         </div>
                     </li>
                 

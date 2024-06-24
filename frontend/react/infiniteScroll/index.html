@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Custom Hook을 이용한 무한 스크롤 구현하기 | Swtpumpkin Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="react,custom hook,infinite scroll,무한 스크롤,react hook,react custom hook,react infinite scroll,react 무한 스크롤" />
+    
+    <meta name="description" content="Custom Hook을 이용한 무한 스크롤 구현하기리엑트 프로젝트에서 종종 무한 스크롤 기능을 구현할 때가 있습니다. 이를 구현하기 위해 useEffect 훅을 여러 컴포넌트에서 반복해서 사용하게 되는데, 이런 중복 코드를 제거하고 재사용성을 높이기 위해 custom hook을 만드는 방법을 안내하겠습니다. Custom Hook 정의하기useInfinite">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Custom Hook을 이용한 무한 스크롤 구현하기">
+<meta property="og:url" content="https://swtpumpkin.github.io/frontend/react/infiniteScroll/index.html">
+<meta property="og:site_name" content="Swtpumpkin Blog">
+<meta property="og:description" content="Custom Hook을 이용한 무한 스크롤 구현하기리엑트 프로젝트에서 종종 무한 스크롤 기능을 구현할 때가 있습니다. 이를 구현하기 위해 useEffect 훅을 여러 컴포넌트에서 반복해서 사용하게 되는데, 이런 중복 코드를 제거하고 재사용성을 높이기 위해 custom hook을 만드는 방법을 안내하겠습니다. Custom Hook 정의하기useInfinite">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://swtpumpkin.github.io/image/react.png">
+<meta property="article:published_time" content="2024-06-23T23:00:00.000Z">
+<meta property="article:modified_time" content="2024-06-24T06:14:07.556Z">
+<meta property="article:author" content="Jeongwon Kim">
+<meta property="article:tag" content="react">
+<meta property="article:tag" content="custom hook">
+<meta property="article:tag" content="infinite scroll">
+<meta property="article:tag" content="무한 스크롤">
+<meta property="article:tag" content="react hook">
+<meta property="article:tag" content="react custom hook">
+<meta property="article:tag" content="react infinite scroll">
+<meta property="article:tag" content="react 무한 스크롤">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://swtpumpkin.github.io/image/react.png">
+    
+    <link rel="canonical" href="https://swtpumpkin.github.io/frontend/react/infinitescroll/"/>
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-119873758-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/">Algorism</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/ProjectEuler/">ProjectEuler</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level1/">level1</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level2/">level2</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level3/">level3</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/">CS</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/dataStructure/">dataStructure</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/">backend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/AWS/">AWS</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/deno/">deno</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker/">docker</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker-compose/">docker-compose</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mongoDB/">mongoDB</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mySQL/">mySQL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/nestjs/">nestjs</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/node/">node</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/">develop</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/google/">google</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/">frontend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/css/">css</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/html/">html</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/react/">react</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/reactNative/">reactNative</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/svg/">svg</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/">git</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/hexo/">hexo</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/javascript/">javascript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/pi/">pi</a></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+    
+        <form class="search-form">
+            <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+            <button type="submit" class="search-form-submit"></button>
+        </form>
+        <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</div>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/frontend/react/">react</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-frontend/react/infiniteScroll" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Custom Hook을 이용한 무한 스크롤 구현하기
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/frontend/react/infiniteScroll/" class="article-date">
+            <time datetime="2024-06-23T23:00:00.000Z" itemprop="datePublished">2024-06-24</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/custom-hook/" rel="tag">custom hook</a>, <a class="tag-link-link" href="/tags/infinite-scroll/" rel="tag">infinite scroll</a>, <a class="tag-link-link" href="/tags/react/" rel="tag">react</a>, <a class="tag-link-link" href="/tags/react-custom-hook/" rel="tag">react custom hook</a>, <a class="tag-link-link" href="/tags/react-hook/" rel="tag">react hook</a>, <a class="tag-link-link" href="/tags/react-infinite-scroll/" rel="tag">react infinite scroll</a>, <a class="tag-link-link" href="/tags/react-%EB%AC%B4%ED%95%9C-%EC%8A%A4%ED%81%AC%EB%A1%A4/" rel="tag">react 무한 스크롤</a>, <a class="tag-link-link" href="/tags/%EB%AC%B4%ED%95%9C-%EC%8A%A4%ED%81%AC%EB%A1%A4/" rel="tag">무한 스크롤</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="Custom-Hook을-이용한-무한-스크롤-구현하기"><a href="#Custom-Hook을-이용한-무한-스크롤-구현하기" class="headerlink" title="Custom Hook을 이용한 무한 스크롤 구현하기"></a>Custom Hook을 이용한 무한 스크롤 구현하기</h1><p>리엑트 프로젝트에서 종종 <code>무한 스크롤</code> 기능을 구현할 때가 있습니다. 이를 구현하기 위해 <code>useEffect</code> 훅을 여러 컴포넌트에서 반복해서 사용하게 되는데, 이런 <code>중복 코드</code>를 제거하고 재사용성을 높이기 위해 <code>custom hook</code>을 만드는 방법을 안내하겠습니다.</p>
+<h2 id="Custom-Hook-정의하기"><a href="#Custom-Hook-정의하기" class="headerlink" title="Custom Hook 정의하기"></a>Custom Hook 정의하기</h2><p><code>useInfiniteScroll.ts</code>라는 파일을 생성하고 다음과 같은 디렉토리 구조를 작성하겠습니다.</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">src/</span><br><span class="line">  |<span class="comment">-- hooks/</span></span><br><span class="line">      |<span class="comment">-- useInfiniteScroll.ts</span></span><br><span class="line">  |<span class="comment">-- components</span></span><br><span class="line">      |<span class="comment">-- InfiniteScrollComponent.tsx</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="useInfiniteScroll-ts"><a href="#useInfiniteScroll-ts" class="headerlink" title="useInfiniteScroll.ts"></a>useInfiniteScroll.ts</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useEffect, useRef &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> UseInfiniteScrollProps &#123;</span><br><span class="line">  loading: <span class="built_in">boolean</span>;</span><br><span class="line">  hasMore: <span class="built_in">boolean</span>;</span><br><span class="line">  setPage: <span class="function">(<span class="params">callback: (prevPage: <span class="built_in">number</span>) =&gt; <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> useInfiniteScroll = (&#123;</span><br><span class="line">  loading,</span><br><span class="line">  hasMore,</span><br><span class="line">  setPage,</span><br><span class="line">&#125;: UseInfiniteScrollProps) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> observer = useRef&lt;IntersectionObserver | <span class="literal">null</span>&gt;(<span class="literal">null</span>);</span><br><span class="line">  <span class="keyword">const</span> loader = useRef&lt;HTMLDivElement | <span class="literal">null</span>&gt;(<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (loading) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span> (observer.current) observer.current.disconnect();</span><br><span class="line"></span><br><span class="line">    observer.current = <span class="keyword">new</span> IntersectionObserver(<span class="function">(<span class="params">entries</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (entries[<span class="number">0</span>].isIntersecting &amp;&amp; hasMore) &#123;</span><br><span class="line">        setPage(<span class="function">(<span class="params">prevPage</span>) =&gt;</span> prevPage + <span class="number">1</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (loader.current) observer.current.observe(loader.current);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (observer.current) observer.current.disconnect();</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;, [loading, hasMore, setPage]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123; loader &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useInfiniteScroll;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> UseInfiniteScrollProps &#123;</span><br><span class="line">  loading: <span class="built_in">boolean</span>;</span><br><span class="line">  hasMore: <span class="built_in">boolean</span>;</span><br><span class="line">  setPage: <span class="function">(<span class="params">callback: (prevPage: <span class="built_in">number</span>) =&gt; <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>UseInfiniteScrollProps</code> 인터페이스는 <code>useInfiniteScroll</code> <code>hook</code>이 받는 <code>세 가지 props</code>를 정의합니다.</p>
+<ul>
+<li><code>loading</code>: 현재 데이터를 로딩 중인지 여부를 나타내는 <code>boolean</code> 값.</li>
+<li><code>hasMore</code>: 추가 데이터를 가져올 수 있는지 여부를 나타내는 <code>boolean</code> 값.</li>
+<li><code>setPage</code>: 페이지 번호를 증가시키는 함수.</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> observer = useRef&lt;IntersectionObserver | <span class="literal">null</span>&gt;(<span class="literal">null</span>);</span><br><span class="line"><span class="keyword">const</span> loader = useRef&lt;HTMLDivElement | <span class="literal">null</span>&gt;(<span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>observer</code>는 <code>Intersection Observer</code> 객체를 저장하는 <code>ref</code>입니다.</li>
+<li><code>loader</code>는 관찰할 <code>DOM 요소</code>를 저장하는 <code>ref</code>입니다.</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (loading) <span class="keyword">return</span>;</span><br><span class="line">  <span class="keyword">if</span> (observer.current) observer.current.disconnect();</span><br><span class="line"></span><br><span class="line">  observer.current = <span class="keyword">new</span> IntersectionObserver(<span class="function">(<span class="params">entries</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (entries[<span class="number">0</span>].isIntersecting &amp;&amp; hasMore) &#123;</span><br><span class="line">      setPage(<span class="function">(<span class="params">prevPage</span>) =&gt;</span> prevPage + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (loader.current) observer.current.observe(loader.current);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (observer.current) observer.current.disconnect();</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;, [loading, hasMore, setPage]);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>useEffect</code> 훅은 <code>loading</code>, <code>hasMore</code>, <code>setPage</code>가 변경될 때마다 실행됩니다.</li>
+<li><code>if (observer.current) observer.current.disconnect();</code>: 기존의 <code>observer</code>가 존재한다면, 연결을 끊습니다.</li>
+<li><code>observer.current = new IntersectionObserver((entries) =&gt; &#123; ... &#125;)</code>: 새로운 <code>Intersection Observer</code>를 생성합니다.<ul>
+<li><code>entries[0].isIntersecting &amp;&amp; hasMore</code>: <code>loader</code> 요소가 화면에 보이고, 추가 데이터를 가져올 수 있는 경우 <code>setPage</code> 함수를 호출하여 페이지 번호를 증가시킵니다.</li>
+</ul>
+</li>
+<li><code>if (loader.current) observer.current.observe(loader.current);</code>: <code>loader ref</code>가 가리키는 DOM 요소를 관찰합니다.</li>
+<li><code>return () =&gt; &#123; if (observer.current) observer.current.disconnect(); &#125;</code>: <code>cleanup</code> 함수로 컴포넌트가 언마운트되거나 업데이트되기 전에 <code>observer</code>의 연결을 끊습니다.</li>
+</ul>
+<h3 id="InfiniteScrollComponent-tsx"><a href="#InfiniteScrollComponent-tsx" class="headerlink" title="InfiniteScrollComponent.tsx"></a>InfiniteScrollComponent.tsx</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> useInfiniteScroll <span class="keyword">from</span> <span class="string">&quot;../hooks/useInfiniteScroll&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> InfiniteScrollComponent: React.FC = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [loading, setLoading] = useState(<span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">const</span> [hasMore, setHasMore] = useState(<span class="literal">true</span>);</span><br><span class="line">  <span class="keyword">const</span> [page, setPage] = useState(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> &#123; loader &#125; = useInfiniteScroll(&#123; loading, hasMore, setPage &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &#123;<span class="comment">/* 실제 컴포넌트 내용 */</span>&#125;</span><br><span class="line">      &lt;div ref=&#123;loader&#125; /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> InfiniteScrollComponent;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>useInfiniteScroll</code> <code>hook</code>을 사용하여 <code>loader ref</code>를 받아옵니다.</li>
+<li><code>loading</code>, <code>hasMore</code>, <code>setPage</code> 등의 상태를 정의하고, <code>hook</code>에 전달합니다.</li>
+<li><code>loader</code> <code>ref</code>를 <code>div</code> 요소에 할당하여, 해당 요소가 화면에 나타날 때마다 <code>setPage</code> 함수가 호출되어 페이지가 증가합니다.</li>
+<li><code>hasMore</code> 상태를 적절히 사용하여 <code>page</code>가 마지막 페이지인지 여부를 판단하고, 추가 데이터를 가져올 수 있는지 여부를 결정합니다.</li>
+</ul>
+<h2 id="마치며"><a href="#마치며" class="headerlink" title="마치며"></a>마치며</h2><p>이 <code>custom hook</code>은 무한 스크롤 기능을 구현할 때 중복되는 코드를 제거하고, 재사용성을 높이는 데 도움이 됩니다.</p>
+
+        </div>
+        <footer class="article-footer">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+
+
+    <a data-url="https://swtpumpkin.github.io/frontend/react/infiniteScroll/" data-id="clxsk9wgj0000bqb88wiu3t76" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+        
+            <script src="https://utteranc.es/client.js"
+        repo="swtpumpkin/blog-comments"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://www.linkedin.com/in/jeongwon-kim-0a75b1157" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/kim.jeongwon.9" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/swtpumpkin" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="share-alt" href="https://stackshare.io/swtpumpkin/my-stack" target="_blank">
+                        <i class="icon fa fa-share-alt"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/backend/nestjs/nestjsTransformAndValidateMongoId/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator)</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/infiniteScroll/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="Custom Hook을 이용한 무한 스크롤 구현하기" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/infiniteScroll/" class="title">Custom Hook을 이용한 무한 스크롤 구현하기</a></p>
+                            <p class="item-date"><time datetime="2024-06-23T23:00:00.000Z" itemprop="datePublished">2024-06-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/nestjs/nestjsTransformAndValidateMongoId/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/nestjs.png)" alt="MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator)" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/nestjs/">nestjs</a></p>
+                            <p class="item-title"><a href="/backend/nestjs/nestjsTransformAndValidateMongoId/" class="title">MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator)</a></p>
+                            <p class="item-date"><time datetime="2024-06-10T23:00:00.000Z" itemprop="datePublished">2024-06-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/reactAxiosCookie/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="React Axios에서 withCredentials를 사용하여 쿠키를 설정하는 방법" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/reactAxiosCookie/" class="title">React Axios에서 withCredentials를 사용하여 쿠키를 설정하는 방법</a></p>
+                            <p class="item-date"><time datetime="2024-06-02T23:00:00.000Z" itemprop="datePublished">2024-06-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/reactToastify/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="React-Toastify (React 앱에 세련된 알림 기능 추가하기)" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/reactToastify/" class="title">React-Toastify (React 앱에 세련된 알림 기능 추가하기)</a></p>
+                            <p class="item-date"><time datetime="2024-06-01T23:00:00.000Z" itemprop="datePublished">2024-06-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/aws/awsCodebuildEcr/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/aws.png)" alt="Github와 AWS CodeBuild, ECR을 이용한 docker 이미지 빌드 자동화" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/AWS/">AWS</a></p>
+                            <p class="item-title"><a href="/backend/aws/awsCodebuildEcr/" class="title">Github와 AWS CodeBuild, ECR을 이용한 docker 이미지 빌드 자동화</a></p>
+                            <p class="item-date"><time datetime="2024-05-19T23:00:00.000Z" itemprop="datePublished">2024-05-20</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+        
+    </div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2024 Jeongwon Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>    
+</body>
+</html>
