@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유 | Swtpumpkin Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="node,javascript,mongodb,typescript,express,objectId,string" />
+    
+    <meta name="description" content="MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유MongoDB에서 Document를 연결할 때, 참조(Ref)를 위해 ObjectId를 사용하는 것이 좋은 이유에 대해 알아보겠습니다. MongoDB에서 Document 연결MongoDB에서 Document 간의 관계를 표현하는 방법은 크게 2가지가 있습니다.  내장된 문서 (Embe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유">
+<meta property="og:url" content="https://swtpumpkin.github.io/backend/node/mongoDBObjectId/index.html">
+<meta property="og:site_name" content="Swtpumpkin Blog">
+<meta property="og:description" content="MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유MongoDB에서 Document를 연결할 때, 참조(Ref)를 위해 ObjectId를 사용하는 것이 좋은 이유에 대해 알아보겠습니다. MongoDB에서 Document 연결MongoDB에서 Document 간의 관계를 표현하는 방법은 크게 2가지가 있습니다.  내장된 문서 (Embe">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://swtpumpkin.github.io/image/node.png">
+<meta property="article:published_time" content="2024-06-27T23:00:00.000Z">
+<meta property="article:modified_time" content="2024-06-28T12:08:06.028Z">
+<meta property="article:author" content="Jeongwon Kim">
+<meta property="article:tag" content="node">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="mongodb">
+<meta property="article:tag" content="typescript">
+<meta property="article:tag" content="express">
+<meta property="article:tag" content="objectId">
+<meta property="article:tag" content="string">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://swtpumpkin.github.io/image/node.png">
+    
+    <link rel="canonical" href="https://swtpumpkin.github.io/backend/node/mongodbobjectid/"/>
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-119873758-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/">Algorism</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/ProjectEuler/">ProjectEuler</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level1/">level1</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level2/">level2</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level3/">level3</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/">CS</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/dataStructure/">dataStructure</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/">backend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/AWS/">AWS</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/deno/">deno</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker/">docker</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker-compose/">docker-compose</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mongoDB/">mongoDB</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mySQL/">mySQL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/nestjs/">nestjs</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/node/">node</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/">develop</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/google/">google</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/">frontend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/css/">css</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/html/">html</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/react/">react</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/reactNative/">reactNative</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/svg/">svg</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/">git</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/hexo/">hexo</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/javascript/">javascript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/pi/">pi</a></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+    
+        <form class="search-form">
+            <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+            <button type="submit" class="search-form-submit"></button>
+        </form>
+        <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</div>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/backend/node/">node</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-backend/node/mongoDBObjectId" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/backend/node/mongoDBObjectId/" class="article-date">
+            <time datetime="2024-06-27T23:00:00.000Z" itemprop="datePublished">2024-06-28</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/express/" rel="tag">express</a>, <a class="tag-link-link" href="/tags/javascript/" rel="tag">javascript</a>, <a class="tag-link-link" href="/tags/mongodb/" rel="tag">mongodb</a>, <a class="tag-link-link" href="/tags/node/" rel="tag">node</a>, <a class="tag-link-link" href="/tags/objectId/" rel="tag">objectId</a>, <a class="tag-link-link" href="/tags/string/" rel="tag">string</a>, <a class="tag-link-link" href="/tags/typescript/" rel="tag">typescript</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="MongoDB에서-ObjectId로-Document-연결-해야만-하는-이유"><a href="#MongoDB에서-ObjectId로-Document-연결-해야만-하는-이유" class="headerlink" title="MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유"></a>MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유</h1><p><code>MongoDB</code>에서 <code>Document</code>를 연결할 때, <code>참조(Ref)</code>를 위해 <code>ObjectId</code>를 사용하는 것이 좋은 이유에 대해 알아보겠습니다.</p>
+<h2 id="MongoDB에서-Document-연결"><a href="#MongoDB에서-Document-연결" class="headerlink" title="MongoDB에서 Document 연결"></a>MongoDB에서 Document 연결</h2><p><code>MongoDB</code>에서 <code>Document</code> 간의 관계를 표현하는 방법은 크게 2가지가 있습니다.</p>
+<ol>
+<li>내장된 문서 (Embedded Document)</li>
+<li>참조된 문서 (Referenced Document)</li>
+</ol>
+<p>참조를 사용하여 연결된 <code>Document</code>를 저장 할 때, <code>_id</code> 필드를 <code>ObjectId</code>로 저장할 것인지, 문자열로 저장할 것인지 선택할 수 있습니다. 하지만, <code>ObjectId</code>로 저장하는 것이 더 많은 이점을 가지고 있습니다.</p>
+<h2 id="ObjectId-vs-String"><a href="#ObjectId-vs-String" class="headerlink" title="ObjectId vs String"></a>ObjectId vs String</h2><ol>
+<li><p>성능<br><code>MongoDB</code>는 기본적으로 <code>_id</code> 필드를 <code>인덱싱</code>합니다. <code>ObjectId</code>는 <code>12바이트</code>의 바이너리 데이터로 구성되어 있어, <code>인덱싱</code>이 더 빠릅니다. 반면, <code>문자열</code>은 크기가 더 크고, 비교 연산이 상대적으로 느립니다.</p>
+</li>
+<li><p>공간 효율성<br><code>ObjectId</code>는 12바이트로 고정되어 있습니다. 반면, 문자열은 길이가 가변적이기 때문에, 저장 공간을 더 많이 차지할 수 있습니다.</p>
+</li>
+<li><p>Aggregate pipeline과의 호환성<br><code>Mongoose</code>의 <code>populate</code> 메소드는 참조된 <code>document</code>를 불러올 때, 참조 ID가 <code>ObjectId</code>든 <code>문자열</code>이든 상관없이 동작합니다. 그러나 <code>MongoDB</code>의 <code>aggregate pipeline</code>을 사용할 때, <code>문자열 ID</code>를 사용하는 경우 추가적인 변환 작업이 필요합니다. 이는 성능 저하와 코드 복잡성을 초래할 수 있습니다.</p>
+</li>
+</ol>
+<h2 id="Membership-모델"><a href="#Membership-모델" class="headerlink" title="Membership 모델"></a>Membership 모델</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> mongoose <span class="keyword">from</span> <span class="string">&quot;mongoose&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> membershipSchema = <span class="keyword">new</span> mongoose.Schema(&#123;</span><br><span class="line">  user: &#123;</span><br><span class="line">    <span class="keyword">type</span>: mongoose.Schema.Types.ObjectId,</span><br><span class="line">    ref: <span class="string">&quot;User&quot;</span>,</span><br><span class="line">    required: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  role: &#123;</span><br><span class="line">    <span class="keyword">type</span>: <span class="built_in">String</span>,</span><br><span class="line">    required: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Membership = mongoose.model(<span class="string">&quot;Membership&quot;</span>, membershipSchema);</span><br></pre></td></tr></table></figure>
+
+<p><code>Membership</code>모델에서 <code>User</code>모델을 참조하고 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Membership.create(&#123;</span><br><span class="line">  user: <span class="string">&quot;60d4b1b3f3b9b3b4b4b4b4b4&quot;</span>,</span><br><span class="line">  role: <span class="string">&quot;admin&quot;</span>,</span><br><span class="line">&#125;)</span><br><span class="line">  .then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(result);</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(err);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>user</code> 필드에 <code>string</code>를 사용하여 <code>Membership</code> 모델을 생성합니다.</p>
+<h2 id="Populate에서-String-ID-사용의-경우"><a href="#Populate에서-String-ID-사용의-경우" class="headerlink" title="Populate에서 String ID 사용의 경우"></a>Populate에서 String ID 사용의 경우</h2><p><code>Populate</code> 메소드를 사용할 때, 참조 ID가 <code>ObjectId</code>든 <code>문자열</code>이든 상관없이 동작합니다. 아래 코드는 <code>Mongoose</code>의 <code>populate</code> 메소드를 사용하여 <code>ObjectId</code>와 <code>문자열</code> ID를 참조하는 예시입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Membership.find()</span><br><span class="line">  .populate(<span class="string">&quot;user&quot;</span>)</span><br><span class="line">  .exec(<span class="function">(<span class="params">err, results</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      <span class="built_in">console</span>.error(err);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(results);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>Membership</code> 모델에서 <code>user</code> 필드를 참조하고 있습니다. <code>populate</code> 메소드를 사용하여 <code>user</code> 필드를 참조한 <code>document</code>를 불러옵니다. 이때, <code>user</code> 필드가 <code>ObjectId</code>든 <code>문자열</code>이든 상관없이 동작합니다.</p>
+<h2 id="Aggregate-Pipeline에서의-문제"><a href="#Aggregate-Pipeline에서의-문제" class="headerlink" title="Aggregate Pipeline에서의 문제"></a>Aggregate Pipeline에서의 문제</h2><p><code>Aggregate Pipeline</code>을 사용할 때, <code>문자열 ID</code>를 사용하게되면 <code>ObjectId</code>로 변환해야 하는 경우가 자주 발생합니다. 이는 불필요한 변환 로직을 추가해야 하며, 코드의 복잡성과 유지보수 비용을 증가시킵니다. 아래 코드는 <code>ObjectId</code>로 변환하는 예시입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">Membership.aggregate([</span><br><span class="line">  &#123;</span><br><span class="line">    $addFields: &#123;</span><br><span class="line">      <span class="comment">// user 필드를 ObjectId로 변환하여 userObjId 필드로 저장</span></span><br><span class="line">      userObjId: &#123;</span><br><span class="line">        $cond: &#123;</span><br><span class="line">          <span class="keyword">if</span>: &#123; <span class="attr">$eq</span>: [&#123; <span class="attr">$type</span>: <span class="string">&quot;$user&quot;</span> &#125;, <span class="string">&quot;objectId&quot;</span>] &#125;,</span><br><span class="line">          then: <span class="string">&quot;$user&quot;</span>,</span><br><span class="line">          <span class="keyword">else</span>: &#123; <span class="attr">$toObjectId</span>: <span class="string">&quot;$user&quot;</span> &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    $lookup: &#123;</span><br><span class="line">      <span class="keyword">from</span>: <span class="string">&quot;users&quot;</span>,</span><br><span class="line">      localField: <span class="string">&quot;userObjId&quot;</span>,</span><br><span class="line">      foreignField: <span class="string">&quot;_id&quot;</span>,</span><br><span class="line">      <span class="keyword">as</span>: <span class="string">&quot;user&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    $project: &#123;</span><br><span class="line">      userObjId: <span class="number">0</span>, <span class="comment">// 결과에서 userObjId 필드 제외</span></span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">]).exec(<span class="function">(<span class="params">err, results</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(err);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(results);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>위 코드에서 <code>user</code> 필드가 <code>ObjectId</code>가 아닌 경우, <code>userObjId</code>라는 새로운 필드를 생성하여 <code>ObjectId</code>로 변환한 후, <code>lookup</code> 연산을 수행합니다. 이 과정은 코드의 가독성을 떨어뜨리며, 성능에도 영향을 미칠 수 있습니다. <code>ObjectId</code>로 저장하면 이러한 변환 과정이 필요 없으며, 코드가 간결해집니다.</p>
+<h2 id="Membership-저장-시-ObjectId-사용"><a href="#Membership-저장-시-ObjectId-사용" class="headerlink" title="Membership 저장 시 ObjectId 사용"></a>Membership 저장 시 ObjectId 사용</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Membership.create(&#123;</span><br><span class="line">  user: mongoose.Types.ObjectId(<span class="string">&quot;60d4b1b3f3b9b3b4b4b4b4b4&quot;</span>),</span><br><span class="line">  role: <span class="string">&quot;admin&quot;</span>,</span><br><span class="line">&#125;)</span><br><span class="line">  .then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(result);</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(err);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>위 코드와 같이 <code>Membership</code> 모델에서 <code>user</code> 필드에 <code>ObjectId</code>를 사용하여 <code>Membership</code> 모델을 생성, 수정을 하여야 합니다.</p>
+<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p><code>MongoDB</code>에서 <code>document</code>를 연결할 때 <code>ObjectId</code>를 사용하는 것이 성능, 공간 효율성, 일관성 측면에서 더 나은 선택입니다. <code>Node.js</code>와 <code>Mongoose</code>를 사용하여 <code>ObjectId</code>를 참조로 사용하는 방법도 간단하고 직관적입니다. 특히, <code>Aggregate Pipeline</code>을 사용할 때 <code>ObjectId</code>를 사용하면 추가적인 변환 로직 없이 효율적으로 데이터를 처리할 수 있습니다. <code>ObjectId</code>를 사용하여 효율적이고 일관된 데이터 모델을 구축해 보세요.</p>
+
+        </div>
+        <footer class="article-footer">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+
+
+    <a data-url="https://swtpumpkin.github.io/backend/node/mongoDBObjectId/" data-id="clxykq9it000loub891wtelun" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+        
+            <script src="https://utteranc.es/client.js"
+        repo="swtpumpkin/blog-comments"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://www.linkedin.com/in/jeongwon-kim-0a75b1157" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/kim.jeongwon.9" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/swtpumpkin" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="share-alt" href="https://stackshare.io/swtpumpkin/my-stack" target="_blank">
+                        <i class="icon fa fa-share-alt"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/frontend/react/infiniteScroll/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">Custom Hook을 이용한 무한 스크롤 구현하기</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/node/mongoDBObjectId/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/node.png)" alt="MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/node/">node</a></p>
+                            <p class="item-title"><a href="/backend/node/mongoDBObjectId/" class="title">MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유</a></p>
+                            <p class="item-date"><time datetime="2024-06-27T23:00:00.000Z" itemprop="datePublished">2024-06-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/infiniteScroll/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="Custom Hook을 이용한 무한 스크롤 구현하기" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/infiniteScroll/" class="title">Custom Hook을 이용한 무한 스크롤 구현하기</a></p>
+                            <p class="item-date"><time datetime="2024-06-23T23:00:00.000Z" itemprop="datePublished">2024-06-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/nestjs/nestjsTransformAndValidateMongoId/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/nestjs.png)" alt="MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator)" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/nestjs/">nestjs</a></p>
+                            <p class="item-title"><a href="/backend/nestjs/nestjsTransformAndValidateMongoId/" class="title">MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator)</a></p>
+                            <p class="item-date"><time datetime="2024-06-10T23:00:00.000Z" itemprop="datePublished">2024-06-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/reactAxiosCookie/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="React Axios에서 withCredentials를 사용하여 쿠키를 설정하는 방법" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/reactAxiosCookie/" class="title">React Axios에서 withCredentials를 사용하여 쿠키를 설정하는 방법</a></p>
+                            <p class="item-date"><time datetime="2024-06-02T23:00:00.000Z" itemprop="datePublished">2024-06-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/reactToastify/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="React-Toastify (React 앱에 세련된 알림 기능 추가하기)" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/reactToastify/" class="title">React-Toastify (React 앱에 세련된 알림 기능 추가하기)</a></p>
+                            <p class="item-date"><time datetime="2024-06-01T23:00:00.000Z" itemprop="datePublished">2024-06-02</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+        
+    </div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2024 Jeongwon Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>    
+</body>
+</html>
