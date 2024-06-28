@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Docker Compose를 사용한 멀티 컨테이너 관리 | Swtpumpkin Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="update,docker,도커,script,compose,컴포즈,yml,yaml,멀티컨테이너,multi-container,관리,manage,설정,setting,명령어,command,스크립트,bash,업데이트" />
+    
+    <meta name="description" content="Docker Compose를 사용한 멀티 컨테이너 관리Docker Compose는 멀티 컨테이너를 한번에 관리할 수 있는 도구입니다. docker-compose.yml 파일을 작성하여 Nginx, MongoDB 그리고 백엔드 서버로 된 멀티 컨테이너 애플리케이션을 설정하는 방법 및 명령어를 알아보겠습니다. Docker Compose 파일 구조Docker C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker Compose를 사용한 멀티 컨테이너 관리">
+<meta property="og:url" content="https://swtpumpkin.github.io/backend/docker/dockerCompose/index.html">
+<meta property="og:site_name" content="Swtpumpkin Blog">
+<meta property="og:description" content="Docker Compose를 사용한 멀티 컨테이너 관리Docker Compose는 멀티 컨테이너를 한번에 관리할 수 있는 도구입니다. docker-compose.yml 파일을 작성하여 Nginx, MongoDB 그리고 백엔드 서버로 된 멀티 컨테이너 애플리케이션을 설정하는 방법 및 명령어를 알아보겠습니다. Docker Compose 파일 구조Docker C">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://swtpumpkin.github.io/image/docker.png">
+<meta property="article:published_time" content="2024-06-26T23:00:00.000Z">
+<meta property="article:modified_time" content="2024-06-28T13:08:42.312Z">
+<meta property="article:author" content="Jeongwon Kim">
+<meta property="article:tag" content="update">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="도커">
+<meta property="article:tag" content="script">
+<meta property="article:tag" content="compose">
+<meta property="article:tag" content="컴포즈">
+<meta property="article:tag" content="yml">
+<meta property="article:tag" content="yaml">
+<meta property="article:tag" content="멀티컨테이너">
+<meta property="article:tag" content="multi-container">
+<meta property="article:tag" content="관리">
+<meta property="article:tag" content="manage">
+<meta property="article:tag" content="설정">
+<meta property="article:tag" content="setting">
+<meta property="article:tag" content="명령어">
+<meta property="article:tag" content="command">
+<meta property="article:tag" content="스크립트">
+<meta property="article:tag" content="bash">
+<meta property="article:tag" content="업데이트">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://swtpumpkin.github.io/image/docker.png">
+    
+    <link rel="canonical" href="https://swtpumpkin.github.io/backend/docker/dockercompose/"/>
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-119873758-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/">Algorism</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/ProjectEuler/">ProjectEuler</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level1/">level1</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level2/">level2</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level3/">level3</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/">CS</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/dataStructure/">dataStructure</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/">backend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/AWS/">AWS</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/deno/">deno</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker/">docker</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker-compose/">docker-compose</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mongoDB/">mongoDB</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mySQL/">mySQL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/nestjs/">nestjs</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/node/">node</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/">develop</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/google/">google</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/">frontend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/css/">css</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/html/">html</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/react/">react</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/reactNative/">reactNative</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/svg/">svg</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/">git</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/hexo/">hexo</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/javascript/">javascript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/pi/">pi</a></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+    
+        <form class="search-form">
+            <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+            <button type="submit" class="search-form-submit"></button>
+        </form>
+        <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</div>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/backend/docker/">docker</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-backend/docker/dockerCompose" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Docker Compose를 사용한 멀티 컨테이너 관리
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/backend/docker/dockerCompose/" class="article-date">
+            <time datetime="2024-06-26T23:00:00.000Z" itemprop="datePublished">2024-06-27</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/bash/" rel="tag">bash</a>, <a class="tag-link-link" href="/tags/command/" rel="tag">command</a>, <a class="tag-link-link" href="/tags/compose/" rel="tag">compose</a>, <a class="tag-link-link" href="/tags/docker/" rel="tag">docker</a>, <a class="tag-link-link" href="/tags/manage/" rel="tag">manage</a>, <a class="tag-link-link" href="/tags/multi-container/" rel="tag">multi-container</a>, <a class="tag-link-link" href="/tags/script/" rel="tag">script</a>, <a class="tag-link-link" href="/tags/setting/" rel="tag">setting</a>, <a class="tag-link-link" href="/tags/update/" rel="tag">update</a>, <a class="tag-link-link" href="/tags/yaml/" rel="tag">yaml</a>, <a class="tag-link-link" href="/tags/yml/" rel="tag">yml</a>, <a class="tag-link-link" href="/tags/%EA%B4%80%EB%A6%AC/" rel="tag">관리</a>, <a class="tag-link-link" href="/tags/%EB%8F%84%EC%BB%A4/" rel="tag">도커</a>, <a class="tag-link-link" href="/tags/%EB%A9%80%ED%8B%B0%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88/" rel="tag">멀티컨테이너</a>, <a class="tag-link-link" href="/tags/%EB%AA%85%EB%A0%B9%EC%96%B4/" rel="tag">명령어</a>, <a class="tag-link-link" href="/tags/%EC%84%A4%EC%A0%95/" rel="tag">설정</a>, <a class="tag-link-link" href="/tags/%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8/" rel="tag">스크립트</a>, <a class="tag-link-link" href="/tags/%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8/" rel="tag">업데이트</a>, <a class="tag-link-link" href="/tags/%EC%BB%B4%ED%8F%AC%EC%A6%88/" rel="tag">컴포즈</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="Docker-Compose를-사용한-멀티-컨테이너-관리"><a href="#Docker-Compose를-사용한-멀티-컨테이너-관리" class="headerlink" title="Docker Compose를 사용한 멀티 컨테이너 관리"></a>Docker Compose를 사용한 멀티 컨테이너 관리</h1><p><code>Docker Compose</code>는 <code>멀티 컨테이너</code>를 <code>한번에 관리</code>할 수 있는 도구입니다. <code>docker-compose.yml</code> 파일을 작성하여 Nginx, MongoDB 그리고 백엔드 서버로 된 멀티 컨테이너 애플리케이션을 설정하는 방법 및 명령어를 알아보겠습니다.</p>
+<h2 id="Docker-Compose-파일-구조"><a href="#Docker-Compose-파일-구조" class="headerlink" title="Docker Compose 파일 구조"></a>Docker Compose 파일 구조</h2><p><code>Docker Compose</code>는 <code>yml</code> 또는 <code>yaml</code> 파일로 작성합니다. <code>docker-compose.yml</code> 파일은 다음과 같은 구조로 작성합니다.</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="comment"># nginx SET</span></span><br><span class="line">  <span class="attr">nginx:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">arm64v8/nginx</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./data/nginx:/etc/nginx/conf.d</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./data/certbot/conf:/etc/letsencrypt</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./data/certbot/www:/var/www/certbot</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">80</span><span class="string">:80</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">443</span><span class="string">:443</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">server</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">&#x27;/bin/sh -c &#x27;</span><span class="string">&#x27;while :; do sleep 6h &amp; wait $$&#123;!&#125;; nginx -s reload; done &amp; nginx -g &quot;daemon off;&quot;&#x27;</span><span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Certbot SET</span></span><br><span class="line">  <span class="attr">certbot:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">certbot/certbot:arm64v8-nightly</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./data/certbot/conf:/etc/letsencrypt</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./data/certbot/www:/var/www/certbot</span></span><br><span class="line">    <span class="attr">entrypoint:</span> <span class="string">&quot;/bin/sh -c &#x27;trap exit TERM; while :; do certbot renew; sleep 12h &amp; wait $$&#123;!&#125;; done;&#x27;&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># MONGODB SET</span></span><br><span class="line">  <span class="attr">mongodb:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mongo:4.4.18</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">19328</span><span class="string">:27017</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./data/mongodb/data:/data/db</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># BACKEND SERVER SET</span></span><br><span class="line">  <span class="attr">server:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">xxxxxxxxxxxx.dkr.ecr.ap-northeast-2.amazonaws.com/server:latest</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./server:/server</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/server/node_modules</span></span><br><span class="line">    <span class="attr">links:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;mongodb:server&quot;</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mongodb</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">.env</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="서비스-설명"><a href="#서비스-설명" class="headerlink" title="서비스 설명"></a>서비스 설명</h3><ol>
+<li>Nginx</li>
+</ol>
+<ul>
+<li>image: Nginx는 <code>arm64v8/nginx</code> 이미지를 사용합니다.</li>
+<li>restart: <code>unless-stopped</code> 옵션을 사용하여 컨테이너가 종료되면 다시 시작합니다.</li>
+<li>volumes: 호스트의 <code>./data/nginx</code> 디렉토리를 컨테이너의 <code>/etc/nginx/conf.d</code> 디렉토리로 연결합니다.</li>
+<li>ports: 호스트의 80, 443 포트를 컨테이너의 80, 443 포트로 연결합니다.</li>
+<li>depends_on: <code>server</code> 컨테이너가 실행된 후에 <code>nginx</code> 컨테이너가 실행됩니다.</li>
+<li>command: Nginx를 주기적으로 리로드하고, 포그라운드에서 실행합니다.</li>
+</ul>
+<ol start="2">
+<li>Certbot</li>
+</ol>
+<ul>
+<li>image: Certbot는 <code>certbot/certbot:arm64v8-nightly</code> 이미지를 사용합니다.</li>
+<li>restart: <code>unless-stopped</code> 옵션을 사용하여 컨테이너가 종료되면 다시 시작합니다.</li>
+<li>volumes: 호스트의 <code>./data/certbot</code> 디렉토리를 컨테이너의 <code>/etc/letsencrypt</code>, <code>/var/www/certbot</code> 디렉토리로 연결합니다.</li>
+<li>entrypoint: 인증서를 갱신하는 <code>Certbot</code> 명령을 실행합니다.</li>
+</ul>
+<ol start="3">
+<li>MongoDB</li>
+</ol>
+<ul>
+<li>image: MongoDB는 <code>mongo:4.4.18</code> 이미지를 사용합니다.</li>
+<li>restart: <code>always</code> 옵션을 사용하여 컨테이너가 종료되면 다시 시작합니다.</li>
+<li>ports: 호스트의 19328 포트를 컨테이너의 27017 포트로 연결합니다.</li>
+<li>volumes: 호스트의 <code>./data/mongodb/data</code> 디렉토리를 컨테이너의 <code>/data/db</code> 디렉토리로 연결합니다.</li>
+</ul>
+<ol start="4">
+<li>Backend Server</li>
+</ol>
+<ul>
+<li>image: 백엔드 서버는 <code>xxxxxxxxxxxx.dkr.ecr.ap-northeast-2.amazonaws.com/server:latest</code> 이미지를 사용합니다. (ECR 이미지)</li>
+<li>restart: <code>always</code> 옵션을 사용하여 컨테이너가 종료되면 다시 시작합니다.</li>
+<li>volumes: 호스트의 <code>./server</code>, <code>/server/node_modules</code> 디렉토리를 컨테이너의 <code>/server</code>, <code>/server/node_modules</code> 디렉토리로 연결합니다.</li>
+<li>links: <code>mongodb</code> 컨테이너를 <code>server</code> 컨테이너에 연결합니다.</li>
+<li>depends_on: <code>mongodb</code> 컨테이너가 실행된 후에 <code>server</code> 컨테이너가 실행됩니다.</li>
+<li>env_file: <code>.env</code> 파일을 읽어 환경 변수를 설정합니다.</li>
+</ul>
+<h2 id="설정-파일-작성-요령"><a href="#설정-파일-작성-요령" class="headerlink" title="설정 파일 작성 요령"></a>설정 파일 작성 요령</h2><ul>
+<li>버전 정의: version: “3”은 <code>Docker Compose</code> 파일의 버전을 나타냅니다. 여기서는 버전 3을 사용합니다.</li>
+<li>서비스 정의: 각 서비스는 독립적으로 정의되며, 이미지, 빌드경로, 포트, 볼륨, 환경변수 등을 설정할 수 있습니다.</li>
+<li>의존성 관리: <code>depends_on</code>을 사용하여 서비스 간의 의존성을 설정할 수 있습니다. <code>depends_on</code>으로 설정된 서비스를 먼저 실행한 후 다음 서비스를 실행합니다.</li>
+<li>환경 변수 설정: <code>env_file</code>을 사용하여 <code>.env</code> 파일을 읽어 환경 변수를 설정할 수 있습니다.</li>
+<li>링크 설정: <code>links</code>를 사용하여 컨테이너 간의 연결을 설정합니다. <code>links</code>로 설정된 서비스를 다른 서비스에 연결합니다.</li>
+<li>컨테이너 재시작 정책<ul>
+<li><code>restart</code>를 사용하여 컨테이너의 재시작 정책을 설정할 수 있습니다. <code>no</code>, <code>always</code>, <code>on-failure</code>, <code>unless-stopped</code> 등의 옵션을 사용할 수 있습니다.</li>
+</ul>
+</li>
+<li>컨테이너 실행 명령<ul>
+<li><code>command</code>를 사용하여 컨테이너 실행 명령을 설정할 수 있습니다.</li>
+</ul>
+</li>
+<li>로그 출력: <code>logging</code> 옵션을 사용하여 로그 출력을 설정할 수 있습니다.<ul>
+<li><code>driver</code>, <code>options</code> 등의 옵션을 사용하여 로그 드라이버와 로그 옵션을 설정할 수 있습니다.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Docker-Compose-명령어"><a href="#Docker-Compose-명령어" class="headerlink" title="Docker Compose 명령어"></a>Docker Compose 명령어</h2><ul>
+<li>이미지 다운로드: <code>docker-compose pull</code> 명령으로 이미지를 다운로드합니다.</li>
+<li>빌드 및 실행: <code>docker-compose up -d</code> 명령으로 <code>docker-compose.yml</code> 파일을 실행합니다. <code>-d</code> 옵션을 사용하여 백그라운드에서 실행합니다. 파일이 있는 디렉토리에서 실행합니다.</li>
+<li>로그 확인: <code>docker-compose logs -f</code> 명령으로 실행 중인 컨테이너의 로그를 확인합니다. <code>-f</code> 옵션을 사용하여 실시간 로그를 확인합니다.<ul>
+<li>서비스별 로그 확인: <code>docker-compose logs -f [service_name]</code> 명령으로 특정 서비스의 로그를 확인합니다.</li>
+</ul>
+</li>
+<li>상태 확인: <code>docker-compose ps</code> 명령으로 실행 중인 컨테이너의 상태를 확인합니다.</li>
+<li>중지: <code>docker-compose down</code> 명령으로 실행 중인 컨테이너를 중지합니다. 파일이 있는 디렉토리에서 실행합니다.</li>
+</ul>
+<h2 id="Docker-Compose-모델-업데이트-스크립트-dockerUpdate-sh"><a href="#Docker-Compose-모델-업데이트-스크립트-dockerUpdate-sh" class="headerlink" title="Docker Compose 모델 업데이트 스크립트 (dockerUpdate.sh)"></a>Docker Compose 모델 업데이트 스크립트 (dockerUpdate.sh)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">ECR_REGISTRY=<span class="string">&quot;xxxxxxxxxxxx.dkr.ecr.ap-northeast-2.amazonaws.com&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">aws_login</span></span>() &#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;### aws login...&quot;</span></span><br><span class="line">    aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin <span class="string">&quot;<span class="variable">$&#123;ECR_REGISTRY&#125;</span>&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">docker_pull</span></span>() &#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;### docker-compose pull...&quot;</span></span><br><span class="line">    docker-compose pull</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">docker_up</span></span>() &#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;### docker-compose up -d...&quot;</span></span><br><span class="line">    docker-compose up -d</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">docker_remove_all_unused</span></span>() &#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;### docker system prune -a...&quot;</span></span><br><span class="line">    yes | docker system prune -a</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">    aws_login</span><br><span class="line">    docker_pull</span><br><span class="line">    docker_up</span><br><span class="line">    docker_remove_all_unused</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">main <span class="string">&quot;<span class="variable">$@</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>aws_login</code>: <code>AWS ECR</code>에 로그인합니다.</li>
+<li><code>docker_pull</code>: <code>docker-compose pull</code> 명령으로 이미지를 다운로드합니다.</li>
+<li><code>docker_up</code>: <code>docker-compose up -d</code> 명령으로 <code>docker-compose.yml</code> 파일을 실행합니다.</li>
+<li><code>docker_remove_all_unused</code>: <code>docker system prune -a</code> 명령으로 사용하지 않는 이미지, 컨테이너, 네트워크, 볼륨을 삭제합니다.</li>
+<li><code>main</code>: 메인 함수로 스크립트를 실행합니다.</li>
+</ul>
+<h2 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h2><p><code>Docker Compose</code>를 사용하면 <code>멀티 컨테이너</code>를 <code>한번에 관리</code>할 수 있습니다. <code>docker-compose.yml</code> 파일을 작성하여 <code>Nginx</code>, <code>MongoDB</code> 그리고 <code>백엔드 서버</code>로 된 멀티 컨테이너 애플리케이션을 설정하는 방법과 명령어를 알아보았습니다. 또한 <code>dockerUpdate.sh</code> 스크립트를 사용하여 <code>모델 업데이트</code>를 자동화할 수 있습니다. 대략적인 <code>yml</code> 구조 및 명령어를 참고하여 <code>Docker Compose</code>를 활용하여 멀티 컨테이너 애플리케이션을 관리해보세요.</p>
+
+        </div>
+        <footer class="article-footer">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+
+
+    <a data-url="https://swtpumpkin.github.io/backend/docker/dockerCompose/" data-id="clxyoq8450000kqb8erib1nn3" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+        
+            <script src="https://utteranc.es/client.js"
+        repo="swtpumpkin/blog-comments"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://www.linkedin.com/in/jeongwon-kim-0a75b1157" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/kim.jeongwon.9" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/swtpumpkin" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="share-alt" href="https://stackshare.io/swtpumpkin/my-stack" target="_blank">
+                        <i class="icon fa fa-share-alt"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/backend/node/mongoDBObjectId/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/frontend/react/infiniteScroll/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">Custom Hook을 이용한 무한 스크롤 구현하기</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/node/mongoDBObjectId/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/node.png)" alt="MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/node/">node</a></p>
+                            <p class="item-title"><a href="/backend/node/mongoDBObjectId/" class="title">MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유</a></p>
+                            <p class="item-date"><time datetime="2024-06-27T23:00:00.000Z" itemprop="datePublished">2024-06-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/docker/dockerCompose/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/docker.png)" alt="Docker Compose를 사용한 멀티 컨테이너 관리" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/docker/">docker</a></p>
+                            <p class="item-title"><a href="/backend/docker/dockerCompose/" class="title">Docker Compose를 사용한 멀티 컨테이너 관리</a></p>
+                            <p class="item-date"><time datetime="2024-06-26T23:00:00.000Z" itemprop="datePublished">2024-06-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/infiniteScroll/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="Custom Hook을 이용한 무한 스크롤 구현하기" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/infiniteScroll/" class="title">Custom Hook을 이용한 무한 스크롤 구현하기</a></p>
+                            <p class="item-date"><time datetime="2024-06-23T23:00:00.000Z" itemprop="datePublished">2024-06-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/nestjs/nestjsTransformAndValidateMongoId/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/nestjs.png)" alt="MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator)" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/nestjs/">nestjs</a></p>
+                            <p class="item-title"><a href="/backend/nestjs/nestjsTransformAndValidateMongoId/" class="title">MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator)</a></p>
+                            <p class="item-date"><time datetime="2024-06-10T23:00:00.000Z" itemprop="datePublished">2024-06-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/reactAxiosCookie/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="React Axios에서 withCredentials를 사용하여 쿠키를 설정하는 방법" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/reactAxiosCookie/" class="title">React Axios에서 withCredentials를 사용하여 쿠키를 설정하는 방법</a></p>
+                            <p class="item-date"><time datetime="2024-06-02T23:00:00.000Z" itemprop="datePublished">2024-06-03</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+        
+    </div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2024 Jeongwon Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>    
+</body>
+</html>
