@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>MongoDB populate vs aggregate 성능 비교 테스트 | Swtpumpkin Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="mongodb,mongoose,aggregate,populate,performance,성능,비교,테스트,test,compare" />
+    
+    <meta name="description" content="MongoDB populate vs aggregate 성능 비교 테스트MongoDB를 사용할 때 populate와 aggregate는 자주 사용하는 두 가지 방식입니다. 이 글에서는 이 두 방법의 성능을 비교해 보겠습니다. 작은 데이터셋과 큰 데이터셋에서 각각의 성능을 테스트해 보았습니다. 테스트 환경 MongoDB 6.x.x Node.js: 20.x.x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB populate vs aggregate 성능 비교 테스트">
+<meta property="og:url" content="https://swtpumpkin.github.io/backend/node/mongoDBPopulateAggregateCompare/index.html">
+<meta property="og:site_name" content="Swtpumpkin Blog">
+<meta property="og:description" content="MongoDB populate vs aggregate 성능 비교 테스트MongoDB를 사용할 때 populate와 aggregate는 자주 사용하는 두 가지 방식입니다. 이 글에서는 이 두 방법의 성능을 비교해 보겠습니다. 작은 데이터셋과 큰 데이터셋에서 각각의 성능을 테스트해 보았습니다. 테스트 환경 MongoDB 6.x.x Node.js: 20.x.x">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://swtpumpkin.github.io/image/node.png">
+<meta property="article:published_time" content="2024-06-30T23:00:00.000Z">
+<meta property="article:modified_time" content="2024-07-02T13:50:13.233Z">
+<meta property="article:author" content="Jeongwon Kim">
+<meta property="article:tag" content="mongodb">
+<meta property="article:tag" content="mongoose">
+<meta property="article:tag" content="aggregate">
+<meta property="article:tag" content="populate">
+<meta property="article:tag" content="performance">
+<meta property="article:tag" content="성능">
+<meta property="article:tag" content="비교">
+<meta property="article:tag" content="테스트">
+<meta property="article:tag" content="test">
+<meta property="article:tag" content="compare">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://swtpumpkin.github.io/image/node.png">
+    
+    <link rel="canonical" href="https://swtpumpkin.github.io/backend/node/mongodbpopulateaggregatecompare/"/>
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-119873758-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/">Algorism</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/ProjectEuler/">ProjectEuler</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level1/">level1</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level2/">level2</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level3/">level3</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/">CS</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/dataStructure/">dataStructure</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/">backend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/AWS/">AWS</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/deno/">deno</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker/">docker</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker-compose/">docker-compose</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mongoDB/">mongoDB</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mySQL/">mySQL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/nestjs/">nestjs</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/node/">node</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/">develop</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/google/">google</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/">frontend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/css/">css</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/html/">html</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/react/">react</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/reactNative/">reactNative</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/svg/">svg</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/">git</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/hexo/">hexo</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/javascript/">javascript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/pi/">pi</a></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+    
+        <form class="search-form">
+            <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+            <button type="submit" class="search-form-submit"></button>
+        </form>
+        <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</div>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/backend/node/">node</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-backend/node/mongoDBPopulateAggregateCompare" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        MongoDB populate vs aggregate 성능 비교 테스트
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/backend/node/mongoDBPopulateAggregateCompare/" class="article-date">
+            <time datetime="2024-06-30T23:00:00.000Z" itemprop="datePublished">2024-07-01</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/aggregate/" rel="tag">aggregate</a>, <a class="tag-link-link" href="/tags/compare/" rel="tag">compare</a>, <a class="tag-link-link" href="/tags/mongodb/" rel="tag">mongodb</a>, <a class="tag-link-link" href="/tags/mongoose/" rel="tag">mongoose</a>, <a class="tag-link-link" href="/tags/performance/" rel="tag">performance</a>, <a class="tag-link-link" href="/tags/populate/" rel="tag">populate</a>, <a class="tag-link-link" href="/tags/test/" rel="tag">test</a>, <a class="tag-link-link" href="/tags/%EB%B9%84%EA%B5%90/" rel="tag">비교</a>, <a class="tag-link-link" href="/tags/%EC%84%B1%EB%8A%A5/" rel="tag">성능</a>, <a class="tag-link-link" href="/tags/%ED%85%8C%EC%8A%A4%ED%8A%B8/" rel="tag">테스트</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="MongoDB-populate-vs-aggregate-성능-비교-테스트"><a href="#MongoDB-populate-vs-aggregate-성능-비교-테스트" class="headerlink" title="MongoDB populate vs aggregate 성능 비교 테스트"></a>MongoDB populate vs aggregate 성능 비교 테스트</h1><p><code>MongoDB</code>를 사용할 때 <code>populate</code>와 <code>aggregate</code>는 자주 사용하는 두 가지 방식입니다. 이 글에서는 이 두 방법의 성능을 비교해 보겠습니다. 작은 데이터셋과 큰 데이터셋에서 각각의 성능을 테스트해 보았습니다.</p>
+<h2 id="테스트-환경"><a href="#테스트-환경" class="headerlink" title="테스트 환경"></a>테스트 환경</h2><ul>
+<li><code>MongoDB</code> 6.x.x</li>
+<li><code>Node.js</code>: 20.x.x</li>
+<li><code>Mongoose</code>: 8.x.x</li>
+</ul>
+<h2 id="Mongoose-모델-정의"><a href="#Mongoose-모델-정의" class="headerlink" title="Mongoose 모델 정의"></a>Mongoose 모델 정의</h2><p>먼저, 두 개의 <code>Mongoose</code> 모델을 정의했습니다: <code>Author</code>와 <code>Book</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">&quot;mongoose&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; Schema &#125; = mongoose;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> authorSchema = <span class="keyword">new</span> Schema(&#123; <span class="attr">name</span>: <span class="built_in">String</span> &#125;);</span><br><span class="line"><span class="keyword">const</span> bookSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  title: <span class="built_in">String</span>,</span><br><span class="line">  author: &#123; <span class="attr">type</span>: Schema.Types.ObjectId, <span class="attr">ref</span>: <span class="string">&quot;Author&quot;</span> &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Author = mongoose.model(<span class="string">&quot;Author&quot;</span>, authorSchema);</span><br><span class="line"><span class="keyword">const</span> Book = mongoose.model(<span class="string">&quot;Book&quot;</span>, bookSchema);</span><br></pre></td></tr></table></figure>
+
+<h2 id="테스트-데이터-생성"><a href="#테스트-데이터-생성" class="headerlink" title="테스트 데이터 생성"></a>테스트 데이터 생성</h2><p>각 테스트 전 데이터를 새로 생성하여 캐싱 효과를 최소화했습니다. <code>10개의 문서</code>로 <code>작은 데이터셋</code>을, <code>500,000개의 문서</code>로 <code>큰 데이터셋</code>을 테스트했습니다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">createTestData</span>(<span class="params">numAuthors, numBooks</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">await</span> Author.deleteMany(&#123;&#125;);</span><br><span class="line">  <span class="keyword">await</span> Book.deleteMany(&#123;&#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> authors = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; numAuthors; i++) &#123;</span><br><span class="line">    authors.push(<span class="keyword">new</span> Author(&#123; <span class="attr">name</span>: <span class="string">`Author <span class="subst">$&#123;i&#125;</span>`</span> &#125;));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">await</span> Author.insertMany(authors);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> books = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; numBooks; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> author = authors[i % numAuthors];</span><br><span class="line">    books.push(<span class="keyword">new</span> Book(&#123; <span class="attr">title</span>: <span class="string">`Book <span class="subst">$&#123;i&#125;</span>`</span>, <span class="attr">author</span>: author._id &#125;));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">await</span> Book.insertMany(books);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="성능-테스트"><a href="#성능-테스트" class="headerlink" title="성능 테스트"></a>성능 테스트</h2><p><code>populate</code>와 <code>aggregate</code> 각각의 성능을 테스트했습니다. 실행 시간은 <code>performance.now()</code>를 사용하여 측정했습니다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; performance &#125; = <span class="built_in">require</span>(<span class="string">&quot;perf_hooks&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">testPerformance</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> smallTestSize = <span class="number">10</span>;</span><br><span class="line">  <span class="keyword">const</span> largeTestSize = <span class="number">500000</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Small test</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Testing with <span class="subst">$&#123;smallTestSize&#125;</span> documents...`</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">await</span> createTestData(smallTestSize / <span class="number">2</span>, smallTestSize);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Testing populate with <span class="subst">$&#123;smallTestSize&#125;</span> documents...`</span>);</span><br><span class="line">  <span class="keyword">let</span> startTime = performance.now();</span><br><span class="line">  <span class="keyword">await</span> Book.find().populate(<span class="string">&quot;author&quot;</span>).exec();</span><br><span class="line">  <span class="keyword">let</span> endTime = performance.now();</span><br><span class="line">  <span class="keyword">const</span> populateSmallTime = endTime - startTime;</span><br><span class="line">  <span class="built_in">console</span>.log(</span><br><span class="line">    <span class="string">`populate with <span class="subst">$&#123;smallTestSize&#125;</span> documents: <span class="subst">$&#123;populateSmallTime&#125;</span> ms`</span></span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  <span class="keyword">await</span> createTestData(smallTestSize / <span class="number">2</span>, smallTestSize);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Testing aggregate with <span class="subst">$&#123;smallTestSize&#125;</span> documents...`</span>);</span><br><span class="line">  startTime = performance.now();</span><br><span class="line">  <span class="keyword">await</span> Book.aggregate([</span><br><span class="line">    &#123;</span><br><span class="line">      $lookup: &#123;</span><br><span class="line">        <span class="keyword">from</span>: <span class="string">&quot;authors&quot;</span>,</span><br><span class="line">        localField: <span class="string">&quot;author&quot;</span>,</span><br><span class="line">        foreignField: <span class="string">&quot;_id&quot;</span>,</span><br><span class="line">        <span class="keyword">as</span>: <span class="string">&quot;authorDetails&quot;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      $unwind: <span class="string">&quot;$authorDetails&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  ]).exec();</span><br><span class="line">  endTime = performance.now();</span><br><span class="line">  <span class="keyword">const</span> aggregateSmallTime = endTime - startTime;</span><br><span class="line">  <span class="built_in">console</span>.log(</span><br><span class="line">    <span class="string">`aggregate with <span class="subst">$&#123;smallTestSize&#125;</span> documents: <span class="subst">$&#123;aggregateSmallTime&#125;</span> ms`</span></span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (populateSmallTime &lt; aggregateSmallTime) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`populate is faster for <span class="subst">$&#123;smallTestSize&#125;</span> documents.`</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`aggregate is faster for <span class="subst">$&#123;smallTestSize&#125;</span> documents.`</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Large test</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Testing with <span class="subst">$&#123;largeTestSize&#125;</span> documents...`</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">await</span> createTestData(largeTestSize / <span class="number">2</span>, largeTestSize);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Testing populate with <span class="subst">$&#123;largeTestSize&#125;</span> documents...`</span>);</span><br><span class="line">  startTime = performance.now();</span><br><span class="line">  <span class="keyword">await</span> Book.find().populate(<span class="string">&quot;author&quot;</span>).exec();</span><br><span class="line">  endTime = performance.now();</span><br><span class="line">  <span class="keyword">const</span> populateLargeTime = endTime - startTime;</span><br><span class="line">  <span class="built_in">console</span>.log(</span><br><span class="line">    <span class="string">`populate with <span class="subst">$&#123;largeTestSize&#125;</span> documents: <span class="subst">$&#123;populateLargeTime&#125;</span> ms`</span></span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  <span class="keyword">await</span> createTestData(largeTestSize / <span class="number">2</span>, largeTestSize);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Testing aggregate with <span class="subst">$&#123;largeTestSize&#125;</span> documents...`</span>);</span><br><span class="line">  startTime = performance.now();</span><br><span class="line">  <span class="keyword">await</span> Book.aggregate([</span><br><span class="line">    &#123;</span><br><span class="line">      $lookup: &#123;</span><br><span class="line">        <span class="keyword">from</span>: <span class="string">&quot;authors&quot;</span>,</span><br><span class="line">        localField: <span class="string">&quot;author&quot;</span>,</span><br><span class="line">        foreignField: <span class="string">&quot;_id&quot;</span>,</span><br><span class="line">        <span class="keyword">as</span>: <span class="string">&quot;authorDetails&quot;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      $unwind: <span class="string">&quot;$authorDetails&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  ]).exec();</span><br><span class="line">  endTime = performance.now();</span><br><span class="line">  <span class="keyword">const</span> aggregateLargeTime = endTime - startTime;</span><br><span class="line">  <span class="built_in">console</span>.log(</span><br><span class="line">    <span class="string">`aggregate with <span class="subst">$&#123;largeTestSize&#125;</span> documents: <span class="subst">$&#123;aggregateLargeTime&#125;</span> ms`</span></span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (populateLargeTime &lt; aggregateLargeTime) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`populate is faster for <span class="subst">$&#123;largeTestSize&#125;</span> documents.`</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`aggregate is faster for <span class="subst">$&#123;largeTestSize&#125;</span> documents.`</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  mongoose.connection.close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">testPerformance().catch(<span class="function">(<span class="params">err</span>) =&gt;</span> <span class="built_in">console</span>.error(err));</span><br></pre></td></tr></table></figure>
+
+<h2 id="테스트-결과"><a href="#테스트-결과" class="headerlink" title="테스트 결과"></a>테스트 결과</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Testing with 10 documents...</span><br><span class="line">Testing populate with 10 documents...</span><br><span class="line">populate with 10 documents: 12.616999864578247 ms</span><br><span class="line">Testing aggregate with 10 documents...</span><br><span class="line">aggregate with 10 documents: 3.547708034515381 ms</span><br><span class="line">aggregate is faster for 10 documents.</span><br><span class="line">Testing with 500000 documents...</span><br><span class="line">Testing populate with 500000 documents...</span><br><span class="line">populate with 500000 documents: 6424.865000009537 ms</span><br><span class="line">Testing aggregate with 500000 documents...</span><br><span class="line">aggregate with 500000 documents: 10192.34625005722 ms</span><br><span class="line">populate is faster for 500000 documents.</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>작은 데이터셋 (10 documents)</li>
+</ol>
+<ul>
+<li><code>populate</code> 실행 시간: 12.62 ms</li>
+<li><code>aggregate</code> 실행 시간: 3.55 ms</li>
+<li>결론: 작은 데이터셋에서는 <code>aggregate</code>가 더 빠르다.</li>
+</ul>
+<ol start="2">
+<li>큰 데이터셋 (500,000 documents)</li>
+</ol>
+<ul>
+<li><code>populate</code> 실행 시간: 6424.87 ms</li>
+<li><code>aggregate</code> 실행 시간: 10192.35 ms</li>
+<li>결론: 큰 데이터셋에서는 <code>populate</code>가 더 빠르다.</li>
+</ul>
+<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p>위의 성능 테스트 결과를 토대로 아래와 같은 결론을 도출했습니다.</p>
+<ul>
+<li>작은 데이터셋에서는 <code>aggregate</code>가 더 빠르다.</li>
+<li>큰 데이터셋에서는 <code>populate</code>가 더 빠르다.</li>
+</ul>
+<p>따라서, 데이터셋의 크기와 데이터베이스 구조를 고려하여 적절한 방법을 선택하는 것이 중요합니다.<br>이 블로그는 기술블로그마다 <code>populate</code>가 빠르다 또는 <code>aggregate</code>가 빠르다라는 게시글을 보고 의문이 들어서 직접 테스트해보았습니다.<br><code>MongoDB</code> 버전이나 <code>Mongoose</code> 버전에 따라 결과가 달라질 수 있으니 참고하시기 바랍니다.<br>위 코드는 <code>GitHub</code>에 올려두었습니다. <a target="_blank" rel="noopener" href="https://github.com/swtpumpkin/mongo-populate-aggregate-compare">GitHub</a>에서 확인하실 수 있습니다.</p>
+
+        </div>
+        <footer class="article-footer">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+
+
+    <a data-url="https://swtpumpkin.github.io/backend/node/mongoDBPopulateAggregateCompare/" data-id="cly4gmvrr000zukb8d4ejeccg" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+        
+            <script src="https://utteranc.es/client.js"
+        repo="swtpumpkin/blog-comments"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://www.linkedin.com/in/jeongwon-kim-0a75b1157" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/kim.jeongwon.9" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/swtpumpkin" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="share-alt" href="https://stackshare.io/swtpumpkin/my-stack" target="_blank">
+                        <i class="icon fa fa-share-alt"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/backend/node/mongoDBObjectId/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/node/mongoDBPopulateAggregateCompare/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/node.png)" alt="MongoDB populate vs aggregate 성능 비교 테스트" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/node/">node</a></p>
+                            <p class="item-title"><a href="/backend/node/mongoDBPopulateAggregateCompare/" class="title">MongoDB populate vs aggregate 성능 비교 테스트</a></p>
+                            <p class="item-date"><time datetime="2024-06-30T23:00:00.000Z" itemprop="datePublished">2024-07-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/node/mongoDBObjectId/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/node.png)" alt="MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/node/">node</a></p>
+                            <p class="item-title"><a href="/backend/node/mongoDBObjectId/" class="title">MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유</a></p>
+                            <p class="item-date"><time datetime="2024-06-27T23:00:00.000Z" itemprop="datePublished">2024-06-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/docker/dockerCompose/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/docker.png)" alt="Docker Compose를 사용한 멀티 컨테이너 관리" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/docker/">docker</a></p>
+                            <p class="item-title"><a href="/backend/docker/dockerCompose/" class="title">Docker Compose를 사용한 멀티 컨테이너 관리</a></p>
+                            <p class="item-date"><time datetime="2024-06-26T23:00:00.000Z" itemprop="datePublished">2024-06-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/infiniteScroll/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="Custom Hook을 이용한 무한 스크롤 구현하기" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/infiniteScroll/" class="title">Custom Hook을 이용한 무한 스크롤 구현하기</a></p>
+                            <p class="item-date"><time datetime="2024-06-23T23:00:00.000Z" itemprop="datePublished">2024-06-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/nestjs/nestjsTransformAndValidateMongoId/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/nestjs.png)" alt="MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator)" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/nestjs/">nestjs</a></p>
+                            <p class="item-title"><a href="/backend/nestjs/nestjsTransformAndValidateMongoId/" class="title">MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator)</a></p>
+                            <p class="item-date"><time datetime="2024-06-10T23:00:00.000Z" itemprop="datePublished">2024-06-11</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+        
+    </div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2024 Jeongwon Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>    
+</body>
+</html>
