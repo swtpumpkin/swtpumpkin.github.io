@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Swtpumpkin Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="description" content="Introduce 안녕하세요! 6년째 스타트업에서 웹과 앱 서비스를 기획 &#x2F; 개발 &#x2F; 배포 &#x2F; 운영한 경험이 있는 개발자 김정원입니다. Node.js를 주로 사용하며 AWS, Docker, Github 등을 사용하여 서비스를 운영하였습니다. 유지보수하기 좋은 코드, 중복된 코드를 줄이는 것을 중요하게 생각합니다. 한 회사에 6년 가까이 다니면서 다양한 경험">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Swtpumpkin Blog">
+<meta property="og:url" content="https://swtpumpkin.github.io/about/index.html">
+<meta property="og:site_name" content="Swtpumpkin Blog">
+<meta property="og:description" content="Introduce 안녕하세요! 6년째 스타트업에서 웹과 앱 서비스를 기획 &#x2F; 개발 &#x2F; 배포 &#x2F; 운영한 경험이 있는 개발자 김정원입니다. Node.js를 주로 사용하며 AWS, Docker, Github 등을 사용하여 서비스를 운영하였습니다. 유지보수하기 좋은 코드, 중복된 코드를 줄이는 것을 중요하게 생각합니다. 한 회사에 6년 가까이 다니면서 다양한 경험">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://swtpumpkin.github.io/image/about/ad-sample.png">
+<meta property="article:published_time" content="2024-07-28T23:00:00.000Z">
+<meta property="article:modified_time" content="2024-07-29T04:23:58.009Z">
+<meta property="article:author" content="Jeongwon Kim">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://swtpumpkin.github.io/image/about/ad-sample.png">
+    
+    <link rel="canonical" href="https://swtpumpkin.github.io/about/"/>
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-119873758-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/">Algorism</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/ProjectEuler/">ProjectEuler</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level1/">level1</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level2/">level2</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Algorism/level3/">level3</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/">CS</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/CS/dataStructure/">dataStructure</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/">backend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/AWS/">AWS</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/deno/">deno</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker/">docker</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/docker-compose/">docker-compose</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mongoDB/">mongoDB</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/mySQL/">mySQL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/nestjs/">nestjs</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/backend/node/">node</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/">develop</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/develop/google/">google</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/">frontend</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/css/">css</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/html/">html</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/react/">react</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/reactNative/">reactNative</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/frontend/svg/">svg</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/">git</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/git/hexo/">hexo</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/javascript/">javascript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/pi/">pi</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+    
+        <form class="search-form">
+            <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+            <button type="submit" class="search-form-submit"></button>
+        </form>
+        <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</div>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    Swtpumpkin Blog
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="page-" class="article article-single article-type-page" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="Introduce"><a href="#Introduce" class="headerlink" title="Introduce"></a>Introduce</h1><ul>
+<li>안녕하세요! 6년째 스타트업에서 웹과 앱 서비스를 기획 / 개발 / 배포 / 운영한 경험이 있는 개발자 김정원입니다.</li>
+<li>Node.js를 주로 사용하며 AWS, Docker, Github 등을 사용하여 서비스를 운영하였습니다.</li>
+<li>유지보수하기 좋은 코드, 중복된 코드를 줄이는 것을 중요하게 생각합니다.</li>
+<li>한 회사에 6년 가까이 다니면서 다양한 경험을 쌓았습니다. 이를 토대로 더 나은 서비스를 만들기 위해 노력하겠습니다.</li>
+</ul>
+<h1 id="Blog"><a href="#Blog" class="headerlink" title="Blog"></a>Blog</h1><ul>
+<li><a href="https://swtpumpkin.github.io/">기술 블로그</a></li>
+<li>개발을 하며 배운 것들을 정리한 블로그입니다.</li>
+<li>기술 개발 뿐만 아니라 기술적으로 궁금한 것들을 정리하고 있습니다.</li>
+<li>Hexo를 이용하여 만들었으며, Github Pages를 이용하여 배포하고 있습니다.</li>
+</ul>
+<h1 id="Project"><a href="#Project" class="headerlink" title="Project"></a>Project</h1><h2 id="회사-앱-내-광고를-위한-플랫폼-개발-Prendssoin-AD"><a href="#회사-앱-내-광고를-위한-플랫폼-개발-Prendssoin-AD" class="headerlink" title="회사 앱 내 광고를 위한 플랫폼 개발 (Prendssoin - AD)"></a>회사 앱 내 광고를 위한 플랫폼 개발 (Prendssoin - AD)</h2><p><a target="_blank" rel="noopener" href="https://apps.apple.com/kr/app/united-sirens/id6476538891">united-sirens</a>, <a target="_blank" rel="noopener" href="https://apps.apple.com/dk/app/united-timer/id6476899675">united-timer</a> 앱 내 광고 및 광고 플랫폼을 위한 관리 프로그램 개발</p>
+<h3 id="Period"><a href="#Period" class="headerlink" title="Period"></a>Period</h3><p>2024.01 ~ 2024.02</p>
+<h3 id="Contribution"><a href="#Contribution" class="headerlink" title="Contribution"></a>Contribution</h3><p>FE 1명 / BE 1명 (BE 기여도 100%)</p>
+<h3 id="Skill"><a href="#Skill" class="headerlink" title="Skill"></a>Skill</h3><p>Node.js, AWS, Docker, Github, MongoDB, nginx</p>
+<h3 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h3><ul>
+<li>광고주가 광고를 등록하고, 앱 내 광고를 노출하는 서비스</li>
+<li>광고 노출 횟수, 클릭 횟수, 클릭률 등을 통계로 확인 가능</li>
+</ul>
+<h3 id="Backend"><a href="#Backend" class="headerlink" title="Backend"></a>Backend</h3><ul>
+<li>Node.js를 사용하여 API 서버 개발</li>
+<li>OAuth를 이용한 Google 로그인 구현</li>
+<li>랜덤 광고 생성 및 노출 API 개발</li>
+</ul>
+<h4 id="Sample-Code"><a href="#Sample-Code" class="headerlink" title="Sample Code"></a>Sample Code</h4><p><img src="/image/about/ad-sample.png" alt=""></p>
+<hr>
+<h2 id="사내-프로젝트-진행률-관리-시스템-PRE"><a href="#사내-프로젝트-진행률-관리-시스템-PRE" class="headerlink" title="사내 프로젝트 진행률 관리 시스템 (PRE)"></a>사내 프로젝트 진행률 관리 시스템 (PRE)</h2><p><img src="/image/about/pre-image.gif" alt=""></p>
+<h3 id="Period-1"><a href="#Period-1" class="headerlink" title="Period"></a>Period</h3><p>2023.12 ~ 2024.01</p>
+<h3 id="Contribution-1"><a href="#Contribution-1" class="headerlink" title="Contribution"></a>Contribution</h3><p>FE 1명 / BE 1명 (BE 기여도 100%)</p>
+<h3 id="Skill-1"><a href="#Skill-1" class="headerlink" title="Skill"></a>Skill</h3><p>Node.js, AWS, Docker, Github, MongoDB, nginx, CloudFront</p>
+<h3 id="Service-1"><a href="#Service-1" class="headerlink" title="Service"></a>Service</h3><ul>
+<li>다수의 프로젝트를 진행하면서 반복적으로 하게되는 커뮤니케이션을 줄이고자 회사 내부 사이트로 제작</li>
+<li>프로젝트 진행률, 일정, 업무 등을 한눈에 볼 수 있도록 제작</li>
+</ul>
+<h3 id="Backend-1"><a href="#Backend-1" class="headerlink" title="Backend"></a>Backend</h3><ul>
+<li>Node.js를 사용하여 API 서버 개발</li>
+<li>OAuth를 이용한 Google 로그인 구현</li>
+<li>진행률 로직 개발</li>
+</ul>
+<h4 id="Sample-Code-1"><a href="#Sample-Code-1" class="headerlink" title="Sample Code"></a>Sample Code</h4><p><img src="/image/about/pre-sample.png" alt=""></p>
+<hr>
+<h2 id="제품-바코드-관리-시스템-Comprice"><a href="#제품-바코드-관리-시스템-Comprice" class="headerlink" title="제품 바코드 관리 시스템 (Comprice)"></a>제품 바코드 관리 시스템 (Comprice)</h2><p><img src="/image/about/comprice-image.gif" alt=""></p>
+<h3 id="Period-2"><a href="#Period-2" class="headerlink" title="Period"></a>Period</h3><p>2023.10 ~ 2023.12</p>
+<h3 id="Contribution-2"><a href="#Contribution-2" class="headerlink" title="Contribution"></a>Contribution</h3><p>FE 1명 / BE 1명 (BE 기여도 100%)</p>
+<h3 id="Skill-2"><a href="#Skill-2" class="headerlink" title="Skill"></a>Skill</h3><p>Node.js, AWS, Docker, Github, MongoDB, nginx, puppeteer, Redis</p>
+<h3 id="Service-2"><a href="#Service-2" class="headerlink" title="Service"></a>Service</h3><ul>
+<li>제품 바코드를 스캔하여 제품 정보를 가져오는 시스템</li>
+<li>바코드를 스캔하면 제품 정보를 가져와서 가격, 이미지, 제품명 등을 보여줌</li>
+</ul>
+<h3 id="Backend-2"><a href="#Backend-2" class="headerlink" title="Backend"></a>Backend</h3><ul>
+<li>유럽 내 다양한 쇼핑몰에서 제품 정보를 가져오기 위해 puppeteer를 사용하여 크롤링</li>
+<li>Redis를 사용하여 캐싱 / Queue를 사용하여 크롤링 작업을 분산</li>
+</ul>
+<h4 id="Sample-Code-2"><a href="#Sample-Code-2" class="headerlink" title="Sample Code"></a>Sample Code</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">carrefourItem</span>(<span class="params">url: <span class="built_in">string</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> randomAgent = randomUserAgent();</span><br><span class="line">  <span class="keyword">const</span> browser = <span class="keyword">await</span> puppeteer.launch(&#123;</span><br><span class="line">    ...puppeteerOptions,</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">const</span> page = <span class="keyword">await</span> browser.newPage();</span><br><span class="line">  <span class="keyword">await</span> page.setUserAgent(randomAgent.toString());</span><br><span class="line">  <span class="keyword">await</span> page.goto(url);</span><br><span class="line">  <span class="keyword">const</span> cookieButtonId = <span class="string">&quot;#onetrust-reject-all-handler&quot;</span>;</span><br><span class="line">  <span class="keyword">await</span> page.waitForSelector(cookieButtonId);</span><br><span class="line">  <span class="keyword">await</span> page.click(cookieButtonId);</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> name = <span class="keyword">await</span> page.evaluate(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> element = <span class="built_in">document</span>.querySelector(<span class="string">&quot;h1.pdp-card__title&quot;</span>);</span><br><span class="line">      <span class="keyword">return</span> element ? element.textContent.trim() : <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> price = <span class="keyword">await</span> page.evaluate(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> element = <span class="built_in">document</span>.querySelector(</span><br><span class="line">        <span class="string">&quot;span.product-card-price__price--final&quot;</span></span><br><span class="line">      );</span><br><span class="line">      <span class="keyword">const</span> priceText = element ? element.textContent : <span class="string">&quot;&quot;</span>;</span><br><span class="line">      <span class="keyword">const</span> priceOnly = priceText</span><br><span class="line">        .replace(<span class="string">&quot;,&quot;</span>, <span class="string">&quot;.&quot;</span>)</span><br><span class="line">        .match(<span class="regexp">/\d+(\.\d+)?/g</span>)</span><br><span class="line">        ?.join(<span class="string">&quot;&quot;</span>);</span><br><span class="line">      <span class="keyword">return</span> priceOnly || <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> size = <span class="keyword">await</span> page.evaluate(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> element = <span class="built_in">document</span>.querySelector(</span><br><span class="line">        <span class="string">&quot;div.pdp-card__header--text&gt;span.pl-text&quot;</span></span><br><span class="line">      );</span><br><span class="line">      <span class="keyword">return</span> element ? element.textContent.trim() : <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> category = <span class="keyword">await</span> page.evaluate(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> list = <span class="built_in">document</span>.querySelectorAll(<span class="string">&quot;ol.breadcrumb-trail__list li&quot;</span>);</span><br><span class="line">      <span class="keyword">const</span> lastItem = list[list.length - <span class="number">1</span>];</span><br><span class="line">      <span class="keyword">const</span> previousItem = lastItem?.previousElementSibling;</span><br><span class="line">      <span class="keyword">return</span> previousItem ? previousItem.textContent.trim() : <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> pickerButtons = <span class="keyword">await</span> page.$$(<span class="string">&quot;button.ds-visual-picker&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> button <span class="keyword">of</span> pickerButtons) &#123;</span><br><span class="line">      <span class="keyword">await</span> button.click();</span><br><span class="line">      <span class="keyword">await</span> delay(<span class="number">500</span>);</span><br><span class="line">      <span class="keyword">await</span> page.waitForTimeout(<span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> imgLinks = <span class="keyword">await</span> page.$$eval(<span class="string">&quot;div.zoomable-image &gt; img&quot;</span>, <span class="function">(<span class="params">images</span>) =&gt;</span></span><br><span class="line">      images.map(<span class="function">(<span class="params">img</span>) =&gt;</span> img.getAttribute(<span class="string">&quot;src&quot;</span>))</span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">if</span> (imgLinks.length !== <span class="number">0</span>) &#123;</span><br><span class="line">      imgLinks = imgLinks.filter(<span class="function">(<span class="params">link</span>) =&gt;</span> link !== <span class="literal">null</span>);</span><br><span class="line">      imgLinks = imgLinks.map(<span class="function">(<span class="params">link</span>) =&gt;</span> removeSizeFromUrl(link));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">await</span> browser.close();</span><br><span class="line">    <span class="keyword">const</span> imageUrl = imgLinks[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">let</span> imagesUrls = imgLinks.slice(<span class="number">1</span>);</span><br><span class="line">    imagesUrls = imagesUrls.filter(<span class="function">(<span class="params">url</span>) =&gt;</span> url !== <span class="literal">null</span>);</span><br><span class="line">    <span class="keyword">return</span> &#123; name, category, price, size, imageUrl, imagesUrls &#125;;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="keyword">await</span> browser.close();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="쇼핑몰-관리-사이트-Zapick"><a href="#쇼핑몰-관리-사이트-Zapick" class="headerlink" title="쇼핑몰 관리 사이트 (Zapick)"></a>쇼핑몰 관리 사이트 (Zapick)</h2><p><img src="/image/about/zapick-image.gif" alt=""></p>
+<h3 id="Period-3"><a href="#Period-3" class="headerlink" title="Period"></a>Period</h3><p>2023.04 ~ 2023.11</p>
+<h3 id="Contribution-3"><a href="#Contribution-3" class="headerlink" title="Contribution"></a>Contribution</h3><p>FE 1명 / BE 1명 (BE 기여도 100%)</p>
+<h3 id="Skill-3"><a href="#Skill-3" class="headerlink" title="Skill"></a>Skill</h3><p>Node.js, AWS, Docker, Github, MongoDB, Airtable Web DB, nginx</p>
+<h3 id="Service-3"><a href="#Service-3" class="headerlink" title="Service"></a>Service</h3><ul>
+<li>Airtable Web DB를 이용하여 쇼핑몰 관리 사이트 제작</li>
+<li>상품 이미지는 S3와 MongoDB에 저장</li>
+<li>쇼핑몰 어드민 페이지는 관리자가 상품, 주문, 사용자, 재고 등을 체계적으로 관리</li>
+</ul>
+<h3 id="Backend-3"><a href="#Backend-3" class="headerlink" title="Backend"></a>Backend</h3><ul>
+<li>Airtable과 연동하기 위한 API 서버 개발</li>
+<li>인증코드를 통한 e-mail 로그인 구현</li>
+</ul>
+<hr>
+<h2 id="갤러리-유지관리-시스템-INFOT"><a href="#갤러리-유지관리-시스템-INFOT" class="headerlink" title="갤러리 유지관리 시스템 (INFOT)"></a>갤러리 유지관리 시스템 (INFOT)</h2><p><img src="/image/about/infot-image.gif" alt=""></p>
+<h3 id="Period-4"><a href="#Period-4" class="headerlink" title="Period"></a>Period</h3><p>2021.01 ~ 2021.11</p>
+<h3 id="Contribution-4"><a href="#Contribution-4" class="headerlink" title="Contribution"></a>Contribution</h3><p>FE 1명 / BE 1명 (BE 기여도 100%)</p>
+<h3 id="Skill-4"><a href="#Skill-4" class="headerlink" title="Skill"></a>Skill</h3><p>Node.js, AWS, Docker, Github, MongoDB, nginx, FCM</p>
+<h3 id="Service-4"><a href="#Service-4" class="headerlink" title="Service"></a>Service</h3><ul>
+<li>기존 엑셀 및 수기로 작성하면서 관리하는 갤러리 내 시스템 도입을 위해 개발</li>
+<li>갤러리 내 작품, 작가, 전시회, 고객 등을 관리하는 시스템</li>
+<li>직원 근태 관리 시스템</li>
+</ul>
+<h3 id="Backend-4"><a href="#Backend-4" class="headerlink" title="Backend"></a>Backend</h3><ul>
+<li>Node.js를 사용하여 API 서버 개발</li>
+<li>OAuth를 이용한 Google 로그인 구현</li>
+<li>다중 이미지 업로드 삭제 API 개발</li>
+<li>직원 근퇴 관리 API 개발</li>
+<li>FCM 푸시 알림 API 개발</li>
+</ul>
+<h4 id="Sample-Code-3"><a href="#Sample-Code-3" class="headerlink" title="Sample Code"></a>Sample Code</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> readAllArts = <span class="keyword">async</span> (</span><br><span class="line">  req: IRequest,</span><br><span class="line">  res: Response,</span><br><span class="line">  next: NextFunction</span><br><span class="line">) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; queries &#125; = req;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (queries.filter[<span class="string">&quot;exhibitions&quot;</span>]) &#123;</span><br><span class="line">      queries.population = population;</span><br><span class="line">      <span class="keyword">const</span> arts = <span class="keyword">await</span> readAllDocs&lt;IArt&gt;(Art, queries);</span><br><span class="line">      <span class="keyword">return</span> res.json(&#123; arts &#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> search = queries.filter[<span class="string">&quot;search&quot;</span>]?.toString() || <span class="string">&quot;&quot;</span>;</span><br><span class="line">      <span class="keyword">const</span> &#123; skip, limit, sort &#125; = queries;</span><br><span class="line">      <span class="keyword">let</span> aggregateConditions = [];</span><br><span class="line">      <span class="keyword">if</span> (skip) &#123;</span><br><span class="line">        aggregateConditions = [...aggregateConditions, &#123; <span class="attr">$skip</span>: skip &#125;];</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (limit) &#123;</span><br><span class="line">        aggregateConditions = [...aggregateConditions, &#123; <span class="attr">$limit</span>: limit &#125;];</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">const</span> arts = <span class="keyword">await</span> Art.aggregate([</span><br><span class="line">        <span class="comment">// populate</span></span><br><span class="line">        &#123;</span><br><span class="line">          $lookup: &#123;</span><br><span class="line">            <span class="keyword">from</span>: <span class="string">&quot;arttypes&quot;</span>,</span><br><span class="line">            localField: <span class="string">&quot;types.level1&quot;</span>,</span><br><span class="line">            foreignField: <span class="string">&quot;_id&quot;</span>,</span><br><span class="line">            <span class="keyword">as</span>: <span class="string">&quot;types.level1&quot;</span>,</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          $lookup: &#123;</span><br><span class="line">            <span class="keyword">from</span>: <span class="string">&quot;arttypes&quot;</span>,</span><br><span class="line">            localField: <span class="string">&quot;types.level2&quot;</span>,</span><br><span class="line">            foreignField: <span class="string">&quot;_id&quot;</span>,</span><br><span class="line">            <span class="keyword">as</span>: <span class="string">&quot;types.level2&quot;</span>,</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          $lookup: &#123;</span><br><span class="line">            <span class="keyword">from</span>: <span class="string">&quot;arttypes&quot;</span>,</span><br><span class="line">            localField: <span class="string">&quot;types.level3&quot;</span>,</span><br><span class="line">            foreignField: <span class="string">&quot;_id&quot;</span>,</span><br><span class="line">            <span class="keyword">as</span>: <span class="string">&quot;types.level3&quot;</span>,</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          $lookup: &#123;</span><br><span class="line">            <span class="keyword">from</span>: <span class="string">&quot;artists&quot;</span>,</span><br><span class="line">            localField: <span class="string">&quot;artist&quot;</span>,</span><br><span class="line">            foreignField: <span class="string">&quot;_id&quot;</span>,</span><br><span class="line">            <span class="keyword">as</span>: <span class="string">&quot;artist&quot;</span>,</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">// unwind</span></span><br><span class="line">        &#123;</span><br><span class="line">          $unwind: &#123; <span class="attr">path</span>: <span class="string">&quot;$types.level1&quot;</span>, <span class="attr">preserveNullAndEmptyArrays</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          $unwind: &#123; <span class="attr">path</span>: <span class="string">&quot;$types.level2&quot;</span>, <span class="attr">preserveNullAndEmptyArrays</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          $unwind: &#123; <span class="attr">path</span>: <span class="string">&quot;$types.level3&quot;</span>, <span class="attr">preserveNullAndEmptyArrays</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          $unwind: &#123; <span class="attr">path</span>: <span class="string">&quot;$artist&quot;</span>, <span class="attr">preserveNullAndEmptyArrays</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          $addFields: &#123;</span><br><span class="line">            artistFullName: &#123;</span><br><span class="line">              $concat: [<span class="string">&quot;$artist.firstName&quot;</span>, <span class="string">&quot; &quot;</span>, <span class="string">&quot;$artist.lastName&quot;</span>],</span><br><span class="line">            &#125;,</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          $match: &#123;</span><br><span class="line">            $or: [</span><br><span class="line">              &#123; <span class="string">&quot;types.level1.name&quot;</span>: &#123; <span class="attr">$regex</span>: search, <span class="attr">$options</span>: <span class="string">&quot;ig&quot;</span> &#125; &#125;,</span><br><span class="line">              &#123; <span class="string">&quot;types.level2.name&quot;</span>: &#123; <span class="attr">$regex</span>: search, <span class="attr">$options</span>: <span class="string">&quot;ig&quot;</span> &#125; &#125;,</span><br><span class="line">              &#123; <span class="string">&quot;types.level3.name&quot;</span>: &#123; <span class="attr">$regex</span>: search, <span class="attr">$options</span>: <span class="string">&quot;ig&quot;</span> &#125; &#125;,</span><br><span class="line">              &#123; <span class="string">&quot;artist.firstName&quot;</span>: &#123; <span class="attr">$regex</span>: search, <span class="attr">$options</span>: <span class="string">&quot;ig&quot;</span> &#125; &#125;,</span><br><span class="line">              &#123; <span class="string">&quot;artist.lastName&quot;</span>: &#123; <span class="attr">$regex</span>: search, <span class="attr">$options</span>: <span class="string">&quot;ig&quot;</span> &#125; &#125;,</span><br><span class="line">              &#123; <span class="attr">artistFullName</span>: &#123; <span class="attr">$regex</span>: search, <span class="attr">$options</span>: <span class="string">&quot;ig&quot;</span> &#125; &#125;,</span><br><span class="line">              &#123; <span class="attr">name</span>: &#123; <span class="attr">$regex</span>: search, <span class="attr">$options</span>: <span class="string">&quot;ig&quot;</span> &#125; &#125;,</span><br><span class="line">              &#123; <span class="attr">country</span>: &#123; <span class="attr">$regex</span>: search, <span class="attr">$options</span>: <span class="string">&quot;ig&quot;</span> &#125; &#125;,</span><br><span class="line">              &#123; <span class="attr">city</span>: &#123; <span class="attr">$regex</span>: search, <span class="attr">$options</span>: <span class="string">&quot;ig&quot;</span> &#125; &#125;,</span><br><span class="line">            ],</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123; <span class="attr">$unset</span>: <span class="string">&quot;artistFullName&quot;</span> &#125;,</span><br><span class="line">        &#123; <span class="attr">$sort</span>: sort || &#123; <span class="attr">updatedAt</span>: -<span class="number">1</span> &#125; &#125;,</span><br><span class="line">        ...aggregateConditions,</span><br><span class="line">      ]);</span><br><span class="line">      <span class="keyword">return</span> res.json(&#123; arts &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    next(e);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Education"><a href="#Education" class="headerlink" title="Education"></a>Education</h1><h2 id="패스트캠퍼스-Node-js로-만드는-쇼핑몰"><a href="#패스트캠퍼스-Node-js로-만드는-쇼핑몰" class="headerlink" title="패스트캠퍼스 Node.js로 만드는 쇼핑몰"></a>패스트캠퍼스 Node.js로 만드는 쇼핑몰</h2><ul>
+<li>Node.js 백엔드 쇼핑몰 강의 수강</li>
+<li>2018.03 ~ 2018.05</li>
+</ul>
+<h2 id="패스트캠퍼스-Node-js-웹-프로그래밍-스쿨-1기"><a href="#패스트캠퍼스-Node-js-웹-프로그래밍-스쿨-1기" class="headerlink" title="패스트캠퍼스 Node.js 웹 프로그래밍 스쿨 1기"></a>패스트캠퍼스 Node.js 웹 프로그래밍 스쿨 1기</h2><ul>
+<li>Node.js 웹 프로그래밍 스쿨에서 백엔드 과정 수료</li>
+<li>2017.07 ~ 2017.11</li>
+</ul>
+<h2 id="제주대학교"><a href="#제주대학교" class="headerlink" title="제주대학교"></a>제주대학교</h2><ul>
+<li>에너지공학과 졸업</li>
+<li>2008.03 ~ 2015.08</li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+
+
+    <a data-url="https://swtpumpkin.github.io/about/index.html" data-id="clz6ev0j500011gb81mf93skr" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+        
+            <script src="https://utteranc.es/client.js"
+        repo="swtpumpkin/blog-comments"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://www.linkedin.com/in/jeongwon-kim-0a75b1157" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/kim.jeongwon.9" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/swtpumpkin" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="share-alt" href="https://stackshare.io/swtpumpkin/my-stack" target="_blank">
+                        <i class="icon fa fa-share-alt"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/node/mongoDBPopulateAggregateCompare/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/node.png)" alt="MongoDB populate vs aggregate 성능 비교 테스트" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/node/">node</a></p>
+                            <p class="item-title"><a href="/backend/node/mongoDBPopulateAggregateCompare/" class="title">MongoDB populate vs aggregate 성능 비교 테스트</a></p>
+                            <p class="item-date"><time datetime="2024-06-30T23:00:00.000Z" itemprop="datePublished">2024-07-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/node/mongoDBObjectId/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/node.png)" alt="MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/node/">node</a></p>
+                            <p class="item-title"><a href="/backend/node/mongoDBObjectId/" class="title">MongoDB에서 ObjectId로 Document 연결 해야만 하는 이유</a></p>
+                            <p class="item-date"><time datetime="2024-06-27T23:00:00.000Z" itemprop="datePublished">2024-06-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/docker/dockerCompose/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/docker.png)" alt="Docker Compose를 사용한 멀티 컨테이너 관리" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/docker/">docker</a></p>
+                            <p class="item-title"><a href="/backend/docker/dockerCompose/" class="title">Docker Compose를 사용한 멀티 컨테이너 관리</a></p>
+                            <p class="item-date"><time datetime="2024-06-26T23:00:00.000Z" itemprop="datePublished">2024-06-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/frontend/react/infiniteScroll/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/react.png)" alt="Custom Hook을 이용한 무한 스크롤 구현하기" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/frontend/">frontend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/frontend/react/">react</a></p>
+                            <p class="item-title"><a href="/frontend/react/infiniteScroll/" class="title">Custom Hook을 이용한 무한 스크롤 구현하기</a></p>
+                            <p class="item-date"><time datetime="2024-06-23T23:00:00.000Z" itemprop="datePublished">2024-06-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/backend/nestjs/nestjsTransformAndValidateMongoId/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/nestjs.png)" alt="MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator)" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/backend/">backend</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/backend/nestjs/">nestjs</a></p>
+                            <p class="item-title"><a href="/backend/nestjs/nestjsTransformAndValidateMongoId/" class="title">MongoDB ID 변환 및 검증 커스텀 데코레이터 작성 방법 (NestJS, class-validator)</a></p>
+                            <p class="item-date"><time datetime="2024-06-10T23:00:00.000Z" itemprop="datePublished">2024-06-11</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+        
+    </div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5087544550930439"
+     data-ad-slot="4245595525"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2024 Jeongwon Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>    
+</body>
+</html>

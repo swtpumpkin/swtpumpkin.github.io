@@ -8,6 +8,11 @@
     </sitemap>
 
     <sitemap>
+        <loc>https://swtpumpkin.github.io/page-sitemap.xml</loc>
+        <lastmod>2024-07-29T04:23:58.009Z</lastmod>
+    </sitemap>
+
+    <sitemap>
         <loc>https://swtpumpkin.github.io/category-sitemap.xml</loc>
         <lastmod>2024-07-02T13:50:13.233Z</lastmod>
     </sitemap>
