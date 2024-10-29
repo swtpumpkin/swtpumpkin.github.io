@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://swtpumpkin.github.io/develop/google/chromeAutoPassword/</loc>
+        <lastmod>2024-10-29T12:55:32.831Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://swtpumpkin.github.io/develop/google/googleLoginSelectAccount/</loc>
         <lastmod>2024-10-16T00:59:01.956Z</lastmod>
         <changefreq>weekly</changefreq>
